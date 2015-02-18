@@ -3,9 +3,11 @@
   // Configuration file
   include('../source/configuration/config.php');
 
-  include('../source/scripts/cryptography/PasswordHash.php');
+  include('../source/classes/page.php');
 
-  echo('1');
+  $page = new page();
+
+  echo($page->construct_page());
   $password = '123';
   $hash = create_hash($password);
   echo(validate_password($password, $hash));
