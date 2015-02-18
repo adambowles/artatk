@@ -1,7 +1,7 @@
 <?php
 
   // Configuration file
-  include('../source/scripts/cryptography/PasswordHash.php');
+  include('../source/configuration/config.php');
 
   include('../source/scripts/cryptography/PasswordHash.php');
 
