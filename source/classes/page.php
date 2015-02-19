@@ -40,12 +40,12 @@
     {
       return "<!doctype html>\r\n" .
              "<html>\r\n" .
-               "<head>\r\n" .
-                 $this->asset_controller->get_bootstrap_css() .
-                 $this->asset_controller->get_css() .
-               "</head>\r\n" .
-               "<body>\r\n" .
-               "</head>\r\n"
+             "<head>\r\n" .
+             $this->asset_controller->get_bootstrap_css() .
+             $this->asset_controller->get_css() .
+             "</head>\r\n" .
+             "<body>\r\n" .
+             "</head>\r\n"
         ;
     }
 
@@ -56,10 +56,11 @@
 
     private function construct_footer()
     {
-      return   "</body>\r\n" .
-               "<footer>\r\n" .
-                 $this->asset_controller->get_js() .
-               "</footer>\r\n" .
+      return "</body>\r\n" .
+             "<footer>\r\n" .
+             $this->asset_controller->get_js() .
+             $this->asset_controller->get_jQuery() .
+             "</footer>\r\n" .
              "</html>\r\n"
         ;
     }
