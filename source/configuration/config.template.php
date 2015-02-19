@@ -1,11 +1,14 @@
 <?php
 
-  $database_url = 'localhost';
+  define('database_url', 'localhost');
 
-  $database_write_user = '';
-  $database_write_password = '';
+  define('database_write_user', '');
+  define('database_write_password', '');
 
-  $database_read_user = '';
-  $database_read_password = '';
+  define('database_read_user', '');
+  define('database_read_password', '');
+
+  define('css_directory', 'web/assets/js/');
+  define('js_directory', 'web/assets/css/');
 
 ?>
