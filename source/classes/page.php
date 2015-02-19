@@ -20,7 +20,7 @@
         // Just in case README.md and LICENSE were deleted for whatever reason, add an infinite loop breakout
         if ($i>255) {
           $rd = '';
-          die('Files \'README.md\' and \'LICENSE\' weren\'t found, did you delete them?<br>Put them back, they\'re necessary!');
+          die('Files \'README.md\' and \'LICENSE\' weren\'t found, did you delete them??<br>Put them back, they\'re necessary!');
         }
       };
 
