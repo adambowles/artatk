@@ -9,4 +9,6 @@
 
   echo($page->construct_page());
 
+echo ROOT_DIRECTORY; // test
+
 ?>
