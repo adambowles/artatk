@@ -79,7 +79,7 @@
      */
     public function get_jQuery()
     {
-      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")) . "\r\n";
+      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js") . "\r\n";
     }
 
     /**
