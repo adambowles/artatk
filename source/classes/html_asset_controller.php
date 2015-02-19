@@ -77,6 +77,14 @@
     /**
      *
      */
+    public function get_jQuery()
+    {
+      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")) . "\r\n";
+    }
+
+    /**
+     *
+     */
     private function local_absolute_to_public_url($dir_to_file)
     {
       return preg_replace("/" . preg_quote(ROOT_DIRECTORY, "/") . "web/", "", $dir_to_file);
