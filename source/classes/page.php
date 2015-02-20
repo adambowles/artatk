@@ -44,8 +44,7 @@
              $this->asset_controller->get_bootstrap_css() .
              $this->asset_controller->get_css() .
              "</head>\r\n" .
-             "<body>\r\n" .
-             "</head>\r\n"
+             "<body>\r\n"
         ;
     }
 
