@@ -41,6 +41,9 @@
       return "<!doctype html>\r\n" .
              "<html>\r\n" .
              "<head>\r\n" .
+             "<title>\r\n" .
+             WEBSITE_TITLE .
+             "</title>\r\n" .
              $this->asset_controller->get_bootstrap_css() .
              $this->asset_controller->get_css() .
              "</head>\r\n" .
