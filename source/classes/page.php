@@ -1,10 +1,16 @@
 <?php
 
+  /**
+   * 
+   */
   class page
   {
 
     private $asset_controller;
 
+    /**
+     * 
+     */
     public function __construct()
     {
       // Define the root director of the project.
@@ -31,11 +37,17 @@
       $this->asset_controller = new html_asset_controller();
     }
 
+    /**
+     * 
+     */
     public function construct_page()
     {
       return $this->construct_header() . $this->construct_body() . $this->construct_footer();
     }
 
+    /**
+     * 
+     */
     private function construct_header()
     {
       return "<!doctype html>\r\n" .
@@ -51,11 +63,17 @@
         ;
     }
 
+    /**
+     * 
+     */
     private function construct_body()
     {
       return "";
     }
 
+    /**
+     * 
+     */
     private function construct_footer()
     {
       return "</body>\r\n" .
@@ -69,6 +87,9 @@
 
   }
 
+    /**
+     * 
+     */
   class rating_page extends page
   {
 
