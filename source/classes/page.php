@@ -87,9 +87,9 @@
 
   }
 
-    /**
-     * 
-     */
+  /**
+   * 
+   */
   class rating_page extends page
   {
 
