@@ -10,7 +10,7 @@
   // Abstract page template
   include('../source/classes/page.php');
 
-  $page = new 404_page();
+  $page = new error_404_page();
   $page->print_html();
 
 ?>

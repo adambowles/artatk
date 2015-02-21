@@ -170,7 +170,7 @@
   /**
    * //TODO keep this one at the end of the script
    */
-  class 404_page extends page
+  class error_404_page extends page
   {
     public function __construct(){
       // Perform a superclass construction
