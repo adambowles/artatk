@@ -63,7 +63,11 @@
              $this->asset_controller->get_css() .
              $this->head .
              "</head>\r\n" .
-             "<body>\r\n"
+             "<body>\r\n" .
+             "<header>\r\n" .
+             $this->get_navbar() .
+             "</header>\r\n" .
+             "<div class=\"container\">\r\n"
         ;
     }
 
@@ -77,6 +81,35 @@
       } else {
         return "";
       }
+    }
+
+    /**
+     * //TODO make this a bit more smart
+     * e.g. add_page_navlink() for example will add to here, something like that
+     */
+    public function get_navbar()
+    {
+      $navbar_string = "    <nav class=\"navbar navbar-default navbar-fixed-top\">
+      <div class=\"container\">
+        <div class=\"navbar-header\">
+          <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
+            <span class=\"sr-only\">Toggle navigation</span>
+            <span class=\"icon-bar\"></span>
+            <span class=\"icon-bar\"></span>
+            <span class=\"icon-bar\"></span>
+          </button>
+          <a class=\"navbar-brand\" href=\"#\">Project name</a>
+        </div>
+        <div id=\"navbar\" class=\"collapse navbar-collapse\">
+          <ul class=\"nav navbar-nav\">
+            <li class=\"active\"><a href=\"#\">Home</a></li>
+            <li><a href=\"#about\">About</a></li>
+            <li><a href=\"#contact\">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>";
+      return $navbar_string;
     }
 
     /**
@@ -125,7 +158,8 @@
      */
     private function construct_footer()
     {
-      return "<footer>\r\n" .
+      return "</div>\r\n" .
+             "<footer>\r\n" .
              $this->asset_controller->get_js() .
              $this->asset_controller->get_jQuery() .
              $this->footer .
@@ -172,7 +206,8 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->add_body("<p>this is a front page</p>\r\n");
+      // Demo content
+      //$this->add_body("<p>this is a front page</p>\r\n");
     }
   }
 
