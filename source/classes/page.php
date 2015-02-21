@@ -46,13 +46,22 @@
     }
 
     /**
-     *
+     * Returns the page as contiguous HTML string
      */
     public function get_html()
     {
       return $this->construct_head() .
         $this->construct_body() .
         $this->construct_footer();
+    }
+
+    /**
+     * Helper method to print the HTML string directly
+     * Keeps object code tidier
+     */
+    public function print_html()
+    {
+      echo($this->get_html());
     }
 
     /**
@@ -123,12 +132,19 @@
 
   }
 
+  // The following subclasses are bascially just normal pages with some handy default behaviours added
+
   /**
    *
    */
-  class rating_page extends page
+  class front_page extends page
   {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
 
+      $this->add_body('<p>this is a front page</p>');
+    }
   }
 
 ?>
