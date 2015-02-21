@@ -112,12 +112,12 @@
      */
     private function construct_footer()
     {
-      return "</body>\r\n" .
-             "<footer>\r\n" .
+      return "<footer>\r\n" .
              $this->asset_controller->get_js() .
              $this->asset_controller->get_jQuery() .
              $this->footer .
              "</footer>\r\n" .
+             "</body>\r\n" .
              "</html>\r\n"
         ;
     }
