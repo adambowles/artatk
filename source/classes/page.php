@@ -16,6 +16,7 @@
 
     // Some page settings
     private $charset = "UTF-8";
+    private $title;
 
     /**
      *
@@ -56,7 +57,7 @@
              "<head>\r\n" .
              $this->get_charset_meta_tag() .
              "<title>\r\n" .
-             WEBSITE_TITLE .
+             WEBSITE_TITLE . $this->get_title() .
              "</title>\r\n" .
              $this->asset_controller->get_bootstrap_css() .
              $this->asset_controller->get_css() .
@@ -64,6 +65,35 @@
              "</head>\r\n" .
              "<body>\r\n"
         ;
+    }
+
+    /**
+     *
+     */
+    public function get_title()
+    {
+      if ($this->title != "") {
+        return " &middot " . $this->title;
+      } else {
+        return "";
+      }
+    }
+
+    /**
+     * // Set the page title
+     */
+    public function set_title($new_title)
+    {
+      $this->title = $new_title;
+    }
+
+    /**
+     * //TODO
+     * Set entire title (so that page does not show the ArtAtk prefix)
+     */
+    public function set_whole_title($new_title)
+    {
+      $this->title = $new_title;
     }
 
     /**
@@ -155,6 +185,8 @@
       // Perform a superclass construction
       parent::__construct();
 
+      // Some defaults
+      $this->set_title("Page not found");
       $this->add_body("<p>404: not found, sorry! :(</p>\r\n");
     }
   }
