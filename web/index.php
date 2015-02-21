@@ -8,6 +8,7 @@
 
   $page = new page();
 
-  echo($page->construct_page());
+  $page->add_body('<p>abc</p>');
+  echo($page->get_html());
 
 ?>
