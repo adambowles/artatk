@@ -98,14 +98,25 @@
                                 <span class=\"icon-bar\"></span>
                                 <span class=\"icon-bar\"></span>
                               </button>
-                              <a class=\"navbar-brand\" href=\"/\">Project name</a>
+                              <a class=\"navbar-brand\" href=\"/\">".WEBSITE_TITLE."</a>
                             </div>
                             <div id=\"navbar\" class=\"collapse navbar-collapse\">
                               <ul class=\"nav navbar-nav\">
                                 <li class=\"active\"><a href=\"/\">Home</a></li>
-                                <li><a href=\"#about\">About</a></li>
-                                <li><a href=\"#contact\">Contact</a></li>
+                                <li><a href=\"/rate.php\">Rate</a></li>
+                                <li><a href=\"/recommendation.php\">Get your recommendation</a></li>
                               </ul>
+                              <ul class=\"nav navbar-nav navbar-right\">
+                                <li class=\"dropdown\">
+                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Signed in as Adam Bowles <b class=\"caret\"></b></a>
+                                  <ul class=\"dropdown-menu\" role=\"menu\">
+                                    <li><a href=\"#\">Edit profile</a></li>
+                                    <li class=\"divider\"></li>
+                                    <li><a href=\"#\">Log out</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
+
                             </div><!--/.nav-collapse -->
                           </div>
                         </nav>";
@@ -113,7 +124,7 @@
     }
 
     /**
-     * // Set the page title
+     * Set the page title ("login page" appears like "ArtAtk! · login page")
      */
     public function set_title($new_title)
     {
@@ -122,7 +133,7 @@
 
     /**
      * //TODO
-     * Set entire title (so that page does not show the ArtAtk prefix)
+     * Set entire title (so that page does not show the ArtAtk prefix, see set_title() for info)
      */
     public function set_whole_title($new_title)
     {
@@ -166,8 +177,9 @@
                    "</div>" .
                  "</div>" .
                "</body>" .
-               $this->asset_controller->get_js() .
                $this->asset_controller->get_jQuery() .
+               $this->asset_controller->get_bootstrap_js() .
+               $this->asset_controller->get_js() .
              "</html>"
         ;
     }
