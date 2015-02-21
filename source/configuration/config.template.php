@@ -6,12 +6,12 @@
   $rd = getcwd() . "/";
   $i = 0;
 
-  function at_root_directory()
+  function is_root_directory($dir)
   {
-    return file_exists($rd . "README.md") | file_exists($rd . "LICENSE");
+    return file_exists($dir . "README.md") | file_exists($dir . "LICENSE");
   }
 
-  while(!at_root_directory()) {
+  while(!is_root_directory($rd)) {
     $rd .= "../";
 //    $at_root_directory = file_exists($rd . "README.md") | file_exists($rd . "LICENSE");
     $i++;
@@ -28,7 +28,9 @@
   define("ROOT_DIRECTORY", $rd);
 
 
-  define('database_url', 'localhost');
+  define('database_url', '');
+
+  define('database_dbname', '');
 
   define('database_write_user', '');
   define('database_write_password', '');
