@@ -46,7 +46,7 @@
       $css_string = "";
 
       foreach($this->css_files as $file) {
-        $css_string .= $this->construct_css_link($this->local_absolute_to_public_url($this->css_dir . $file)) . "\r\n";
+        $css_string .= $this->construct_css_link($this->local_absolute_to_public_url($this->css_dir . $file));
       }
 
       return $css_string;
@@ -57,8 +57,8 @@
      */
     public function get_bootstrap_css()
     {
-      $return_string = $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/css/bootstrap.min.css")) . "\r\n";
-      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.min.css")) . "\r\n";
+      $return_string = $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/css/bootstrap.min.css"));
+      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.min.css"));
       return $return_string;
     }
 
@@ -70,10 +70,19 @@
       $js_string = "";
 
       foreach($this->js_files as $file) {
-        $js_string .= $this->construct_js_link($this->local_absolute_to_public_url($this->js_dir . $file)) . "\r\n";
+        $js_string .= $this->construct_js_link($this->local_absolute_to_public_url($this->js_dir . $file));
       }
 
       return $js_string;
+    }
+
+    /**
+     * Get the bootstrap scripts
+     */
+    public function get_bootstrap_js()
+    {
+      $return_string = $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/js/bootstrap.min.js"));
+      return $return_string;
     }
 
     /**
@@ -81,7 +90,7 @@
      */
     public function get_jQuery()
     {
-      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js") . "\r\n";
+      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
     }
 
     /**
