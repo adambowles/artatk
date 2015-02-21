@@ -7,6 +7,7 @@
   {
 
     private $asset_controller;
+    private $database_controller;
 
     // Strings of page content, append whatever you like in order to add it to the page
     // (hint: user the add_header()/add_body()/add_footer() funcs)
@@ -24,8 +25,10 @@
     public function __construct()
     {
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
+      include(ROOT_DIRECTORY . "source/classes/database_controller.php");
 
       $this->asset_controller = new html_asset_controller();
+      $this->database_controller = new database_controller();
     }
 
     /**
@@ -222,7 +225,10 @@
       parent::__construct();
 
       // Demo content
-      //$this->add_body("<p>this is a front page</p>");
+      //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
+  $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
+  $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
+  $this->add_body("</div>");
     }
   }
 
