@@ -55,19 +55,19 @@
       return "<!doctype html>" .
              "<html>" .
              "<head>" .
-             $this->get_charset_meta_tag() .
-             "<title>" .
-             WEBSITE_TITLE . $this->get_title() .
-             "</title>" .
-             $this->asset_controller->get_bootstrap_css() .
-             $this->asset_controller->get_css() .
-             $this->head .
+               $this->get_charset_meta_tag() .
+               "<title>" .
+                 WEBSITE_TITLE . $this->get_title() .
+               "</title>" .
+               $this->asset_controller->get_bootstrap_css() .
+               $this->asset_controller->get_css() .
+               $this->head .
              "</head>" .
              "<body>" .
-             "<header>" .
-             $this->get_navbar() .
-             "</header>" .
-             "<div id=\"content\" class=\"container\">"
+               "<header>" .
+                 $this->get_navbar() .
+               "</header>" .
+               "<div id=\"content\" class=\"container\">"
         ;
     }
 
