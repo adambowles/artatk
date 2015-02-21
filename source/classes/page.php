@@ -14,6 +14,9 @@
     private $body;
     private $footer;
 
+    // Some page settings
+    private $charset = "UTF-8";
+
     /**
      *
      */
@@ -72,6 +75,7 @@
       return "<!doctype html>\r\n" .
              "<html>\r\n" .
              "<head>\r\n" .
+             $this->get_charset_meta_tag() .
              "<title>\r\n" .
              WEBSITE_TITLE .
              "</title>\r\n" .
@@ -130,6 +134,22 @@
       $this->footer = $this->footer . $content;
     }
 
+    /**
+     *
+     */
+    private function set_charset($new_charset)
+    {
+      $this->charset = $new_charset;
+    }
+
+    /**
+     *
+     */
+    private function get_charset_meta_tag()
+    {
+      return "<meta charset=\"$this->charset\">\r\n";
+    }
+
   }
 
   // The following subclasses are bascially just normal pages with some handy default behaviours added
@@ -143,7 +163,7 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->add_body('<p>this is a front page</p>');
+      $this->add_body("<p>this is a front page</p>\r\n");
     }
   }
 
