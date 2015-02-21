@@ -1,4 +1,8 @@
 <?php
+  // Future considerations for this file:
+  // 1. Turn it into a front controller to handle ALL site requests
+  // and handle passing those requests to the right files in the source folder
+  // 2.
 
   // Configuration file
   include('../source/configuration/config.php');
@@ -6,9 +10,7 @@
   // Abstract page template
   include('../source/classes/page.php');
 
-  $page = new page();
-
-  $page->add_body('<p>abc</p>');
-  echo($page->get_html());
+  $page = new front_page();
+  $page->print_html();
 
 ?>
