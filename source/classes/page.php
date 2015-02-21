@@ -77,7 +77,7 @@
     /**
      *
      */
-    private function add_head($content)
+    public function add_head($content)
     {
       $this->head = $this->head . $content;
     }
@@ -93,7 +93,7 @@
     /**
      *
      */
-    private function add_body($content)
+    public function add_body($content)
     {
       $this->body = $this->body . $content;
     }
@@ -116,7 +116,7 @@
     /**
      *
      */
-    private function add_footer($content)
+    public function add_footer($content)
     {
       $this->footer = $this->footer . $content;
     }
