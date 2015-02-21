@@ -167,4 +167,17 @@
     }
   }
 
+  /**
+   * //TODO keep this one at the end of the script
+   */
+  class 404_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+      $this->add_body("<p>404: not found, sorry! :(</p>\r\n");
+    }
+  }
+
 ?>
