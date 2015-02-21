@@ -10,7 +10,7 @@
 
   define('WEBSITE_TITLE', 'ArtAtk!');
 
-  define('css_directory', 'web/assets/js/');
-  define('js_directory', 'web/assets/css/');
+  define('CSS_DIRECTORY', 'web/assets/css/');
+  define('JS_DIRECTORY', 'web/assets/js/');
 
 ?>
