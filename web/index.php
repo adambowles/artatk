@@ -11,6 +11,7 @@
   include(ROOT_DIRECTORY . '/source/classes/page.php');
 
   $page = new front_page();
+//  $page->set_title('front');
   $page->print_html();
 
 ?>
