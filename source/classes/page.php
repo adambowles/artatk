@@ -188,6 +188,7 @@
       // Some defaults
       $this->set_title("Page not found");
       $this->add_body("<p>404: not found, sorry! :(</p>\r\n");
+      $this->add_body("<a href=\"/\">Home page</a>\r\n");
     }
   }
 
