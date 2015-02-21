@@ -8,7 +8,7 @@
   include('../source/configuration/config.php');
 
   // Abstract page template
-  include('../source/classes/page.php');
+  include(ROOT_DIRECTORY . '/source/classes/page.php');
 
   $page = new front_page();
   $page->print_html();
