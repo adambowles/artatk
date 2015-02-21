@@ -12,6 +12,12 @@
 
   $page = new front_page();
 //  $page->set_title('front');
+
+  $page->add_body("<div class=\"starter-template\">");
+  $page->add_body("<h1>Bootstrap starter template</h1>");
+  $page->add_body("<p class=\"lead\">something here</p>");
+  $page->add_body("</div>");
+
   $page->print_html();
 
 ?>
