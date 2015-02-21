@@ -52,22 +52,22 @@
      */
     private function construct_head()
     {
-      return "<!doctype html>\r\n" .
-             "<html>\r\n" .
-             "<head>\r\n" .
+      return "<!doctype html>" .
+             "<html>" .
+             "<head>" .
              $this->get_charset_meta_tag() .
-             "<title>\r\n" .
+             "<title>" .
              WEBSITE_TITLE . $this->get_title() .
-             "</title>\r\n" .
+             "</title>" .
              $this->asset_controller->get_bootstrap_css() .
              $this->asset_controller->get_css() .
              $this->head .
-             "</head>\r\n" .
-             "<body>\r\n" .
-             "<header>\r\n" .
+             "</head>" .
+             "<body>" .
+             "<header>" .
              $this->get_navbar() .
-             "</header>\r\n" .
-             "<div id=\"body\" class=\"container\">\r\n"
+             "</header>" .
+             "<div id=\"content\" class=\"container\">"
         ;
     }
 
@@ -158,14 +158,17 @@
      */
     private function construct_footer()
     {
-      return "</div>\r\n" .
-             "<footer>\r\n" .
-             $this->asset_controller->get_js() .
-             $this->asset_controller->get_jQuery() .
-             $this->footer .
-             "</footer>\r\n" .
-             "</body>\r\n" .
-             "</html>\r\n"
+      return     "</div>" .
+                 "<div class=\"container copyright-footer\">" .
+                   "<div class=\"copyright\">" .
+                     "<p class=\"copyright-text\">&copy; 2015 Adam Bowles</p>" .
+                     $this->footer .
+                   "</div>" .
+                 "</div>" .
+               "</body>" .
+               $this->asset_controller->get_js() .
+               $this->asset_controller->get_jQuery() .
+             "</html>"
         ;
     }
 
@@ -190,7 +193,7 @@
      */
     private function get_charset_meta_tag()
     {
-      return "<meta charset=\"$this->charset\">\r\n";
+      return "<meta charset=\"$this->charset\">";
     }
 
   }
@@ -207,7 +210,7 @@
       parent::__construct();
 
       // Demo content
-      //$this->add_body("<p>this is a front page</p>\r\n");
+      //$this->add_body("<p>this is a front page</p>");
     }
   }
 
@@ -222,8 +225,8 @@
 
       // Some defaults
       $this->set_title("Page not found");
-      $this->add_body("<p>404: not found, sorry! :(</p>\r\n");
-      $this->add_body("<a href=\"/\">Home page</a>\r\n");
+      $this->add_body("<p>404: not found, sorry! :(</p>");
+      $this->add_body("<a href=\"/\">Home page</a>");
     }
   }
 
