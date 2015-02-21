@@ -53,11 +53,13 @@
     }
 
     /**
-     *
+     * Get the bootstrap themes
      */
     public function get_bootstrap_css()
     {
-      return $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.css")) . "\r\n";
+      $return_string = $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/css/bootstrap.min.css")) . "\r\n";
+      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.min.css")) . "\r\n";
+      return $return_string;
     }
 
     /**
