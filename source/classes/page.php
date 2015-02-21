@@ -67,7 +67,7 @@
              "<header>\r\n" .
              $this->get_navbar() .
              "</header>\r\n" .
-             "<div class=\"container\">\r\n"
+             "<div id=\"body\" class=\"container\">\r\n"
         ;
     }
 
