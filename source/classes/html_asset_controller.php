@@ -118,6 +118,14 @@
     /**
      *
      */
+    public function get_recaptcha_div()
+    {
+      return "<div class=\"g-recaptcha\" data-sitekey=\"6LcYegITAAAAANugBoDsRxp-xRHvVISPrkLBn25v\"></div>";
+    }
+
+    /**
+     *
+     */
     private function local_absolute_to_public_url($dir_to_file)
     {
       return preg_replace("/" . preg_quote(ROOT_DIRECTORY, "/") . "web/", "", $dir_to_file);
