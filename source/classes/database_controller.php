@@ -117,15 +117,18 @@
                                 $password, $password_hint,
                                 $ip_address)
     {
-      //$user_id = $this->sanitise($user_id); //TODO sanitise all
+      //$user_id = $this->sanitise($user_id); //TODO sanitise all. DO NOT LET THIS GO LIVE WITHOUT
 
-      //DB stores IP addresses as integers
-      if(is_string($ip_address)) {
-        $ip_address = ip2long($ip_address);
-      }
+      // this method write to the databse, ensure we are connected as a user which has write access
+      $this->connect_write();
 
-      $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', $ip_address);";
-      return $this->execute($sql);
+      $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', '$ip_address');";
+      $success = $this->execute($sql);
+
+      // revert to safer read only user
+      $this->connect_read();
+
+      return $success;
     }
 
     /**
@@ -137,8 +140,16 @@
     {
       $user_id = $this->sanitise($user_id);
 
+      // this method write to the databse, ensure we are connected as a user which has write access
+      $this->connect_write();
+
       $sql = "CALL `DELETE_USER_BY_ID` ($user_id);";
-      return $this->execute($sql);
+      $success = $this->execute($sql);
+
+      // revert to safer read only user
+      $this->connect_read();
+
+      return $success;
     }
 
     /**
@@ -150,8 +161,16 @@
     {
       $username = $this->sanitise($username);
 
+      // this method write to the databse, ensure we are connected as a user which has write access
+      $this->connect_write();
+
       $sql = "CALL `DELETE_USER_BY_USERNAME` ('$username');";
-      return $this->execute($sql);
+      $success = $this->execute($sql);
+
+      // revert to safer read only user
+      $this->connect_read();
+
+      return $success;
     }
 
     /**
