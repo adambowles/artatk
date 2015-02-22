@@ -15,6 +15,7 @@
     private $head;
     private $body;
     private $footer;
+    private $extra_scripts;
 
     // Some page settings
     private $charset = "UTF-8";
@@ -212,6 +213,7 @@
                  $this->asset_controller->get_bootstrap_js() .
                  $this->asset_controller->get_recaptcha_js() .
                  $this->asset_controller->get_js() .
+                 $this->extra_scripts .
                "</body>" .
              "</html>"
         ;
@@ -223,6 +225,14 @@
     public function add_footer($content)
     {
       $this->footer = $this->footer . $content;
+    }
+
+    /**
+     * assume path from assets/js folder
+     */
+    public function add_extra_script($path_to_script)
+    {
+      $this->extra_scripts .= $this->get_asset_controller()->get_specific_js($path_to_script);
     }
 
     /**
@@ -359,6 +369,8 @@
 
         $this->add_body("  </div>");
         $this->add_body("</div>");
+
+        $this->add_footer($this->add_extra_script("register/register.js")); //TODO here
       }
 
     }
