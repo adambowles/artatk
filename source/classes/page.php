@@ -371,6 +371,7 @@
         $this->add_body("</div>");
 
         $this->add_extra_script("register/register.js");
+        $this->add_extra_script("sjcl/sjcl.js");
         $this->add_extra_script("sjcl/pbkdf2.js");
       }
 
