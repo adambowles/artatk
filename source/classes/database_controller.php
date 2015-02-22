@@ -111,7 +111,7 @@
     {
       $username = $this->sanitise($username);
 
-      $sql = "CALL `DELETE_USER_BY_USERNAME` ($username);";
+      $sql = "CALL `DELETE_USER_BY_USERNAME` ('$username');";
       $this->execute($sql);
     }
 
