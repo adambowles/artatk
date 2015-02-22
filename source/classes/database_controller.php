@@ -117,7 +117,14 @@
                                 $password, $password_hint,
                                 $ip_address)
     {
-      //$user_id = $this->sanitise($user_id); //TODO sanitise all. DO NOT LET THIS GO LIVE WITHOUT
+      $username = $this->sanitise($username);
+      $email_address = $this->sanitise($email_address);
+      $email_validate_token = $this->sanitise($email_validate_token);
+      $firstname = $this->sanitise($firstname);
+      $surname = $this->sanitise($surname);
+      $password = $this->sanitise($password);
+      $password_hint = $this->sanitise($password_hint);
+      $ip_address = $this->sanitise($ip_address);
 
       // this method write to the databse, ensure we are connected as a user which has write access
       $this->connect_write();
