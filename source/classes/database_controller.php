@@ -66,11 +66,21 @@
     }
 
     /**
+     * Sanitise the string provided. This helps protect against SQL injection.
+     * PLEASE use this at the top of EVERY function to protect all user input..
+     * If a user CAN upset a system they WILL upset the system. Maliciously or otherwise.
      *
+     * @param $data The data to be sanitised
+     *
+     * @return  Sanitised string data, null if the mysql connection hasn't been created yet
      */
     private function sanitise($data)
     {
-      return $this->connection->real_escape_string($data);
+      if($this->is_connected()){
+        return $this->connection->real_escape_string($data);
+      } else {
+        return null;
+      }
     }
 
     /**
@@ -78,7 +88,7 @@
      *
      * @param $sql  The SQL to be executed
      *
-     * @return  True if the SQL was successfully sent to the db, false if the conenction was open, or any erro occurred
+     * @return  True if the SQL was successfully sent to the db, false if the conenction was open, or any error occurred
      */
     private function execute($sql)
     {
@@ -105,7 +115,7 @@
     /**
      * Delete user by user id
      *
-     * @param $user_id ID of the user to delete
+     * @param $username Username of the user to delete
      */
     public function delete_user_by_username($username)
     {
