@@ -90,6 +90,18 @@
     }
 
     /**
+     * @param $path_to_file Path to and including the js file to include from js folder (e.g. "regiser/register.js)
+     */
+    public function get_specific_js($path_to_file)
+    {
+      $js_string = "";
+
+      $js_string .= $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/js/" . $path_to_file));
+
+      return $js_string;
+    }
+
+    /**
      * Get the bootstrap scripts
      */
     public function get_bootstrap_js()
