@@ -32,7 +32,8 @@
 
       $this->database_controller = new database_controller();
       $this->database_controller->connect_read();
-      $this->database_controller->delete_user_by_id(2);
+      $this->database_controller->delete_user_by_id(2); //TODO test remove this later
+      $this->database_controller->delete_user_by_username("bowlesa"); //TODO test remove this later
     }
 
     /**
