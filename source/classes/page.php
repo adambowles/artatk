@@ -305,9 +305,8 @@
       // Perform a superclass construction
       parent::__construct();
 
-        $query_success = $this->get_database_controller()->create_user("username", "email_address", "email_validate_token", "firstname", "surname", "password", "password_hint", "123.45.67.8");
-
       if($this->validate_registration_form()) {
+        $query_success = $this->get_database_controller()->create_user("username", $_POST['email'], "email_validate_token", "firstname", "surname", $_POST['password'], "password_hint", "123.45.67.8");
 //        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_POST['ip_address']); //TODO proper validated values
         //echo("creating user with email:'".$_POST['email']."', and pass:'".$_POST['password']."'<br>");
         //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", $_SERVER['REMOTE_ADDR']);
