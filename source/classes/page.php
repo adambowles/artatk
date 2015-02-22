@@ -305,12 +305,12 @@
       // Perform a superclass construction
       parent::__construct();
 
-        $query_success = $this->get_database_controller()->create_user("username", "email_address", "email_validate_token", "firstname", "surname", "password", "password_hint", 123);
+        $query_success = $this->get_database_controller()->create_user("username", "email_address", "email_validate_token", "firstname", "surname", "password", "password_hint", "123.45.67.8");
 
       if($this->validate_registration_form()) {
-//        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], ip2long($_POST['ip_address'])); //TODO proper validated values
+//        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_POST['ip_address']); //TODO proper validated values
         //echo("creating user with email:'".$_POST['email']."', and pass:'".$_POST['password']."'<br>");
-        //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", ip2long($_SERVER['REMOTE_ADDR']));
+        //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", $_SERVER['REMOTE_ADDR']);
       }
 
       $this->add_body("<div class=\"row\">");
@@ -331,12 +331,10 @@
                         <button type=\"submit\" class=\"btn btn-default\">Submit</button>
                       </form>");
 
-      $this->add_body($query_success);
+      $this->add_body("query success: " . $query_success);
 
       $this->add_body("  </div>");
       $this->add_body("</div>");
-
-//      $this->add_body("var_dump post: " . var_dump($_POST) . "\r\n");
 
     }
 
