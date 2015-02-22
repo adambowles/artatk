@@ -12,6 +12,10 @@
     private $js_dir;
     private $js_files;
 
+    private $jQuery_version = "2.1.3";
+    private $fontawesome_version = "4.3.0";
+    private $bootstrap_version = "3.3.2";
+
     /**
      * Constructor
      */
@@ -57,9 +61,18 @@
      */
     public function get_bootstrap_css()
     {
-      $return_string = $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/css/bootstrap.min.css"));
+      $return_string = "";
+      $return_string .= $this->construct_css_link("//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/css/bootstrap.min.css");
       $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.min.css"));
       return $return_string;
+    }
+
+    /**
+     * Get the fontawesome themes
+     */
+    public function get_fontawesome_css()
+    {
+      return $this->construct_css_link("//maxcdn.bootstrapcdn.com/font-awesome/$this->fontawesome_version/css/font-awesome.min.css");
     }
 
     /**
@@ -81,7 +94,8 @@
      */
     public function get_bootstrap_js()
     {
-      $return_string = $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootstrap/js/bootstrap.min.js"));
+      $return_string = "";
+      $return_string .= $this->construct_js_link("//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/js/bootstrap.min.js");
       return $return_string;
     }
 
@@ -90,7 +104,7 @@
      */
     public function get_jQuery()
     {
-      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
+      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/$this->jQuery_version/jquery.min.js");
     }
 
     /**

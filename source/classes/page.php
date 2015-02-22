@@ -68,6 +68,7 @@
                  WEBSITE_TITLE . $this->get_title() .
                "</title>" .
                $this->asset_controller->get_bootstrap_css() .
+               $this->asset_controller->get_fontawesome_css() .
                $this->asset_controller->get_css() .
                $this->head .
              "</head>" .
