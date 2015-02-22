@@ -11,7 +11,7 @@
     private $database_controller;
 
     // Strings of page content, append whatever you like in order to add it to the page
-    // (hint: user the add_header()/add_body()/add_footer() funcs)
+    // (hint: use the add_header()/add_body()/add_footer() funcs)
     private $head;
     private $body;
     private $footer;
@@ -31,9 +31,6 @@
       $this->asset_controller = new html_asset_controller();
 
       $this->database_controller = new database_controller();
-      $this->database_controller->connect_read();
-      $this->database_controller->delete_user_by_id(2); //TODO test remove this later
-      $this->database_controller->delete_user_by_username("bowlesa"); //TODO test remove this later
     }
 
     /**
@@ -53,6 +50,22 @@
     public function print_html()
     {
       echo($this->get_html());
+    }
+
+    /**
+     *
+     */
+    public function get_asset_controller()
+    {
+      return $this->asset_controller;
+    }
+
+    /**
+     *
+     */
+    public function get_database_controller()
+    {
+      return $this->database_controller;
     }
 
     /**
@@ -232,12 +245,57 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $this->get_database_controller()->connect_read();
+      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
+      $this->get_database_controller()->delete_user_by_username("bowlesa"); //TODO test remove this later
+
       // Demo content
       //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
       $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
       $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
-      $this->add_body("<div class=\"g-recaptcha\" data-sitekey=\"6LcYegITAAAAANugBoDsRxp-xRHvVISPrkLBn25v\"></div>");
+      $this->add_body($this->get_asset_controller()->get_recaptcha_div());
       $this->add_body("</div>");
+    }
+  }
+
+  /**
+   *
+   */
+  class rating_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+      // Demo content
+      //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
+      $this->add_body("  <h2>Rate some art</h2>");
+      $this->add_body("  <p class=\"lead\">image here</p>");
+      $this->add_body("</div>");
+    }
+  }
+
+  /**
+   *
+   */
+  class recommendation_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+    }
+  }
+
+  /**
+   *
+   */
+  class register_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
     }
   }
 
