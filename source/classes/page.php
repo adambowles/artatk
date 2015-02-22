@@ -336,7 +336,7 @@
         $this->add_body("<div class=\"row\">");
         $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
 
-        $this->add_body("<form action=\"/register.php\" method=\"POST\">
+        $this->add_body("<form action=\"/register.php\" method=\"POST\" onsubmit=\"return validate_form(this)\">
                           <div class=\"form-group\">
                             <label for=\"username\">Username</label>
                             <input type=\"text\" class=\"form-control\" id=\"username\" name=\"username\" placeholder=\"Username\">
@@ -370,7 +370,8 @@
         $this->add_body("  </div>");
         $this->add_body("</div>");
 
-        $this->add_footer($this->add_extra_script("register/register.js")); //TODO here
+        $this->add_extra_script("register/register.js");
+        $this->add_extra_script("sjcl/pbkdf2.js");
       }
 
     }

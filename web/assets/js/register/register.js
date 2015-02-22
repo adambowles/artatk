@@ -1,4 +1,5 @@
-function validate_form()
+function validate_form(form)
 {
-  return true;
+  console.log($(form));
+  return false;
 }
