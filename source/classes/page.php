@@ -111,18 +111,18 @@
                             </div>
                             <div id=\"navbar\" class=\"collapse navbar-collapse\">
                               <ul class=\"nav navbar-nav\">
-                                <li class=\"active\"><a href=\"/\">Home</a></li>
-                                <li><a href=\"/rate.php\">Rate</a></li>
-                                <li><a href=\"/recommendation.php\">Get your recommendation</a></li>
+                                <li class=\"active\"><a href=\"/\"><i class=\"fa fa-home\"></i></a></li>
+                                <li><a href=\"/rate.php\"><i class=\"fa fa-star-half-o\"></i> Rate</a></li>
+                                <li><a href=\"/recommendation.php\"><i class=\"fa fa-photo\"></i> Get your recommendation</a></li>
                               </ul>
 
                               <ul class=\"nav navbar-nav navbar-right\">
                                 <li class=\"dropdown\">
                                   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Logged in as Adam Bowles <b class=\"caret\"></b></a>
                                   <ul class=\"dropdown-menu\" role=\"menu\">
-                                    <li><a href=\"#\">Edit profile</a></li>
+                                    <li><a href=\"#\"><i class=\"fa fa-user\"></i> Edit profile</a></li>
                                     <li class=\"divider\"></li>
-                                    <li><a href=\"#\">Log out</a></li>
+                                    <li><a href=\"#\"><i class=\"fa fa-sign-out\"></i> Log out</a></li>
                                   </ul>
                                 </li>
                               </ul>
