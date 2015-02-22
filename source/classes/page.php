@@ -308,14 +308,17 @@
       $query_success = false;
 
       if($this->validate_registration_form()) {
-        $query_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
-//        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_POST['ip_address']); //TODO proper validated values
-        //echo("creating user with email:'".$_POST['email']."', and pass:'".$_POST['password']."'<br>");
-        //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", $_SERVER['REMOTE_ADDR']);
+        $registration_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
 
         $this->add_body("<div class=\"row\">");
-        $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
-        $this->add_body("query success: " . $query_success);
+        $this->add_body("  <div class=\"col-lg-12\">");
+        if($registration_success) {
+          $this->add_body("<h2>Account created!</h2>");
+          $this->add_body("<h3><a href=\"/login.php\">Log in</a></h3>");
+        } else {
+          $this->add_body("<h2>There was an error :(</h2>");
+          $this->add_body("<h3><a href=\"/register.php\">Back to form</a></h3>");
+        }
         $this->add_body("  </div>");
         $this->add_body("</div>");
       } else {
