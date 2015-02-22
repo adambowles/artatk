@@ -93,10 +93,39 @@
     private function execute($sql)
     {
       if($this->is_connected()){
-        return $success = $this->connection->query($sql) === TRUE;
+        return $this->connection->query($sql) === TRUE;
       } else {
         return false;
       }
+    }
+
+    /**
+     * Create a user account
+     *
+     * @param $username
+     * @param $email_address
+     * @param $email_validate_token
+     * @param $firstname
+     * @param $surname
+     * @param $password
+     * @param $password_hint
+     * @param $ip_address
+     */
+    public function create_user($username,
+                                $email_address, $email_validate_token,
+                                $firstname, $surname,
+                                $password, $password_hint,
+                                $ip_address)
+    {
+      //$user_id = $this->sanitise($user_id); //TODO sanitise all
+
+      //DB stores IP addresses as integers
+      if(is_string($ip_address)) {
+        $ip_address = ip2long($ip_address);
+      }
+
+      $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', $ip_address);";
+      return $this->execute($sql);
     }
 
     /**
@@ -109,7 +138,7 @@
       $user_id = $this->sanitise($user_id);
 
       $sql = "CALL `DELETE_USER_BY_ID` ($user_id);";
-      $this->execute($sql);
+      return $this->execute($sql);
     }
 
     /**
@@ -122,7 +151,7 @@
       $username = $this->sanitise($username);
 
       $sql = "CALL `DELETE_USER_BY_USERNAME` ('$username');";
-      $this->execute($sql);
+      return $this->execute($sql);
     }
 
     /**
