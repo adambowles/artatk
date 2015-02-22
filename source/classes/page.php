@@ -114,9 +114,10 @@
                                 <li><a href=\"/rate.php\">Rate</a></li>
                                 <li><a href=\"/recommendation.php\">Get your recommendation</a></li>
                               </ul>
+
                               <ul class=\"nav navbar-nav navbar-right\">
                                 <li class=\"dropdown\">
-                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Signed in as Adam Bowles <b class=\"caret\"></b></a>
+                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Logged in as Adam Bowles <b class=\"caret\"></b></a>
                                   <ul class=\"dropdown-menu\" role=\"menu\">
                                     <li><a href=\"#\">Edit profile</a></li>
                                     <li class=\"divider\"></li>
