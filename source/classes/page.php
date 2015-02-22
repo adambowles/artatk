@@ -186,10 +186,11 @@
                      $this->footer .
                    "</div>" .
                  "</div>" .
+                 $this->asset_controller->get_jQuery() .
+                 $this->asset_controller->get_bootstrap_js() .
+                 $this->asset_controller->get_recaptcha_js() .
+                 $this->asset_controller->get_js() .
                "</body>" .
-               $this->asset_controller->get_jQuery() .
-               $this->asset_controller->get_bootstrap_js() .
-               $this->asset_controller->get_js() .
              "</html>"
         ;
     }
@@ -233,9 +234,10 @@
 
       // Demo content
       //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
-  $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
-  $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
-  $this->add_body("</div>");
+      $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
+      $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
+      $this->add_body("<div class=\"g-recaptcha\" data-sitekey=\"6LeKCv8SAAAAAO-6_VDdHk5iItHbEhTLZrvwtgKp\"></div>");
+      $this->add_body("</div>");
     }
   }
 
