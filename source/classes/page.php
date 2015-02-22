@@ -107,7 +107,7 @@
                                 <span class=\"icon-bar\"></span>
                                 <span class=\"icon-bar\"></span>
                               </button>
-                              <a class=\"navbar-brand\" href=\"/\">".WEBSITE_TITLE."</a>
+                              <a class=\"navbar-brand\" href=\"/\"><i class=\"fa fa-paint-brush\"></i></a>
                             </div>
                             <div id=\"navbar\" class=\"collapse navbar-collapse\">
                               <ul class=\"nav navbar-nav\">
