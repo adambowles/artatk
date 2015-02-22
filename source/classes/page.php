@@ -1,11 +1,12 @@
 <?php
 
   /**
-   *
+   * @author Adam Bowles <bowlesa@aston.ac.uk>
    */
   class page
   {
 
+    // Some funcationality controllers
     private $asset_controller;
     private $database_controller;
 
@@ -28,7 +29,9 @@
       include(ROOT_DIRECTORY . "source/classes/database_controller.php");
 
       $this->asset_controller = new html_asset_controller();
+
       $this->database_controller = new database_controller();
+      $this->database_controller->connect_read();
     }
 
     /**
