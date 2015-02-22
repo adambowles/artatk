@@ -56,7 +56,9 @@
     }
 
     /**
+     * Check whether the connection is open
      *
+     * @return True of the connection is open, false if it closed
      */
     public function is_connected()
     {
@@ -72,18 +74,49 @@
     }
 
     /**
-     * Delete user by user id
+     * Execute an SQL statement
+     *
+     * @param $sql  The SQL to be executed
+     *
+     * @return  True if the SQL was successfully sent to the db, false if the conenction was open, or any erro occurred
      */
-    public function delete_user_by_id($user_id)
+    private function execute($sql)
     {
-      $user_id = $this->sanitise($user_id);
       if($this->is_connected()){
-        $success = $this->connection->query("CALL `DELETE_USER_BY_ID` ($user_id);") === TRUE;
+        return $success = $this->connection->query($sql) === TRUE;
+      } else {
+        return false;
       }
     }
 
     /**
-     * Destroy the connection and set it to null
+     * Delete user by user id
+     *
+     * @param $user_id ID of the user to delete
+     */
+    public function delete_user_by_id($user_id)
+    {
+      $user_id = $this->sanitise($user_id);
+
+      $sql = "CALL `DELETE_USER_BY_ID` ($user_id);";
+      $this->execute($sql);
+    }
+
+    /**
+     * Delete user by user id
+     *
+     * @param $user_id ID of the user to delete
+     */
+    public function delete_user_by_username($username)
+    {
+      $username = $this->sanitise($username);
+
+      $sql = "CALL `DELETE_USER_BY_USERNAME` ($username);";
+      $this->execute($sql);
+    }
+
+    /**
+     * Close the connection and set it to null
      */
     public function disconnect()
     {
