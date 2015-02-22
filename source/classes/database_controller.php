@@ -64,6 +64,25 @@
     }
 
     /**
+     *
+     */
+    private function sanitise($data)
+    {
+      return $this->connection->real_escape_string($data);
+    }
+
+    /**
+     * Delete user by user id
+     */
+    public function delete_user_by_id($user_id)
+    {
+      $user_id = $this->sanitise($user_id);
+      if($this->is_connected()){
+        $success = $this->connection->query("CALL `DELETE_USER_BY_ID` ($user_id);") === TRUE;
+      }
+    }
+
+    /**
      * Destroy the connection and set it to null
      */
     public function disconnect()
