@@ -305,8 +305,10 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $query_success = false;
+
       if($this->validate_registration_form()) {
-        $query_success = $this->get_database_controller()->create_user("username", $_POST['email'], "email_validate_token", "firstname", "surname", $_POST['password'], "password_hint", "123.45.67.8");
+        $query_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], "password_hint", "123.45.67.8");
 //        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_POST['ip_address']); //TODO proper validated values
         //echo("creating user with email:'".$_POST['email']."', and pass:'".$_POST['password']."'<br>");
         //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", $_SERVER['REMOTE_ADDR']);
@@ -317,12 +319,28 @@
 
       $this->add_body("<form action=\"/register.php\" method=\"POST\">
                         <div class=\"form-group\">
+                          <label for=\"username\">Username</label>
+                          <input type=\"text\" class=\"form-control\" id=\"username\" name=\"username\" placeholder=\"Username\">
+                        </div>
+                        <div class=\"form-group\">
                           <label for=\"email\">Email address</label>
-                          <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" placeholder=\"Enter email\">
+                          <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" placeholder=\"Email address\">
                         </div>
                         <div class=\"form-group\">
                           <label for=\"password\">Password</label>
                           <input type=\"password\" class=\"form-control\" id=\"password\" name=\"password\" placeholder=\"Password\">
+                        </div>
+                        <div class=\"form-group\">
+                          <label for=\"password_hint\">Password reminder</label>
+                          <input type=\"text\" class=\"form-control\" id=\"password_hint\" name=\"password_hint\" placeholder=\"The name of my first pet, place I grew up, ...\">
+                        </div>
+                        <div class=\"form-group\">
+                          <label for=\"firstname\">First name</label>
+                          <input type=\"text\" class=\"form-control\" id=\"firstname\" name=\"firstname\" placeholder=\"First name\">
+                        </div>
+                        <div class=\"form-group\">
+                          <label for=\"surname\">Surname</label>
+                          <input type=\"text\" class=\"form-control\" id=\"surname\" name=\"surname\" placeholder=\"Surname\">
                         </div>
                         <div class=\"form-group\">" .
                         $this->get_asset_controller()->get_recaptcha_div().
@@ -339,7 +357,7 @@
 
     private function validate_registration_form()
     {
-      $required_keys = array("email", "password"); //TODO full list as per database_controller->create_user()
+      $required_keys = array("username", "email", "password"); //TODO full list as per database_controller->create_user()
       $something_missing = false;
 
       foreach($required_keys as $key) {
