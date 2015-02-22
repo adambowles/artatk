@@ -144,7 +144,7 @@
                               "<ul class=\"nav navbar-nav navbar-right\">
                                 <li><a href=\"/login.php\"><i class=\"fa fa-sign-in\"></i> Log in</a></li>
                                 <li><p class=\"nav navbar-text\">or</p></li>
-                                <li><p class=\"navbar-btn\"><a href=\"register.php\" class=\"btn btn-warning\">Register</a></p></li>
+                                <li><p class=\"navbar-btn\"><a href=\"register.php\" class=\"btn btn-danger\">Register</a></p></li>
                               </ul>" .
 
 
@@ -305,27 +305,52 @@
       // Perform a superclass construction
       parent::__construct();
 
+        $query_success = $this->get_database_controller()->create_user("username", "email_address", "email_validate_token", "firstname", "surname", "password", "password_hint", 123);
+
+      if($this->validate_registration_form()) {
+//        $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], $_POST['email_validate_token'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], ip2long($_POST['ip_address'])); //TODO proper validated values
+        //echo("creating user with email:'".$_POST['email']."', and pass:'".$_POST['password']."'<br>");
+        //$this->get_database_controller()->create_user("username", $_POST['email'], "email_val_token", "firstname", "surname", $_POST['password'], "password_hint", ip2long($_SERVER['REMOTE_ADDR']));
+      }
+
       $this->add_body("<div class=\"row\">");
       $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
 
-      $this->add_body('<form>
-                        <div class="form-group">
-                          <label for="email">Email address</label>
-                          <input type="email" class="form-control" id="email" placeholder="Enter email">
+      $this->add_body("<form action=\"/register.php\" method=\"POST\">
+                        <div class=\"form-group\">
+                          <label for=\"email\">Email address</label>
+                          <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" placeholder=\"Enter email\">
                         </div>
-                        <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Password">
+                        <div class=\"form-group\">
+                          <label for=\"password\">Password</label>
+                          <input type=\"password\" class=\"form-control\" id=\"password\" name=\"password\" placeholder=\"Password\">
                         </div>
-                        <div class="form-group">'.
+                        <div class=\"form-group\">" .
                         $this->get_asset_controller()->get_recaptcha_div().
-                        '</div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                      </form>');
+                        "</div>
+                        <button type=\"submit\" class=\"btn btn-default\">Submit</button>
+                      </form>");
+
+      $this->add_body($query_success);
 
       $this->add_body("  </div>");
       $this->add_body("</div>");
 
+//      $this->add_body("var_dump post: " . var_dump($_POST) . "\r\n");
+
+    }
+
+    private function validate_registration_form()
+    {
+      $required_keys = array("email", "password"); //TODO full list as per database_controller->create_user()
+      $something_missing = false;
+
+      foreach($required_keys as $key) {
+        if(!isset($_POST[$key])){
+          $something_missing = true;
+        }
+      }
+      return !$something_missing;
     }
   }
 
