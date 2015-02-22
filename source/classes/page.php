@@ -127,20 +127,29 @@
                                 <li class=\"active\"><a href=\"/\"><i class=\"fa fa-home\"></i></a></li>
                                 <li><a href=\"/rate.php\"><i class=\"fa fa-star-half-o\"></i> Rate</a></li>
                                 <li><a href=\"/recommendation.php\"><i class=\"fa fa-photo\"></i> Get your recommendation</a></li>
-                              </ul>
+                              </ul>" .
 
-                              <ul class=\"nav navbar-nav navbar-right\">
-                                <li class=\"dropdown\">
-                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Logged in as Adam Bowles <b class=\"caret\"></b></a>
-                                  <ul class=\"dropdown-menu\" role=\"menu\">
-                                    <li><a href=\"#\"><i class=\"fa fa-user\"></i> Edit profile</a></li>
-                                    <li class=\"divider\"></li>
-                                    <li><a href=\"#\"><i class=\"fa fa-sign-out\"></i> Log out</a></li>
-                                  </ul>
-                                </li>
-                              </ul>
+//                              "<ul class=\"nav navbar-nav navbar-right\">
+//                                <li><p class=\"nav navbar-text\">Logged in as </p></li>
+//                                <li class=\"dropdown\">
+//                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Adam Bowles <b class=\"caret\"></b></a>
+//                                  <ul class=\"dropdown-menu\" role=\"menu\">
+//                                    <li><a href=\"#\"><i class=\"fa fa-user\"></i> Edit profile</a></li>
+//                                    <li class=\"divider\"></li>
+//                                    <li><a href=\"#\"><i class=\"fa fa-sign-out\"></i> Log out</a></li>
+//                                  </ul>
+//                                </li>
+//                              </ul>"
 
-                            </div><!--/.nav-collapse -->
+                              "<ul class=\"nav navbar-nav navbar-right\">
+                                <li><a href=\"/login.php\"><i class=\"fa fa-sign-in\"></i> Log in</a></li>
+                                <li><p class=\"nav navbar-text\">or</p></li>
+                                <li><p class=\"navbar-btn\"><a href=\"register.php\" class=\"btn btn-warning\">Register</a></p></li>
+                              </ul>" .
+
+
+
+                            "</div><!--/.nav-collapse -->
                           </div>
                         </nav>";
       return $navbar_string;
@@ -234,7 +243,7 @@
 
   }
 
-  // The following subclasses are bascially just normal pages with some handy default behaviours added
+  // The following subclasses are bascially just normal pages with some handy default content added
 
   /**
    *
@@ -250,10 +259,10 @@
       $this->get_database_controller()->delete_user_by_username("bowlesa"); //TODO test remove this later
 
       // Demo content
-      //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
+      //$this->add_body("<p>this is a front page</p>");
+      $this->add_body("<div class=\"starter-template\">");
       $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
       $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
-      $this->add_body($this->get_asset_controller()->get_recaptcha_div());
       $this->add_body("</div>");
     }
   }
@@ -268,7 +277,7 @@
       parent::__construct();
 
       // Demo content
-      //$this->add_body("<p>this is a front page</p>");  $page->add_body("<div class=\"starter-template\">");
+      $this->add_body("<div class=\"starter-template\">");
       $this->add_body("  <h2>Rate some art</h2>");
       $this->add_body("  <p class=\"lead\">image here</p>");
       $this->add_body("</div>");
@@ -295,6 +304,57 @@
     public function __construct(){
       // Perform a superclass construction
       parent::__construct();
+
+      $this->add_body("<div class=\"row\">");
+      $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
+
+      $this->add_body('<form>
+                        <div class="form-group">
+                          <label for="email">Email address</label>
+                          <input type="email" class="form-control" id="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">'.
+                        $this->get_asset_controller()->get_recaptcha_div().
+                        '</div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>');
+
+      $this->add_body("  </div>");
+      $this->add_body("</div>");
+
+    }
+  }
+
+  /**
+   *
+   */
+  class login_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+      $this->add_body("<div class=\"row\">");
+      $this->add_body("<div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
+
+      $this->add_body('<form>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Email address</label>
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Password</label>
+                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                      </form>');
+
+      $this->add_body("</div>");
+      $this->add_body("</div>");
 
     }
   }
