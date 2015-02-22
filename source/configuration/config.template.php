@@ -39,7 +39,7 @@
   define('database_read_password', '');
 
 
-  define('WEBSITE_TITLE', 'ArtAtk!');
+  define('WEBSITE_TITLE', 'ArtAtk');
 
 
   define('CSS_DIRECTORY', 'web/assets/css/');
