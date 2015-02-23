@@ -1,17 +1,28 @@
-//do a jq each for all tagged form elements and validate them on mouseout and the same of form submit
-
-
-function validate_form(form)
+function validate_form()
 {
   var fail_count = 0;
+
   var field_is_valid;
+  var value;
+  var type;
+
   $('#registration-form :input').each(
     function(){
-      field_is_valid = validate_input($(this).val(), $(this).attr('type'));
-      if(!field_is_valid) {
-        fail_count++;
+
+      value = $(this).val();
+      type = $(this).attr('type');
+
+      if(!(type == 'submit' | type == undefined)) { // don't validate the submit button or the reCAPTCHA
+        field_is_valid = validate_input(value, type);
+
+        if(!field_is_valid) {
+          fail_count++;
+          $(this).parent().addClass('has-error has-feedback');
+        } else {
+          $(this).parent().removeClass('has-error');
+        }
       }
-//      console.log('"' + $(this).val() + '" as ' + $(this).attr('type') + ": " + validate_input($(this).val(), $(this).attr('type')));
+
     }
   );
   return fail_count == 0; // return form valid if no fails occurred
