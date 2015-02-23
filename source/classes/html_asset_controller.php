@@ -15,6 +15,8 @@
     private $jQuery_version = "2.1.3";
     private $fontawesome_version = "4.3.0";
     private $bootstrap_version = "3.3.2";
+    private $formvalidator_version = "2.1.47";
+    private $sjcl_version = "1.0.0";
 
     /**
      * Constructor
@@ -58,6 +60,7 @@
 
     /**
      * Get the bootstrap themes
+     * //TODO fallback to local version
      */
     public function get_bootstrap_css()
     {
@@ -69,6 +72,7 @@
 
     /**
      * Get the fontawesome themes
+     * //TODO fallback to local version
      */
     public function get_fontawesome_css()
     {
@@ -103,6 +107,7 @@
 
     /**
      * Get the bootstrap scripts
+     * //TODO fallback to local version
      */
     public function get_bootstrap_js()
     {
@@ -113,10 +118,29 @@
 
     /**
      *
+     * //TODO fallback to local version
      */
     public function get_jQuery()
     {
-      return $this->construct_js_link("https://ajax.googleapis.com/ajax/libs/jquery/$this->jQuery_version/jquery.min.js");
+      return $this->construct_js_link("//ajax.googleapis.com/ajax/libs/jquery/$this->jQuery_version/jquery.min.js");
+    }
+
+    /**
+     *
+     * //TODO fallback to local version
+     */
+    public function get_formvalidator_js()
+    {
+      return $this->construct_js_link("//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/$this->formvalidator_version/jquery.form-validator.min.js");
+    }
+
+    /**
+     *
+     * //TODO fallback to local version
+     */
+    public function get_sjcl_js()
+    {
+      return $this->construct_js_link("//cdnjs.cloudflare.com/ajax/libs/sjcl/$this->sjcl_version/sjcl.min.js");
     }
 
     /**
@@ -124,7 +148,7 @@
      */
     public function get_recaptcha_js()
     {
-      return $this->construct_js_link("https://www.google.com/recaptcha/api.js");
+      return $this->construct_js_link("//www.google.com/recaptcha/api.js");
     }
 
     /**

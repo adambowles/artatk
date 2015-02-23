@@ -230,15 +230,16 @@
     /**
      * assume path from assets/js folder
      */
-    public function add_extra_script($path_to_script)
+    public function add_extra_script($script)
     {
-      $this->extra_scripts .= $this->get_asset_controller()->get_specific_js($path_to_script);
+//      $this->extra_scripts .= $this->get_asset_controller()->get_specific_js($script);
+      $this->extra_scripts .= $script;
     }
 
     /**
      *
      */
-    private function set_charset($new_charset)
+    public function set_charset($new_charset)
     {
       $this->charset = $new_charset;
     }
@@ -246,9 +247,17 @@
     /**
      *
      */
+    public function get_charset()
+    {
+      return $this->charset;
+    }
+
+    /**
+     *
+     */
     private function get_charset_meta_tag()
     {
-      return "<meta charset=\"$this->charset\">";
+      return "<meta charset=\"".$this->get_charset()."\">";
     }
 
   }
@@ -265,11 +274,10 @@
       parent::__construct();
 
       $this->get_database_controller()->connect_read();
-      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
-      $this->get_database_controller()->delete_user_by_username("bowlesa"); //TODO test remove this later
+//      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
+//      $this->get_database_controller()->delete_user_by_username("bowlesa"); //TODO test remove this later
 
       // Demo content
-      //$this->add_body("<p>this is a front page</p>");
       $this->add_body("<div class=\"starter-template\">");
       $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
       $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
@@ -370,9 +378,11 @@
         $this->add_body("  </div>");
         $this->add_body("</div>");
 
-        $this->add_extra_script("register/register.js");
-        $this->add_extra_script("sjcl/sjcl.js");
-        $this->add_extra_script("sjcl/pbkdf2.js");
+        $this->add_extra_script($this->get_asset_controller()->get_specific_js("register/register.js"));
+        $this->add_extra_script($this->get_asset_controller()->get_formvalidator_js());
+        $this->add_extra_script($this->get_asset_controller()->get_sjcl_js());
+//        $this->add_extra_script($this->get_asset_controller()->get_specific_js("sjcl/sjcl.js"));
+//        $this->add_extra_script($this->get_asset_controller()->get_specific_js("sjcl/pbkdf2.js"));
       }
 
     }
