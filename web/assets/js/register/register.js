@@ -3,12 +3,18 @@
 
 function validate_form(form)
 {
+  var fail_count = 0;
+  var field_is_valid;
   $('#registration-form :input').each(
     function(){
-      console.log('"' + $(this).val() + '" as ' + $(this).attr('type') + ": " + validate_input($(this).val(), $(this).attr('type')));
+      field_is_valid = validate_input($(this).val(), $(this).attr('type'));
+      if(!field_is_valid) {
+        fail_count++;
+      }
+//      console.log('"' + $(this).val() + '" as ' + $(this).attr('type') + ": " + validate_input($(this).val(), $(this).attr('type')));
     }
   );
-  return false;
+  return fail_count == 0; // return form valid if no fails occurred
 }
 
 function validate_input(value, as)
