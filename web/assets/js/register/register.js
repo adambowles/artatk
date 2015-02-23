@@ -19,7 +19,7 @@ function validate_input(value, as)
   }
 
   if(as == 'password') {
-    return true; //TODO: pw complexity checker, then hash it and set a hidden field to tell the POST that the pw has been hashed already
+    return false; //TODO: pw complexity checker, then hash it and set a hidden field to tell the POST that the pw has been hashed already
   }
 
   if(as == 'number') {
