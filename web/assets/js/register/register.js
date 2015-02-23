@@ -30,17 +30,17 @@ function validate_input(value, as)
     var matching_rules = 0;
 
     if(value.length < 8) {
-      return false; // Password less than 8 characters
+      return false; // Password absolutely cannot be less than 8 chars long
     } else {
-      macthing_rules++;
+      matching_rules++;
     }
 
-    /[a-z]/.test(value) ? matching_rules++ : null; // Password contains
-    /[A-Z]/.test(value) ? matching_rules++ : null;
-    /\d/.test(value) ? matching_rules++ : null;
-    /\W/.test(value) ? matching_rules++ : null;
+    /[a-z]/.test(value) ? matching_rules++ : null; // Password contains lower case
+    /[A-Z]/.test(value) ? matching_rules++ : null; // Password contains upper case
+    /\d/.test(value) ? matching_rules++ : null; // Password contains number
+    /\W/.test(value) ? matching_rules++ : null; // Password contains special character
 
-    return matching_rules >= 3; //TODO: pw complexity checker, then hash it and set a hidden field to tell the POST that the pw has been hashed already
+    return matching_rules >= 3; // Password must match at least 3 rules
   }
 
   // Numerical value
