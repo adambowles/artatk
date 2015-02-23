@@ -279,7 +279,7 @@
 
       // Demo content
       $this->add_body("<div class=\"starter-template\">");
-      $this->add_body("  <h2>dev ArtAtk, art aesthetic analyser</h2>");
+      $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
       $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
       $this->add_body("</div>");
     }
