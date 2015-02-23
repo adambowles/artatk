@@ -344,7 +344,7 @@
         $this->add_body("<div class=\"row\">");
         $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
 
-        $this->add_body("<form action=\"/register.php\" method=\"POST\" onsubmit=\"return validate_form(this)\">
+        $this->add_body("<form action=\"/register.php\" method=\"POST\" onsubmit=\"return validate_form(this)\" id=\"registration-form\">
                           <div class=\"form-group\">
                             <label for=\"username\">Username</label>
                             <input type=\"text\" class=\"form-control\" id=\"username\" name=\"username\" placeholder=\"Username\">
