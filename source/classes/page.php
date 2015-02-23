@@ -381,8 +381,6 @@
         $this->add_extra_script($this->get_asset_controller()->get_specific_js("register/register.js"));
         $this->add_extra_script($this->get_asset_controller()->get_formvalidator_js());
         $this->add_extra_script($this->get_asset_controller()->get_sjcl_js());
-//        $this->add_extra_script($this->get_asset_controller()->get_specific_js("sjcl/sjcl.js"));
-//        $this->add_extra_script($this->get_asset_controller()->get_specific_js("sjcl/pbkdf2.js"));
       }
 
     }
