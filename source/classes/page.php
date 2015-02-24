@@ -327,52 +327,52 @@
       if($this->validate_registration_form()) {
         $registration_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
 
-        $this->add_body("<div class=\"row\">");
-        $this->add_body("  <div class=\"col-lg-12\">");
+        $this->add_body('<div class="row">');
+        $this->add_body('  <div class="col-lg-12">');
         if($registration_success) {
-          $this->add_body("<h2>Account created!</h2>");
-          $this->add_body("<h3><a href=\"/login.php\">Log in</a></h3>");
+          $this->add_body('<h2>Account created!</h2>');
+          $this->add_body('<h3><a href="/login.php">Log in</a></h3>');
         } else {
-          $this->add_body("<h2>There was an error :(</h2>");
-          $this->add_body("<h3><a href=\"/register.php\">Back to form</a></h3>");
+          $this->add_body('<h2>There was an error :(</h2>');
+          $this->add_body('<h3><a href="/register.php">Back to form</a></h3>');
         }
-        $this->add_body("  </div>");
-        $this->add_body("</div>");
+        $this->add_body('  </div>');
+        $this->add_body('</div>');
       } else {
 
-        $this->add_body("<div class=\"row\">");
-        $this->add_body("  <div class=\"col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12\">");
+        $this->add_body('<div class="row">');
+        $this->add_body('  <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
 
-        $this->add_body("<form action=\"/register.php\" method=\"POST\" onsubmit=\"return validate_form()\" id=\"registration-form\">
-                          <div class=\"form-group\">
-                            <label for=\"username\">Username</label>
-                            <input type=\"text\" class=\"form-control\" id=\"username\" name=\"username\" placeholder=\"Username\">
+        $this->add_body('<form action="/register.php" method="POST" onsubmit="return validate_form(this)" id="registration-form">
+                          <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                           </div>
-                          <div class=\"form-group\">
-                            <label for=\"email\">Email address</label>
-                            <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" placeholder=\"Email address\">
+                          <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
                           </div>
-                          <div class=\"form-group\">
-                            <label for=\"password\">Password</label>
-                            <input type=\"password\" class=\"form-control\" id=\"password\" name=\"password\" placeholder=\"Password\">
+                          <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                           </div>
-                          <div class=\"form-group\">
-                            <label for=\"password_hint\">Password reminder</label>
-                            <input type=\"text\" class=\"form-control\" id=\"password_hint\" name=\"password_hint\" placeholder=\"The name of my first pet, place I grew up, ...\">
+                          <div class="form-group">
+                            <label for="password_hint">Password reminder</label>
+                            <input type="text" class="form-control" id="password_hint" name="password_hint" placeholder="The name of my first pet, place I grew up, ...">
                           </div>
-                          <div class=\"form-group\">
-                            <label for=\"firstname\">First name</label>
-                            <input type=\"text\" class=\"form-control\" id=\"firstname\" name=\"firstname\" placeholder=\"First name\">
+                          <div class="form-group">
+                            <label for="firstname">First name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name">
                           </div>
-                          <div class=\"form-group\">
-                            <label for=\"surname\">Surname</label>
-                            <input type=\"text\" class=\"form-control\" id=\"surname\" name=\"surname\" placeholder=\"Surname\">
+                          <div class="form-group">
+                            <label for="surname">Surname</label>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname">
                           </div>
-                          <div class=\"form-group\">" .
-                          $this->get_asset_controller()->get_recaptcha_div().
-                          "</div>
-                          <button type=\"submit\" class=\"btn btn-default\">Submit</button>
-                        </form>");
+                          <div class="form-group">' .
+                            $this->get_asset_controller()->get_recaptcha_div() .
+                          '</div>
+                          <button type="submit" class="btn btn-default">Submit</button>
+                        </form>');
 
         $this->add_body("  </div>");
         $this->add_body("</div>");
