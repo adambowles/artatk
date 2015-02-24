@@ -326,7 +326,7 @@
 
       if($this->validate_registration_form()) {
 
-        write_to_console("$_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']");
+        write_to_console($_POST['username'].', '. $_POST['email'].', '. "lalalala".', '. $_POST['firstname'].', '. $_POST['surname'].', '. $_POST['password'].', '. $_POST['password_hint'].', '. $_SERVER['REMOTE_ADDR']);
 
         $registration_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
 
