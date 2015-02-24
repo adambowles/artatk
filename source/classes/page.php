@@ -402,7 +402,7 @@
 
     private function validate_registration_form()
     {
-      $required_keys = array("username", "email", "password"); //TODO full list as per database_controller->create_user()
+      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint"); //TODO full list as per database_controller->create_user()
       $something_missing = false;
 
       foreach($required_keys as $key) {
