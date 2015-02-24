@@ -1,14 +1,13 @@
 function validate_form(form)
 {
-  form = $(form);
   var fail_count = 0;
 
   var field_is_valid;
   var value;
   var type;
 
-  $('#registration-form :input').each(
-    function(){
+  $(form).find(':input').each(
+    function() {
 
       value = $(this).val();
       type = $(this).attr('type');
