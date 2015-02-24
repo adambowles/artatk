@@ -20,19 +20,35 @@
      */
     public function __construct()
     {
-
+      $this->connect_read();
     }
 
     /**
      *
      */
-    public function connect_read()
+    private function get_connection()
+    {
+      return $this->connection;
+    }
+
+    /**
+     *
+     */
+    private function set_connection($new_connection)
+    {
+      return $this->connection = $new_connection;
+    }
+
+    /**
+     *
+     */
+    private function connect_read()
     {
       if($this->is_connected()){
-        mysqli_close($this->connection);
+        $this->disconnect();
       }
 
-      $this->connection = mysqli_connect(database_url, database_write_user, database_write_password, database_dbname);
+      $this->set_connection(mysqli_connect(database_url, database_read_user, database_read_password, database_dbname));
 
       if (mysqli_connect_errno()) {
         die("Failed to connect to Database: " . mysqli_connect_error());
@@ -42,13 +58,13 @@
     /**
      *
      */
-    public function connect_write()
+    private function connect_write()
     {
       if($this->is_connected()){
-        mysqli_close($this->connection);
+        $this->disconnect();
       }
 
-      $this->connection = mysqli_connect(database_url, database_write_user, database_write_password, database_dbname);
+      $this->set_connection(mysqli_connect(database_url, database_write_user, database_write_password, database_dbname));
 
       if (mysqli_connect_errno()) {
         die("Failed to connect to Database: " . mysqli_connect_error());
@@ -58,11 +74,11 @@
     /**
      * Check whether the connection is open
      *
-     * @return True of the connection is open, false if it closed
+     * @return True of the connection is open, false if it's closed
      */
-    public function is_connected()
+    private function is_connected()
     {
-      return !$this->connection == null;
+      return $this->get_connection() != null;
     }
 
     /**
@@ -76,8 +92,8 @@
      */
     private function sanitise($data)
     {
-      if($this->is_connected()){
-        return $this->connection->real_escape_string($data);
+      if($this->is_connected()) {
+        return $this->get_connection()->real_escape_string($data);
       } else {
         return null;
       }
@@ -88,15 +104,26 @@
      *
      * @param $sql  The SQL to be executed
      *
-     * @return  True if the SQL was successfully sent to the db, false if the conenction was open, or any error occurred
+     * @return  True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
      */
-    private function execute($sql)
+    private function execute($sql, $permission)
     {
-      if($this->is_connected()){
-        return $this->connection->query($sql) === TRUE;
-      } else {
-        return false;
+      if($permission == "write") {
+        $this->connect_write();
       }
+
+      if($this->is_connected()){
+        echo("performing sql: $sql");
+        $success = $this->get_connection()->query($sql) === TRUE;
+      } else {
+        $success = false;
+      }
+
+      if($permission == "write") {
+        $this->connect_read();
+      }
+
+      return $success;
     }
 
     /**
@@ -126,14 +153,8 @@
       $password_hint = $this->sanitise($password_hint);
       $ip_address = $this->sanitise($ip_address);
 
-      // this method write to the databse, ensure we are connected as a user which has write access
-      $this->connect_write();
-
       $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', '$ip_address');";
-      $success = $this->execute($sql);
-
-      // revert to safer read only user
-      $this->connect_read();
+      $success = $this->execute($sql, 'write');
 
       return $success;
     }
@@ -147,14 +168,8 @@
     {
       $user_id = $this->sanitise($user_id);
 
-      // this method write to the databse, ensure we are connected as a user which has write access
-      $this->connect_write();
-
       $sql = "CALL `DELETE_USER_BY_ID` ($user_id);";
-      $success = $this->execute($sql);
-
-      // revert to safer read only user
-      $this->connect_read();
+      $success = $this->execute($sql, 'write');
 
       return $success;
     }
@@ -168,14 +183,8 @@
     {
       $username = $this->sanitise($username);
 
-      // this method write to the databse, ensure we are connected as a user which has write access
-      $this->connect_write();
-
       $sql = "CALL `DELETE_USER_BY_USERNAME` ('$username');";
-      $success = $this->execute($sql);
-
-      // revert to safer read only user
-      $this->connect_read();
+      $success = $this->execute($sql, 'write');
 
       return $success;
     }
@@ -183,11 +192,11 @@
     /**
      * Close the connection and set it to null
      */
-    public function disconnect()
+    private function disconnect()
     {
       if($this->is_connected()) {
-        $this->connection->close();
-        $this->connection = null;
+        $this->get_connection()->close();
+        //$this->get_connection() = null;
       }
     }
 
