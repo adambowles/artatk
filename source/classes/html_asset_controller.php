@@ -51,7 +51,7 @@
       $css_string = "";
 
       foreach($this->css_files as $file) {
-        $css_string .= $this->construct_css_link($this->local_absolute_to_public_url($this->css_dir . $file));
+        $css_string .= $this->construct_link($this->local_absolute_to_public_url($this->css_dir . $file));
       }
 
       return $css_string;
@@ -59,23 +59,29 @@
 
     /**
      * Get the bootstrap themes
-     * //TODO fallback to local version
      */
     public function get_bootstrap_css()
     {
       $return_string = "";
-      $return_string .= $this->construct_css_link("//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/css/bootstrap.min.css");
-      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . 'web/assets/bootflat/css/bootflat.min.css'));
+
+      $remote = "//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/css/bootstrap.min.css";
+      $local = 'bootstrap/css/bootstrap.min.css';
+      $return_string .= $this->remote_or_local($remote, $local);
+
+      $local = 'bootflat/css/bootflat.min.css';
+      $return_string .= $this->remote_or_local('', $local); // Bootflat does not have a CDN option
+
       return $return_string;
     }
 
     /**
      * Get the fontawesome themes
-     * //TODO fallback to local version
      */
     public function get_fontawesome_css()
     {
-      return $this->construct_css_link("//maxcdn.bootstrapcdn.com/font-awesome/$this->fontawesome_version/css/font-awesome.min.css");
+      $remote = "//maxcdn.bootstrapcdn.com/font-awesome/$this->fontawesome_version/css/font-awesome.min.css";
+      $local = 'fontawesome/fontawesome.min.css';
+      return $this->remote_or_local($remote, $local);
     }
 
     /**
@@ -86,7 +92,7 @@
       $js_string = "";
 
       foreach($this->js_files as $file) {
-        $js_string .= $this->construct_js_link($this->local_absolute_to_public_url($this->js_dir . $file));
+        $js_string .= $this->construct_link($this->local_absolute_to_public_url($this->js_dir . $file));
       }
 
       return $js_string;
@@ -95,42 +101,37 @@
     /**
      * @param $path_to_file Path to and including the js file to include from js folder (e.g. "regiser/register.js)
      */
-    public function get_specific_js($path_to_file)
+    public function get_specific_asset($path_to_file)
     {
-      $js_string = "";
+      $file_type = $this->file_type($path_to_file);
 
-      $js_string .= $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/js/$path_to_file"));
+      if($file_type == 'js') {
+        return $this->construct_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/$path_to_file"));
+      }
 
-      return $js_string;
+      if($file_type == 'css') {
+        return $this->construct_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/$path_to_file"));
+      }
     }
 
     /**
-     * Get the bootstrap scripts
-     * //TODO fallback to local version
+     * Get the bootstrap script
      */
     public function get_bootstrap_js()
     {
-      $return_string = "";
-      $return_string .= $this->construct_js_link("//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/js/bootstrap.min.js");
-      return $return_string;
+      $remote = "//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/js/bootstrap.min.js";
+      $local = 'bootstrap/js/bootstrap.min.js';
+      return $this->remote_or_local($remote, $local);
     }
 
     /**
      *
-     * //TODO fallback to local version
      */
     public function get_jQuery()
     {
-      return $this->construct_js_link("//ajax.googleapis.com/ajax/libs/jquery/$this->jQuery_version/jquery.min.js");
-    }
-
-    /**
-     *
-     * //TODO fallback to local version
-     */
-    public function get_formvalidator_js()
-    {
-      return $this->construct_js_link("//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/$this->formvalidator_version/jquery.form-validator.min.js");
+      $remote = "//ajax.googleapis.com/ajax/libs/jquery/$this->jQuery_version/jquery.min.js";
+      $local = 'jQuery/jQuery.min.js';
+      return $this->remote_or_local($remote, $local);
     }
 
     /**
@@ -138,7 +139,7 @@
      */
     public function get_recaptcha_js()
     {
-      return $this->construct_js_link("//www.google.com/recaptcha/api.js");
+      return $this->construct_link("//www.google.com/recaptcha/api.js");
     }
 
     /**
@@ -158,6 +159,26 @@
     }
 
     /**
+     *
+     */
+    public function file_type($file)
+    {
+     return pathinfo($file, PATHINFO_EXTENSION);
+    }
+
+    /**
+     *  Decide whether to serve the local file or link to a CDN
+     */
+    private function remote_or_local($remote, $local)
+    {
+      if($this->remote_resource_exists($remote)) {
+        return $this->construct_link($remote);
+      } else {
+        return $this->get_specific_asset($local);
+      }
+    }
+
+    /**
      * Checks whether a remotely hosted CSS/JS is available to download
      * CDNs are nice and allow users to use a cached copy of a particular file
      * but their exitence is not guaranteed to last forever
@@ -165,14 +186,17 @@
      */
     private function remote_resource_exists($resource)
     {
+      //One liner: http://stackoverflow.com/q/4503135
+      $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https:' : 'http:';
+      $url = $protocol . $resource;
+
       $curl = curl_init();
-      curl_setopt($curl, CURLOPT_URL, $resource);
+      curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt($curl, CURLOPT_NOBODY, 1); // don't download content
       curl_setopt($curl, CURLOPT_FAILONERROR, 1);
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-      if(curl_exec($curl) !== FALSE)
-      {
+      if(curl_exec($curl) !== false) {
         return true;
       } else {
         return false;
@@ -182,17 +206,15 @@
     /**
      *
      */
-    private function construct_css_link($stylesheet)
+    private function construct_link($item)
     {
-      return "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\">";
-    }
+      if($this->file_type($item) == 'css') {
+        return "<link rel=\"stylesheet\" type=\"text/css\" href=\"$item\">";
+      }
 
-    /**
-     *
-     */
-    private function construct_js_link($script)
-    {
-      return "<script src=\"$script\"></script>";
+      if($this->file_type($item) == 'js') {
+        return "<script src=\"$item\"></script>";
+      }
     }
   }
 
