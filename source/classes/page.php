@@ -113,47 +113,46 @@
      */
     public function get_navbar()
     {
-      $navbar_string = "<nav class=\"navbar navbar-default navbar-fixed-top\">
-                          <div class=\"container\">
-                            <div class=\"navbar-header\">
-                              <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
-                                <span class=\"sr-only\">Toggle navigation</span>
-                                <span class=\"icon-bar\"></span>
-                                <span class=\"icon-bar\"></span>
-                                <span class=\"icon-bar\"></span>
+      $navbar_string = '<nav class="navbar navbar-default navbar-fixed-top">
+                          <div class="container">
+                            <div class="navbar-header">
+                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
                               </button>
-                              <a class=\"navbar-brand\" href=\"/\"><i class=\"fa fa-paint-brush\"></i></a>
+                              <a class="navbar-brand" href="/"><i class="fa fa-paint-brush"></i></a>
                             </div>
-                            <div id=\"navbar\" class=\"collapse navbar-collapse\">
-                              <ul class=\"nav navbar-nav\">
-                                <li class=\"active\"><a href=\"/\"><i class=\"fa fa-home\"></i></a></li>
-                                <li><a href=\"/rate.php\"><i class=\"fa fa-star-half-o\"></i> Rate</a></li>
-                                <li><a href=\"/recommendation.php\"><i class=\"fa fa-photo\"></i> Get your recommendation</a></li>
-                              </ul>" .
+                            <div id="navbar" class="collapse navbar-collapse">
+                              <ul class="nav navbar-nav">
+                                <li id="home" class="activeX"><a href="/"><i class="fa fa-home"></i></a></li>
+                                <li><a href="/rate.php"><i class="fa fa-star-half-o"></i> Rate</a></li>
+                                <li><a href="/recommendation.php"><i class="fa fa-photo"></i> Get your recommendation</a></li>
+                              </ul>' .
 
-//                              "<ul class=\"nav navbar-nav navbar-right\">
-//                                <li><p class=\"nav navbar-text\">Logged in as </p></li>
-//                                <li class=\"dropdown\">
-//                                  <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Adam Bowles <b class=\"caret\"></b></a>
-//                                  <ul class=\"dropdown-menu\" role=\"menu\">
-//                                    <li><a href=\"#\"><i class=\"fa fa-user\"></i> Edit profile</a></li>
-//                                    <li class=\"divider\"></li>
-//                                    <li><a href=\"#\"><i class=\"fa fa-sign-out\"></i> Log out</a></li>
+//                              "<ul class="nav navbar-nav navbar-right">
+//                                <li><p class="nav navbar-text">Logged in as </p></li>
+//                                <li class="dropdown">
+//                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adam Bowles <b class="caret"></b></a>
+//                                  <ul class="dropdown-menu" role="menu">
+//                                    <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
+//                                    <li class="divider"></li>
+//                                    <li><a href="#"><i class="fa fa-sign-out"></i> Log out</a></li>
 //                                  </ul>
 //                                </li>
 //                              </ul>"
 
-                              "<ul class=\"nav navbar-nav navbar-right\">
-                                <li><a href=\"/login.php\"><i class=\"fa fa-sign-in\"></i> Log in</a></li>
-                                <li><p class=\"nav navbar-text\">or</p></li>
-                                <li><p class=\"navbar-btn\"><a href=\"register.php\" class=\"btn btn-danger\">Register</a></p></li>
-                              </ul>" .
+                              '<ul class="nav navbar-nav navbar-right">
+                                <li><a href="/login.php"><i class="fa fa-sign-in"></i> Log in</a></li>
+                                <li><a href="register.php"><i class="fa fa-user-plus"></i> Register</a></li>
+                              </ul>' .
 
 
 
-                            "</div><!--/.nav-collapse -->
+                            '</div><!--/.nav-collapse -->
                           </div>
-                        </nav>";
+                        </nav>';
       return $navbar_string;
     }
 
@@ -203,20 +202,20 @@
      */
     private function construct_footer()
     {
-      return     "</div>" .
-                 "<div class=\"container copyright-footer\">" .
-                   "<div class=\"copyright\">" .
-                     "<p class=\"copyright-text\">&copy; 2015 Adam Bowles</p>" .
+      return     '</div>' .
+                 '<div class="container copyright-footer">' .
+                   '<div class="copyright">' .
+                     '<p class="copyright-text">&copy; 2015 Adam Bowles</p>' .
                      $this->footer .
-                   "</div>" .
-                 "</div>" .
+                   '</div>' .
+                 '</div>' .
                  $this->asset_controller->get_jQuery() .
                  $this->asset_controller->get_bootstrap_js() .
                  $this->asset_controller->get_recaptcha_js() .
                  $this->asset_controller->get_js() .
                  $this->extra_scripts .
-               "</body>" .
-             "</html>"
+               '</body>' .
+             '</html>'
         ;
     }
 
@@ -233,7 +232,6 @@
      */
     public function add_extra_script($script)
     {
-//      $this->extra_scripts .= $this->get_asset_controller()->get_specific_js($script);
       $this->extra_scripts .= $script;
     }
 
@@ -258,7 +256,7 @@
      */
     private function get_charset_meta_tag()
     {
-      return "<meta charset=\"".$this->get_charset()."\">";
+      return '<meta charset="' . $this->get_charset() . '">';
     }
 
   }
@@ -276,13 +274,13 @@
 
       $this->get_database_controller()->connect_read();
 //      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
-//      $this->get_database_controller()->delete_user_by_username("bowlesa"); //TODO test remove this later
+//      $this->get_database_controller()->delete_user_by_username('bowlesa'); //TODO test remove this later
 
       // Demo content
-      $this->add_body("<div class=\"starter-template\">");
-      $this->add_body("  <h2>ArtAtk, art aesthetic analyser</h2>");
-      $this->add_body("  <p class=\"lead\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>");
-      $this->add_body("</div>");
+      $this->add_body('<div class="starter-template">');
+      $this->add_body('  <h2>ArtAtk, art aesthetic analyser</h2>');
+      $this->add_body('  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>');
+      $this->add_body('</div>');
     }
   }
 
@@ -296,10 +294,10 @@
       parent::__construct();
 
       // Demo content
-      $this->add_body("<div class=\"starter-template\">");
-      $this->add_body("  <h2>Rate some art</h2>");
-      $this->add_body("  <p class=\"lead\">image here</p>");
-      $this->add_body("</div>");
+      $this->add_body('<div class="starter-template">');
+      $this->add_body('  <h2>Rate some art</h2>');
+      $this->add_body('  <p class="lead">image here</p>');
+      $this->add_body('</div>');
     }
   }
 
@@ -381,7 +379,6 @@
 
         $this->add_extra_script($this->get_asset_controller()->get_specific_js("register/register.js"));
         $this->add_extra_script($this->get_asset_controller()->get_formvalidator_js());
-        $this->add_extra_script($this->get_asset_controller()->get_sjcl_js());
       }
 
     }
