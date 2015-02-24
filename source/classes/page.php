@@ -272,7 +272,7 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->get_database_controller()->connect_read();
+//      $this->get_database_controller()->connect_read();
 //      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
 //      $this->get_database_controller()->delete_user_by_username('bowlesa'); //TODO test remove this later
 
