@@ -126,7 +126,6 @@
                             </div>
                             <div id="navbar" class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
-                                <li id="home" class="activeX"><a href="/"><i class="fa fa-home"></i></a></li>
                                 <li><a href="/rate.php"><i class="fa fa-star-half-o"></i> Rate</a></li>
                                 <li><a href="/recommendation.php"><i class="fa fa-photo"></i> Get your recommendation</a></li>
                               </ul>' .
