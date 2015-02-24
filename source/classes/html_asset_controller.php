@@ -16,7 +16,6 @@
     private $fontawesome_version = "4.3.0";
     private $bootstrap_version = "3.3.2";
     private $formvalidator_version = "2.1.47";
-    private $sjcl_version = "1.0.0";
 
     /**
      * Constructor
@@ -66,7 +65,7 @@
     {
       $return_string = "";
       $return_string .= $this->construct_css_link("//maxcdn.bootstrapcdn.com/bootstrap/$this->bootstrap_version/css/bootstrap.min.css");
-      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/bootflat/css/bootflat.min.css"));
+      $return_string .= $this->construct_css_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . 'web/assets/bootflat/css/bootflat.min.css'));
       return $return_string;
     }
 
@@ -100,7 +99,7 @@
     {
       $js_string = "";
 
-      $js_string .= $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/js/" . $path_to_file));
+      $js_string .= $this->construct_js_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/js/$path_to_file"));
 
       return $js_string;
     }
@@ -136,15 +135,6 @@
 
     /**
      *
-     * //TODO fallback to local version
-     */
-    public function get_sjcl_js()
-    {
-      return $this->construct_js_link("//cdnjs.cloudflare.com/ajax/libs/sjcl/$this->sjcl_version/sjcl.min.js");
-    }
-
-    /**
-     *
      */
     public function get_recaptcha_js()
     {
@@ -156,7 +146,7 @@
      */
     public function get_recaptcha_div()
     {
-      return "<div class=\"g-recaptcha\" data-sitekey=\"6LcYegITAAAAANugBoDsRxp-xRHvVISPrkLBn25v\"></div>";
+      return '<div class="g-recaptcha" data-sitekey="6LcYegITAAAAANugBoDsRxp-xRHvVISPrkLBn25v"></div>';
     }
 
     /**
@@ -165,6 +155,28 @@
     private function local_absolute_to_public_url($dir_to_file)
     {
       return preg_replace("/" . preg_quote(ROOT_DIRECTORY, "/") . "web/", "", $dir_to_file);
+    }
+
+    /**
+     * Checks whether a remotely hosted CSS/JS is available to download
+     * CDNs are nice and allow users to use a cached copy of a particular file
+     * but their exitence is not guaranteed to last forever
+     * source:http://stackoverflow.com/a/7051633, user: dangkhoaweb, date:24/02/2015
+     */
+    private function remote_resource_exists($resource)
+    {
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_URL, $resource);
+      curl_setopt($curl, CURLOPT_NOBODY, 1); // don't download content
+      curl_setopt($curl, CURLOPT_FAILONERROR, 1);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+      if(curl_exec($curl) !== FALSE)
+      {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     /**
