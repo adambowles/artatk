@@ -78,6 +78,7 @@
              "<html>" .
              "<head>" .
                $this->get_charset_meta_tag() .
+               "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" .
                "<title>" .
                  WEBSITE_TITLE . $this->get_title() .
                "</title>" .
