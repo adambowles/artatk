@@ -442,6 +442,9 @@
       $this->set_title("Page not found");
       $this->add_body("<h2>404: not found, sorry! :(</h2>");
       $this->add_body("<h3><a href=\"/\">Home page</a></h3>");
+
+      // Return proper error code
+      http_response_code(404);
     }
   }
 
