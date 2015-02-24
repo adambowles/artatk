@@ -113,7 +113,6 @@
       }
 
       if($this->is_connected()){
-        echo("performing sql: $sql");
         $success = $this->get_connection()->query($sql) === TRUE;
       } else {
         $success = false;
