@@ -325,6 +325,9 @@
       $query_success = false;
 
       if($this->validate_registration_form()) {
+
+        write_to_console("$_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']");
+
         $registration_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
 
         $this->add_body('<div class="row">');
@@ -395,6 +398,17 @@
       }
       return !$something_missing;
     }
+
+    private function write_to_console($data)
+    {
+      if ( is_array( $data ) ) {
+        $output = "<script>console.log('Debug Objects: " . implode(',', $data) . "');</script>";
+      } else {
+        $output = "<script>console.log('Debug Objects: $data');</script>";
+      }
+      echo $output;
+    }
+
   }
 
   /**
