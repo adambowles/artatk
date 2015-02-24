@@ -1,5 +1,6 @@
-function validate_form()
+function validate_form(form)
 {
+  form = $(form);
   var fail_count = 0;
 
   var field_is_valid;
@@ -17,7 +18,7 @@ function validate_form()
 
         if(!field_is_valid) {
           fail_count++;
-          $(this).parent().addClass('has-error has-feedback');
+          $(this).parent().addClass('has-error');
         } else {
           $(this).parent().removeClass('has-error');
         }
@@ -32,7 +33,7 @@ function validate_input(value, as)
 {
   // email address
   if(as == 'email') {
-    email_regex = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+    var email_regex = /^[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
     return email_regex.test(value);
   }
 
@@ -42,8 +43,6 @@ function validate_input(value, as)
 
     if(value.length < 8) {
       return false; // Password absolutely cannot be less than 8 chars long
-    } else {
-      matching_rules++;
     }
 
     /[a-z]/.test(value) ? matching_rules++ : null; // Password contains lower case
