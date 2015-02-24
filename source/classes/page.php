@@ -322,11 +322,16 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $query_success = false;
-
       if($this->validate_registration_form()) {
 
-        $registration_success = $this->get_database_controller()->create_user($_POST['username'], $_POST['email'], "lalalala", $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
+        $registration_success = $this->get_database_controller()->create_user($_POST['username'],
+                                                                              $_POST['email'],
+                                                                              sha1($_POST['email']),
+                                                                              $_POST['firstname'],
+                                                                              $_POST['surname'],
+                                                                              password_hash($_POST['password'], PASSWORD_DEFAULT),
+                                                                              $_POST['password_hint'],
+                                                                              $_SERVER['REMOTE_ADDR']);
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
