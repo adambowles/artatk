@@ -49,7 +49,7 @@ function validate_input(value, as)
     /\d/.test(value) ? matching_rules++ : null; // Password contains number
     /\W/.test(value) ? matching_rules++ : null; // Password contains special character
 
-    return matching_rules >= 3; // Password must match at least 3 rules
+    return matching_rules >= 2; // Password must match at least 2 rules
   }
 
   // Numerical value
