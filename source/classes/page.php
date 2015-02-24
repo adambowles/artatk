@@ -330,6 +330,7 @@
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
+
         if($registration_success) {
           $this->add_body('<h3>Account created!</h3>');
           $this->add_body('<p class="lead"><a href="/login.php">Log in</a></p>');
@@ -337,6 +338,7 @@
           $this->add_body('<h3>There was an error :(</h3>');
           $this->add_body('<p class="lead"><a href="/register.php">Back to registration form</a></p>');
         }
+
         $this->add_body('  </div>');
         $this->add_body('</div>');
       } else {
@@ -381,6 +383,8 @@
 
                           <button type="submit" class="btn btn-default">Submit</button>
                         </form>');
+
+        $this->add_body('<p class="lead">Already have an account? <a href="/login.php">Log in</a></p>');
 
         $this->add_body("  </div>");
         $this->add_body("</div>");
