@@ -394,8 +394,7 @@
         $this->add_body("  </div>");
         $this->add_body("</div>");
 
-        $this->add_extra_script($this->get_asset_controller()->get_specific_js("register/register.js"));
-        $this->add_extra_script($this->get_asset_controller()->get_formvalidator_js());
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/register/register.js'));
       }
 
     }
