@@ -1,27 +1,22 @@
-// Add an onblur event handler to each field to trigger a validation
 var valid;
 $('#registration-form').find(':input').each(function() {
-  $(this).on('blur', function(){
+  $(this).on({
+    blur:function(){ // Add an onblur event handler to each field to trigger a validation
 
-    valid = validate_input($(this).val(), $(this).attr('type'));
+      valid = validate_input($(this).val(), $(this).attr('type'));
 
-    if(valid) {
-      $(this).parent().removeClass('has-error');
-    } else {
-      $(this).parent().addClass('has-error');
-    }
-
-  });
-});
-
-// Add an onkeyup event handler to each field to clear its error state
-$('#registration-form').find(':input').each(function() {
-  $(this).on('keydown', function(){
-
-      if ($(this).parent().hasClass('has-error')) {
+      if(valid) {
         $(this).parent().removeClass('has-error');
+      } else {
+        $(this).parent().addClass('has-error');
       }
 
+    },
+    keydown:function(){ // Add an onkeyup event handler to each field to clear its error state
+
+      $(this).parent().removeClass('has-error');
+
+    }
   });
 });
 
