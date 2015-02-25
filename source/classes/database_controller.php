@@ -174,7 +174,7 @@
     }
 
     /**
-     * Delete user by user id
+     * Delete user by username
      *
      * @param $username Username of the user to delete
      */
@@ -186,6 +186,24 @@
       $success = $this->execute($sql, 'write');
 
       return $success;
+    }
+
+    /**
+     * Check whether a username is already already in the database
+     * NB THIS IS PSEUDOCODE
+     *
+     * @param $username Username of the user to find
+     * 
+     * @return True if the username is taken false if it is not
+     */
+    public function username_taken($username)
+    {
+      $username = $this->sanitise($username);
+
+      $sql = "CALL `GET_USER_BY_USERNAME` ('$username');";
+      $records = $this->execute($sql, 'read');
+
+      return $recods->count > 0;//TODO refactor the execute() to return read records
     }
 
     /**
