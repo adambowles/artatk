@@ -366,6 +366,10 @@
                                                                               $_POST['password_hint'],
                                                                               $_SERVER['REMOTE_ADDR']);
 
+        $this->check_recaptcha();
+
+//        if
+
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
 
@@ -415,7 +419,7 @@
                             <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required data-error="">
                           </div>
 
-                          <div class="form-group">' .
+                          <div id="recaptcha-parent" class="form-group">' .
                             $this->get_asset_controller()->get_recaptcha_div() .
                           '</div>
 
@@ -444,6 +448,37 @@
       }
       return !$something_missing;
     }
+
+    /**
+     * See model implementation: https://github.com/google/ReCAPTCHA
+     */
+    private function check_recaptcha()
+    {
+      include(ROOT_DIRECTORY . 'source/classes/recaptchalib.php');
+
+      $siteKey = recaptcha_site_key;
+      $secret = recaptcha_secret;
+      // reCAPTCHA supported 40+ languages listed here: https://developers.google.com/recaptcha/docs/language
+      $lang = "en";
+      // The response from reCAPTCHA
+      $resp = null;
+      // The error code from reCAPTCHA, if any
+      $error = null;
+      $reCaptcha = new ReCaptcha($secret);
+      // Was there a reCAPTCHA response?
+      if ($_POST["g-recaptcha-response"]) {
+        $resp = $reCaptcha->verifyResponse(
+            $_SERVER["REMOTE_ADDR"],
+            $_POST["g-recaptcha-response"]
+        );
+        if($resp != null && $resp->success) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
   }
 
   /**
