@@ -39,6 +39,7 @@
   define('database_read_user', '');
   define('database_read_password', '');
 
+
   // Whether new user accounts need to verify their email address
   define('emails_require_verification', false);
 
