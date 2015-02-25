@@ -103,7 +103,6 @@
      */
     public function get_specific_asset($path_to_file)
     {
-      $file_type = $this->file_type($path_to_file);
       return $this->construct_link($this->local_absolute_to_public_url(ROOT_DIRECTORY . "web/assets/$path_to_file"));
     }
 
