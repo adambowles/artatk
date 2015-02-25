@@ -436,7 +436,7 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                       </form>');
 
-      $this->add_body('<p class="lead">Need an account? <a href="/regiser.php">Regsiter</a></p>');
+      $this->add_body('<p class="lead">Need an account? <a href="/register.php">Register</a></p>');
 
       $this->add_body(  '</div>');
       $this->add_body('</div>');
