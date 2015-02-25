@@ -143,14 +143,14 @@
                                 $password, $password_hint,
                                 $ip_address)
     {
-      $username = $this->sanitise($username);
-      $email_address = $this->sanitise($email_address);
+                  $username = $this->sanitise($username);
+             $email_address = $this->sanitise($email_address);
       $email_validate_token = $this->sanitise($email_validate_token);
-      $firstname = $this->sanitise($firstname);
-      $surname = $this->sanitise($surname);
-      $password = $this->sanitise($password);
-      $password_hint = $this->sanitise($password_hint);
-      $ip_address = $this->sanitise($ip_address);
+                 $firstname = $this->sanitise($firstname);
+                   $surname = $this->sanitise($surname);
+                  $password = $this->sanitise($password);
+             $password_hint = $this->sanitise($password_hint);
+                $ip_address = $this->sanitise($ip_address);
 
       $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', '$ip_address');";
       $success = $this->execute($sql, 'write');
