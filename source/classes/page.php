@@ -328,8 +328,8 @@
 
       // Demo content
       $this->add_body('<div class="starter-template">');
-      $this->add_body('<h2>Rate some art</h2>');
-      $this->add_body('<p class="lead">image here</p>');
+      $this->add_body($this->get_parsedown()->text('##Rate'));
+      $this->add_body($this->get_parsedown()->text('image here'));
       $this->add_body('</div>');
     }
   }
