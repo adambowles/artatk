@@ -456,9 +456,10 @@
       $this->set_title('Page not found');
 
       $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      // $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('<h2>404: not found, sorry! :(</h2>');
+      $this->add_body('<h2>Error 404: resource not found, sorry! :(</h2>');
       $this->add_body('<h3><a href="/">Home page</a></h3>');
 
       $this->add_body(  '</div>');
