@@ -88,7 +88,7 @@
      *
      * @param $data The data to be sanitised
      *
-     * @return  Sanitised string data, null if the mysql connection hasn't been created yet
+     * @return Sanitised string data, null if the mysql connection hasn't been created yet (do not keep unsantised user entered data ever)
      */
     private function sanitise($data)
     {
@@ -102,9 +102,9 @@
     /**
      * Execute an SQL statement
      *
-     * @param $sql  The SQL to be executed
+     * @param $sqlThe SQL to be executed
      *
-     * @return  True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
+     * @returnTrue if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
      */
     private function execute($sql, $permission)
     {
