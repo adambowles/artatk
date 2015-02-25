@@ -1,29 +1,19 @@
 $('#registration-form').find(':input').each(function() {
   $(this).on({
     blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
-
       var valid = validate_input($(this).val(), $(this).attr('type'));
 
       if(valid) {
-        $(this).parent().removeClass('has-error');
+        remove_error($(this));
       } else {
-        $(this).parent().addClass('has-error');
+        add_error($(this));
       }
-
     },
     keyup: function(){ // Add a keyup event handler to each field to clear its error state
-
-      if($(this).parent().hasClass('has-error')) {
-        $(this).parent().removeClass('has-error');
-      }
-
+      remove_error($(this));
     },
     focus: function(){ // Add a focus event handler to each field to clear its error state
-
-      if($(this).parent().hasClass('has-error')) {
-        $(this).parent().removeClass('has-error');
-      }
-
+      remove_error($(this));
     }
   });
 });
@@ -46,9 +36,9 @@ function validate_form(form)
 
       if(!field_is_valid) {
         fail_count++;
-        $(this).parent().addClass('has-error');
+        add_error($(this));
       } else {
-        $(this).parent().removeClass('has-error');
+        remove_error($(this));
       }
     }
 
@@ -58,6 +48,11 @@ function validate_form(form)
 
 function validate_input(value, as)
 {
+  // username
+  if(as == 'username') {
+    return value.length >= 6;
+  }
+
   // email address
   if(as == 'email') {
     var email_regex = /^[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
@@ -87,4 +82,18 @@ function validate_input(value, as)
 
   // All other cases test value as string
   return "" + value.length > 0;
+}
+
+function add_error(field)
+{
+  $(field).parent().addClass('has-error');
+  $(field).parent().append('<p class="text-danger">' + field.attr('data-error') + '</p>');
+}
+
+function remove_error(field)
+{
+  if($(field).parent().hasClass('has-error')) {
+    $(field).parent().removeClass('has-error');
+  }
+  $(field).parent().find('p').remove();
 }
