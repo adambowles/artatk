@@ -1,6 +1,6 @@
 $('#registration-form').find(':input').each(function() {
   $(this).on({
-    blur: function(){ // Add an onblur event handler to each field to trigger a validation
+    blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
 
       var valid = validate_input($(this).val(), $(this).attr('type'));
 
@@ -11,7 +11,14 @@ $('#registration-form').find(':input').each(function() {
       }
 
     },
-    keyup: function(){ // Add an onkeyup event handler to each field to clear its error state
+    keyup: function(){ // Add a keyup event handler to each field to clear its error state
+
+      if($(this).parent().hasClass('has-error')) {
+        $(this).parent().removeClass('has-error');
+      }
+
+    },
+    focus: function(){ // Add a focus event handler to each field to clear its error state
 
       if($(this).parent().hasClass('has-error')) {
         $(this).parent().removeClass('has-error');
