@@ -163,7 +163,7 @@
      */
     public function file_type($file)
     {
-     return pathinfo($file, PATHINFO_EXTENSION);
+      return pathinfo($file, PATHINFO_EXTENSION);
     }
 
     /**
