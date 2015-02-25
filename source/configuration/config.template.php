@@ -50,4 +50,7 @@
   define('CSS_DIRECTORY', 'web/assets/css/');
   define('JS_DIRECTORY', 'web/assets/js/');
 
+  define('recaptcha_site_key', '');
+  define('recaptcha_secret', '');
+
 ?>
