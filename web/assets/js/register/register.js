@@ -14,7 +14,9 @@ $('#registration-form').find(':input').each(function() {
     },
     keyup: function(){ // Add an onkeyup event handler to each field to clear its error state
 
-      $(this).parent().removeClass('has-error');
+      if($(this).parent().hasClass('has-error')) {
+        $(this).parent().removeClass('has-error');
+      }
 
     }
   });
