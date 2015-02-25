@@ -193,7 +193,7 @@
      * NB THIS IS PSEUDOCODE
      *
      * @param $username Username of the user to find
-     * 
+     *
      * @return True if the username is taken false if it is not
      */
     public function username_taken($username)
