@@ -1,3 +1,4 @@
+// Add an onblur event handler to each field to trigger a validation
 var valid;
 $('#registration-form').find(':input').each(function() {
   $(this).on('blur', function(){
@@ -13,10 +14,13 @@ $('#registration-form').find(':input').each(function() {
   });
 });
 
+// Add an onkeyup event handler to each field to clear its error state
 $('#registration-form').find(':input').each(function() {
   $(this).on('keydown', function(){
 
-      $(this).parent().removeClass('has-error');
+      if ($(this).parent().hasClass('has-error')) {
+        $(this).parent().removeClass('has-error');
+      }
 
   });
 });
