@@ -3,9 +3,9 @@ $('#registration-form').find(':input').each(function() {
     blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
       var valid = validate_input($(this).val(), $(this).attr('type'));
 
-      if(valid) {
-        remove_error($(this));
-      } else {
+      remove_error($(this));
+
+      if(!valid) {
         add_error($(this));
       }
     },
@@ -20,6 +20,7 @@ $('#registration-form').find(':input').each(function() {
 
 function validate_form(form)
 {
+
   var fail_count = 0;
 
   var field_is_valid;
@@ -43,6 +44,13 @@ function validate_form(form)
     }
 
   });
+
+  // firstly, regardless of errors, check the user filled in the reCAPTCHA
+  if(grecaptcha.getResponse() == '') {
+    // ask the user to do reCPATCHA
+    return false;
+  }
+
   return fail_count == 0; // return form valid if no fails occurred
 }
 
@@ -87,7 +95,11 @@ function validate_input(value, as)
 function add_error(field)
 {
   $(field).parent().addClass('has-error');
-  $(field).parent().append('<p class="text-danger">' + field.attr('data-error') + '</p>');
+  if($(field).attr('data-error') != '') {
+    $(field).parent().append('<p class="text-danger">' + $(field).attr('data-error') + '</p>');
+  } else {
+    $(field).parent().append('<p class="text-danger">' + 'Field cannot be empty' + '</p>');
+  }
 }
 
 function remove_error(field)
@@ -95,5 +107,6 @@ function remove_error(field)
   if($(field).parent().hasClass('has-error')) {
     $(field).parent().removeClass('has-error');
   }
+
   $(field).parent().find('p').remove();
 }
