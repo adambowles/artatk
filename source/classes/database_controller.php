@@ -195,7 +195,7 @@
     {
       if($this->is_connected()) {
         $this->get_connection()->close();
-        //$this->get_connection() = null;
+        $this->get_connection() = null;
       }
     }
 
