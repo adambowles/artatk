@@ -35,11 +35,11 @@ function validate_form(form)
     if(!(type == 'submit' | type == undefined)) { // don't validate the submit button or the reCAPTCHA
       field_is_valid = validate_input(value, type);
 
+      remove_error($(this));
+
       if(!field_is_valid) {
         fail_count++;
         add_error($(this));
-      } else {
-        remove_error($(this));
       }
     }
 
@@ -77,8 +77,8 @@ function validate_input(value, as)
 
     /[a-z]/.test(value) ? matching_rules++ : null; // Password contains lower case
     /[A-Z]/.test(value) ? matching_rules++ : null; // Password contains upper case
-    /\d/.test(value) ? matching_rules++ : null; // Password contains number
-    /\W/.test(value) ? matching_rules++ : null; // Password contains special character
+       /\d/.test(value) ? matching_rules++ : null; // Password contains number
+       /\W/.test(value) ? matching_rules++ : null; // Password contains special character
 
     return matching_rules >= 2; // Password must match at least 2 rules
   }
@@ -108,5 +108,7 @@ function remove_error(field)
     $(field).parent().removeClass('has-error');
   }
 
-  $(field).parent().find('p').remove();
+  $(field).siblings('p').each(function(){
+    $(this).remove();
+  });
 }
