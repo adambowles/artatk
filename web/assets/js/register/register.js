@@ -6,25 +6,23 @@ function validate_form(form)
   var value;
   var type;
 
-  $(form).find(':input').each(
-    function() {
+  $(form).find(':input').each(function() {
 
-      value = $(this).val();
-      type = $(this).attr('type');
+    value = $(this).val();
+    type = $(this).attr('type');
 
-      if(!(type == 'submit' | type == undefined)) { // don't validate the submit button or the reCAPTCHA
-        field_is_valid = validate_input(value, type);
+    if(!(type == 'submit' | type == undefined)) { // don't validate the submit button or the reCAPTCHA
+      field_is_valid = validate_input(value, type);
 
-        if(!field_is_valid) {
-          fail_count++;
-          $(this).parent().addClass('has-error');
-        } else {
-          $(this).parent().removeClass('has-error');
-        }
+      if(!field_is_valid) {
+        fail_count++;
+        $(this).parent().addClass('has-error');
+      } else {
+        $(this).parent().removeClass('has-error');
       }
-
     }
-  );
+
+  });
   return fail_count == 0; // return form valid if no fails occurred
 }
 
