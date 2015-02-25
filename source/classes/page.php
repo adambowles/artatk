@@ -387,32 +387,32 @@
         $this->add_body('<form action="/register.php" method="POST" onsubmit="return validate_form(this)" id="registration-form">
                           <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                            <input type="username" class="form-control" id="username" name="username" placeholder="Username" required data-error="Username too short (minimum length 6 characters)">
                           </div>
 
                           <div class="form-group">
                             <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required data-error="Invalid email">
                           </div>
 
                           <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required data-error="Password must be 8 characters long and contain 2 of the following: uppercase letters, lowercase letter, numbers, symbols">
                           </div>
 
                           <div class="form-group">
                             <label for="password_hint">Password reminder</label>
-                            <input type="text" class="form-control" id="password_hint" name="password_hint" placeholder="The name of my first pet, place I grew up, ..." required>
+                            <input type="text" class="form-control" id="password_hint" name="password_hint" placeholder="The name of my first pet, place I grew up, ..." required data-error="">
                           </div>
 
                           <div class="form-group">
                             <label for="firstname">First name</label>
-                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" required>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" required data-error="">
                           </div>
 
                           <div class="form-group">
                             <label for="surname">Surname</label>
-                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required data-error="">
                           </div>
 
                           <div class="form-group">' .
