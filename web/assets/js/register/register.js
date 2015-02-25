@@ -1,3 +1,18 @@
+var valid;
+$('#registration-form').find(':input').each(function() {
+  $(this).on('blur', function(){
+
+    valid = validate_input($(this).val(), $(this).attr('type'));
+
+    if(valid) {
+      $(this).parent().removeClass('has-error');
+    } else {
+      $(this).parent().addClass('has-error');
+    }
+
+  });
+});
+
 function validate_form(form)
 {
   var fail_count = 0;
