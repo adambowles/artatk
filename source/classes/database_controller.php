@@ -102,9 +102,9 @@
     /**
      * Execute an SQL statement
      *
-     * @param $sqlThe SQL to be executed
+     * @param $sql The SQL to be executed
      *
-     * @returnTrue if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
+     * @return True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
      */
     private function execute($sql, $permission)
     {
