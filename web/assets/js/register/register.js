@@ -1,9 +1,8 @@
-var valid;
 $('#registration-form').find(':input').each(function() {
   $(this).on({
     blur: function(){ // Add an onblur event handler to each field to trigger a validation
 
-      valid = validate_input($(this).val(), $(this).attr('type'));
+      var valid = validate_input($(this).val(), $(this).attr('type'));
 
       if(valid) {
         $(this).parent().removeClass('has-error');
