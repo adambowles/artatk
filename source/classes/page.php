@@ -312,7 +312,7 @@
       // Demo content
       $this->add_body('<div class="starter-template">');
       $this->add_body('<h2>ArtAtk, art aesthetic analyser</h2>');
-      $this->add_body($this->get_parsedown()->text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.'));
+      $this->add_body('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.');
       $this->add_body('</div>');
     }
   }
@@ -328,8 +328,8 @@
 
       // Demo content
       $this->add_body('<div class="starter-template">');
-      $this->add_body($this->get_parsedown()->text('##Rate'));
-      $this->add_body($this->get_parsedown()->text('image here'));
+      $this->add_body('##Rate');
+      $this->add_body('image here');
       $this->add_body('</div>');
     }
   }
@@ -422,7 +422,7 @@
                           <button type="submit" class="btn btn-default">Submit</button>
                         </form>');
 
-        $this->add_body($this->get_parsedown()->text('Already have an account? [Log in here](/login.php)'));
+        $this->add_body('Already have an account? [Log in here](/login.php)');
 
         $this->add_body("  </div>");
         $this->add_body("</div>");
@@ -470,7 +470,7 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                       </form>');
 
-      $this->add_body($this->get_parsedown()->text('Need an account? [Register here](/register.php)'));
+      $this->add_body('Need an account? [Register here](/register.php)');
 
       $this->add_body(  '</div>');
       $this->add_body('</div>');
