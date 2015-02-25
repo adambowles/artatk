@@ -366,14 +366,12 @@
                                                                               $_POST['password_hint'],
                                                                               $_SERVER['REMOTE_ADDR']);
 
-        $this->check_recaptcha();
-
-//        if
+        $human = $this->check_recaptcha();
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
 
-        if($registration_success) {
+        if($registration_success && $human) {
           $this->add_body('<h3>Account created!</h3>');
           $this->add_body('<p class="lead"><a href="/login.php">Log in</a></p>');
         } else {
