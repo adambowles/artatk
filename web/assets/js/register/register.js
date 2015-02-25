@@ -13,6 +13,14 @@ $('#registration-form').find(':input').each(function() {
   });
 });
 
+$('#registration-form').find(':input').each(function() {
+  $(this).on('keydown', function(){
+
+      $(this).parent().removeClass('has-error');
+
+  });
+});
+
 function validate_form(form)
 {
   var fail_count = 0;
