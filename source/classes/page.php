@@ -227,7 +227,7 @@
      */
     public function add_body($content)
     {
-      $this->body = $this->body . $content;
+      $this->body = $this->body . $this->get_parsedown()->text($content);
     }
 
     /**
