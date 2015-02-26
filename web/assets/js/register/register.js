@@ -20,7 +20,6 @@ $('#registration-form').find(':input').each(function() {
 
 function validate_form(form)
 {
-
   var fail_count = 0;
 
   var field_is_valid;
