@@ -39,6 +39,7 @@
   define('database_read_user', '');
   define('database_read_password', '');
 
+
   // Whether new user accounts need to verify their email address
   define('emails_require_verification', false);
 
@@ -48,5 +49,8 @@
 
   define('CSS_DIRECTORY', 'web/assets/css/');
   define('JS_DIRECTORY', 'web/assets/js/');
+
+  define('recaptcha_site_key', '');
+  define('recaptcha_secret', '');
 
 ?>

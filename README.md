@@ -1,11 +1,8 @@
 ##ArtAtk!
 
-The goal of this web app is to allow a user to provide their opinions
-and tastes in paintings, and have the website learn and provide
-recommendations based on this.
+The goal of this web app is to allow a user to provide their opinions and tastes in paintings, and have the website learn and provide recommendations based on this.
 
----
-
+<!---
 Copyright 2015 Adam Bowles
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,3 +16,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+-->

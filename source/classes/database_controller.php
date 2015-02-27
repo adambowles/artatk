@@ -88,7 +88,7 @@
      *
      * @param $data The data to be sanitised
      *
-     * @return  Sanitised string data, null if the mysql connection hasn't been created yet
+     * @return Sanitised string data, null if the mysql connection hasn't been created yet (do not keep unsantised user entered data ever)
      */
     private function sanitise($data)
     {
@@ -102,9 +102,9 @@
     /**
      * Execute an SQL statement
      *
-     * @param $sql  The SQL to be executed
+     * @param $sql The SQL to be executed
      *
-     * @return  True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
+     * @return True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
      */
     private function execute($sql, $permission)
     {
@@ -143,14 +143,14 @@
                                 $password, $password_hint,
                                 $ip_address)
     {
-      $username = $this->sanitise($username);
-      $email_address = $this->sanitise($email_address);
+                  $username = $this->sanitise($username);
+             $email_address = $this->sanitise($email_address);
       $email_validate_token = $this->sanitise($email_validate_token);
-      $firstname = $this->sanitise($firstname);
-      $surname = $this->sanitise($surname);
-      $password = $this->sanitise($password);
-      $password_hint = $this->sanitise($password_hint);
-      $ip_address = $this->sanitise($ip_address);
+                 $firstname = $this->sanitise($firstname);
+                   $surname = $this->sanitise($surname);
+                  $password = $this->sanitise($password);
+             $password_hint = $this->sanitise($password_hint);
+                $ip_address = $this->sanitise($ip_address);
 
       $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', '$ip_address');";
       $success = $this->execute($sql, 'write');
@@ -174,7 +174,7 @@
     }
 
     /**
-     * Delete user by user id
+     * Delete user by username
      *
      * @param $username Username of the user to delete
      */
@@ -189,13 +189,31 @@
     }
 
     /**
+     * Check whether a username is already already in the database
+     * NB THIS IS PSEUDOCODE
+     *
+     * @param $username Username of the user to find
+     *
+     * @return True if the username is taken false if it is not
+     */
+    public function username_taken($username)
+    {
+      $username = $this->sanitise($username);
+
+      $sql = "CALL `GET_USER_BY_USERNAME` ('$username');";
+      $records = $this->execute($sql, 'read');
+
+      return $recods->count > 0;//TODO refactor the execute() to return read records
+    }
+
+    /**
      * Close the connection and set it to null
      */
     private function disconnect()
     {
       if($this->is_connected()) {
         $this->get_connection()->close();
-        //$this->get_connection() = null;
+        $this->set_connection(null);
       }
     }
 

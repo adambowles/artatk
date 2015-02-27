@@ -8,7 +8,8 @@
 
     // Some funcationality controllers
     private $asset_controller;
-    private $database_controller;
+    private $user; // Person who is logged in
+    private $parsedown;
 
     // Strings of page content, append whatever you like in order to add it to the page
     // (hint: use the add_header()/add_body()/add_footer() funcs)
@@ -26,12 +27,14 @@
      */
     public function __construct()
     {
+      include(ROOT_DIRECTORY . "source/classes/user.php");
+      $this->set_user(new user());
+
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
-      include(ROOT_DIRECTORY . "source/classes/database_controller.php");
+      $this->set_asset_controller(new html_asset_controller());
 
-      $this->asset_controller = new html_asset_controller();
-
-      $this->database_controller = new database_controller();
+      include(ROOT_DIRECTORY . "source/libraries/parsedown.php");
+      $this->set_parsedown(new Parsedown());
     }
 
     /**
@@ -56,6 +59,22 @@
     /**
      *
      */
+    public function get_user()
+    {
+      return $this->user;
+    }
+
+    /**
+     *
+     */
+    public function set_user($new_user)
+    {
+      return $this->user = $new_user;
+    }
+
+    /**
+     *
+     */
     public function get_asset_controller()
     {
       return $this->asset_controller;
@@ -64,9 +83,25 @@
     /**
      *
      */
-    public function get_database_controller()
+    public function set_asset_controller($new_asset_controller)
     {
-      return $this->database_controller;
+      return $this->asset_controller = $new_asset_controller;
+    }
+
+    /**
+     *
+     */
+    public function get_parsedown()
+    {
+      return $this->parsedown;
+    }
+
+    /**
+     *
+     */
+    public function set_parsedown($new_parsedown)
+    {
+      return $this->parsedown = $new_parsedown;
     }
 
     /**
@@ -126,7 +161,6 @@
                             </div>
                             <div id="navbar" class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
-                                <li id="home" class="activeX"><a href="/"><i class="fa fa-home"></i></a></li>
                                 <li><a href="/rate.php"><i class="fa fa-star-half-o"></i> Rate</a></li>
                                 <li><a href="/recommendation.php"><i class="fa fa-photo"></i> Get your recommendation</a></li>
                               </ul>' .
@@ -194,7 +228,7 @@
      */
     public function add_body($content)
     {
-      $this->body = $this->body . $content;
+      $this->body = $this->body . $this->get_parsedown()->text($content);
     }
 
     /**
@@ -272,14 +306,14 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->get_database_controller()->connect_read();
+      $this->get_user()->connect_read();
 //      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
 //      $this->get_database_controller()->delete_user_by_username('bowlesa'); //TODO test remove this later
 
       // Demo content
       $this->add_body('<div class="starter-template">');
-      $this->add_body('  <h2>ArtAtk, art aesthetic analyser</h2>');
-      $this->add_body('  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.</p>');
+      $this->add_body('##ArtAtk, art aesthetic analyser');
+      $this->add_body('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.');
       $this->add_body('</div>');
     }
   }
@@ -295,8 +329,8 @@
 
       // Demo content
       $this->add_body('<div class="starter-template">');
-      $this->add_body('  <h2>Rate some art</h2>');
-      $this->add_body('  <p class="lead">image here</p>');
+      $this->add_body('##Rate');
+      $this->add_body('image here');
       $this->add_body('</div>');
     }
   }
@@ -324,24 +358,27 @@
 
       if($this->validate_registration_form()) {
 
-        $registration_success = $this->get_database_controller()->create_user($_POST['username'],
-                                                                              $_POST['email'],
-                                                                              sha1($_POST['email']),
-                                                                              $_POST['firstname'],
-                                                                              $_POST['surname'],
-                                                                              password_hash($_POST['password'], PASSWORD_DEFAULT),
-                                                                              $_POST['password_hint'],
-                                                                              $_SERVER['REMOTE_ADDR']);
+        $registration_success = $this->get_user()->register();
+//        $registration_success = $this->get_database_controller()->create_user($_POST['username'],
+//                                                                              $_POST['email'],
+//                                                                              sha1($_POST['email']),
+//                                                                              $_POST['firstname'],
+//                                                                              $_POST['surname'],
+//                                                                              password_hash($_POST['password'], PASSWORD_DEFAULT),
+//                                                                              $_POST['password_hint'],
+//                                                                              $_SERVER['REMOTE_ADDR']);
+
+        $is_human = $this->check_recaptcha();
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
 
-        if($registration_success) {
-          $this->add_body('<h3>Account created!</h3>');
-          $this->add_body('<p class="lead"><a href="/login.php">Log in</a></p>');
+        if($registration_success && $is_human) {
+          $this->add_body('##Account created!');
+          $this->add_body('[Log in](/login.php)');
         } else {
-          $this->add_body('<h3>There was an error :(</h3>');
-          $this->add_body('<p class="lead"><a href="/register.php">Back to registration form</a></p>');
+          $this->add_body('##There was an error :(');
+          $this->add_body('[Back to registration form](/register.php)');
         }
 
         $this->add_body('  </div>');
@@ -354,55 +391,54 @@
         $this->add_body('<form action="/register.php" method="POST" onsubmit="return validate_form(this)" id="registration-form">
                           <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                            <input type="username" class="form-control" id="username" name="username" placeholder="Username" required data-error="Username too short (minimum length 6 characters)">
                           </div>
 
                           <div class="form-group">
                             <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required data-error="Invalid email">
                           </div>
 
                           <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required data-error="Password must be 8 characters long and contain 2 of the following: uppercase letters, lowercase letter, numbers, symbols">
                           </div>
 
                           <div class="form-group">
                             <label for="password_hint">Password reminder</label>
-                            <input type="text" class="form-control" id="password_hint" name="password_hint" placeholder="The name of my first pet, place I grew up, ...">
+                            <input type="text" class="form-control" id="password_hint" name="password_hint" placeholder="The name of my first pet, place I grew up, ..." required data-error="">
                           </div>
 
                           <div class="form-group">
                             <label for="firstname">First name</label>
-                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name">
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" required data-error="">
                           </div>
 
                           <div class="form-group">
                             <label for="surname">Surname</label>
-                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname">
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required data-error="">
                           </div>
 
-                          <div class="form-group">' .
+                          <div id="recaptcha-parent" class="form-group">' .
                             $this->get_asset_controller()->get_recaptcha_div() .
                           '</div>
 
                           <button type="submit" class="btn btn-default">Submit</button>
                         </form>');
 
-        $this->add_body('<p class="lead">Already have an account? <a href="/login.php">Log in</a></p>');
+        $this->add_body('Already have an account? [Log in here](/login.php)');
 
         $this->add_body("  </div>");
         $this->add_body("</div>");
 
-        $this->add_extra_script($this->get_asset_controller()->get_specific_js("register/register.js"));
-        $this->add_extra_script($this->get_asset_controller()->get_formvalidator_js());
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/register/register.js'));
       }
 
     }
 
     private function validate_registration_form()
     {
-      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint"); //TODO full list as per database_controller->create_user()
+      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint");
       $something_missing = false;
 
       foreach($required_keys as $key) {
@@ -412,6 +448,37 @@
       }
       return !$something_missing;
     }
+
+    /**
+     * See model implementation: https://github.com/google/ReCAPTCHA
+     */
+    private function check_recaptcha()
+    {
+      include(ROOT_DIRECTORY . 'source/libraries/recaptchalib.php');
+
+      $siteKey = recaptcha_site_key;
+      $secret = recaptcha_secret;
+      // reCAPTCHA supported 40+ languages listed here: https://developers.google.com/recaptcha/docs/language
+      $lang = "en";
+      // The response from reCAPTCHA
+      $resp = null;
+      // The error code from reCAPTCHA, if any
+      $error = null;
+      $reCaptcha = new ReCaptcha($secret);
+      // Was there a reCAPTCHA response?
+      if ($_POST["g-recaptcha-response"]) {
+        $resp = $reCaptcha->verifyResponse(
+            $_SERVER["REMOTE_ADDR"],
+            $_POST["g-recaptcha-response"]
+        );
+        if($resp != null && $resp->success) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
   }
 
   /**
@@ -428,17 +495,17 @@
 
       $this->add_body('<form>
                         <div class="form-group">
-                          <label for="exampleInputEmail1">Email address</label>
-                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                          <label for="username">Username</label>
+                          <input type="text" class="form-control" id="username" placeholder="Username">
                         </div>
                         <div class="form-group">
-                          <label for="exampleInputPassword1">Password</label>
-                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" id="password" placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" class="btn btn-default">Log in</button>
                       </form>');
 
-      $this->add_body('<p class="lead">Need an account? <a href="/regiser.php">Regsiter</a></p>');
+      $this->add_body('Need an account? [Register here](/register.php)');
 
       $this->add_body(  '</div>');
       $this->add_body('</div>');
@@ -458,9 +525,10 @@
       $this->set_title('Page not found');
 
       $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      // $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('<h2>404: not found, sorry! :(</h2>');
+      $this->add_body('<h2>Error 404: resource not found, sorry! :(</h2>');
       $this->add_body('<h3><a href="/">Home page</a></h3>');
 
       $this->add_body(  '</div>');
