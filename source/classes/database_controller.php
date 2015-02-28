@@ -151,6 +151,34 @@
     /**
      * Create a user account
      *
+     * @param $token
+
+     * @return ID of record inserted
+     */
+    public function verify_email_address($token)
+    {
+      $token = $this->sanitise($token);
+
+      $sql = "UPDATE `artatk_user` SET `email_validated`=1 WHERE `email_validate_token` = $token";
+
+      $this->connect_write();
+
+      try {
+        $statement = $this->get_connection()->prepare($sql);
+        $statement->execute();
+      } catch(PDOException $e) {
+        $this->connect_read();
+        return false;
+      }
+
+      $this->connect_read();
+
+      return true;
+    }
+
+    /**
+     * Create a user account
+     *
      * @param $user_id ID to fetch by
 
      * @return Record associative array
