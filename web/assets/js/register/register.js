@@ -1,19 +1,24 @@
-$('#registration-form').find(':input').each(function() {
+$('#registration-form :input').each(function() {
   $(this).on({
     blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
-      var valid = validate_input($(this).val(), $(this).attr('type'));
 
       remove_error($(this));
 
+      var valid = validate_input($(this).val(), $(this).attr('type'));
       if(!valid) {
         add_error($(this));
       }
+
     },
     keyup: function(){ // Add a keyup event handler to each field to clear its error state
+
       remove_error($(this));
+
     },
     focus: function(){ // Add a focus event handler to each field to clear its error state
+
       remove_error($(this));
+
     }
   });
 });
@@ -32,11 +37,14 @@ function validate_form(form)
     value = $(this).val();
     type = $(this).attr('type');
 
-    if(!(type == 'submit' | type == undefined)) { // don't validate the submit button or the reCAPTCHA
-      field_is_valid = validate_input(value, type);
+    // Types of field that can be validated
+    var valid_type = (type == 'username' || type == 'email' || type == 'password' || type == 'number' || type == 'text');
+    var field_needs_validating = $(this).attr('required'); // Field designated as required
+    if(field_needs_validating && valid_type) { // Only validate fields that make sense
 
       remove_error($(this));
 
+      field_is_valid = validate_input(value, type);
       if(!field_is_valid) {
         fail_count++;
         add_error($(this));
@@ -94,21 +102,25 @@ function validate_input(value, as)
 
 function add_error(field)
 {
-  $(field).parent().addClass('has-error');
-  if($(field).attr('data-error') != '') {
-    $(field).parent().append('<p class="text-danger">' + $(field).attr('data-error') + '</p>');
+  field = $(field); // Ensure it is a jQuery object
+
+  field.parent().addClass('has-error');
+  if(field.attr('data-error') != '') {
+    field.parent().append('<p class="text-danger">' + field.attr('data-error') + '</p>');
   } else {
-    $(field).parent().append('<p class="text-danger">' + 'Field cannot be empty' + '</p>');
+    field.parent().append('<p class="text-danger">' + 'Field cannot be empty' + '</p>');
   }
 }
 
 function remove_error(field)
 {
-  if($(field).parent().hasClass('has-error')) {
-    $(field).parent().removeClass('has-error');
+  field = $(field); // Ensure it is a jQuery object
+
+  if(field.parent().hasClass('has-error')) {
+    field.parent().removeClass('has-error');
   }
 
-  $(field).siblings('p').each(function(){
+  field.siblings('p').each(function(){
     $(this).remove();
   });
 }
