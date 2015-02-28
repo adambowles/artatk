@@ -228,6 +228,16 @@
     /**
      *
      */
+    public function verify_email_address($token)
+    {
+      $success = $this->get_database_controller()->verify_email_address($token);
+
+      return $success;
+    }
+
+    /**
+     *
+     */
     public function get_user_by_id($user_id)
     {
       $record = $this->get_database_controller()->get_user_by_id($user_id);
