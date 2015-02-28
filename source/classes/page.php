@@ -581,6 +581,44 @@
   }
 
   /**
+   *
+   */
+  class verify_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+
+      $this->add_body('<div class="row text-center">');
+      $this->add_body(  '<div class="col-md-12">');
+
+      if(isset($_GET['token'])) {
+        $success = $this->get_user()->verify_email_address($_GET['token']);
+
+        if($success) {
+          $this->add_body('Thanks! We\'ve confirmed your email address');
+          $this->add_body('You can now [log in](/login.php) with the username and password you registered with');
+        } else {
+          $this->add_body('Oops! We don\'t know that email address :(');
+          $this->add_body('Did you click the link in your registration email?');
+          $this->add_body('Need an account? [Register here](/register.php)');
+        }
+
+      } else {
+
+        $this->add_body('Doesn\'t look like you\'ve got an account, trying clicking the link in your registration email');
+        $this->add_body('Need an account? [Register here](/register.php)');
+
+      }
+
+      $this->add_body(  '</div>');
+      $this->add_body('</div>');
+
+    }
+  }
+
+  /**
    * //TODO keep this one at the end of the script
    */
   class error_404_page extends page
