@@ -339,8 +339,24 @@
         // Give it a body
         ->setBody("Hello, $to_name\n\n$body\n\nFrom ArtAtk")
         ;
+
       // Send
       return $mailer->Send($message);
+    }
+
+    /**
+     * Send an email with an email confirmation token
+     */
+    protected function send_email_verification_email($to_email, $to_name, $token)
+    {
+      $subject = 'Thanks for registering with ArtAtk';
+
+      $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
+
+      $body = "Thanks for registering with Artatk!\n\n" .
+              "To confirm your email address, just click this link:\n\n" .
+              $protocol . $_SERVER['HTTP_HOST'] . "/verify.php?token=$token";
+      $this->send_email($subject, $to_email, $to_name, $body);
     }
 
   }
@@ -409,14 +425,6 @@
       if($this->validate_registration_form()) {
 
         $registration_success = $this->get_user()->register($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
-//        $registration_success = $this->get_database_controller()->create_user($_POST['username'],
-//                                                                              $_POST['email'],
-//                                                                              sha1($_POST['email']),
-//                                                                              $_POST['firstname'],
-//                                                                              $_POST['surname'],
-//                                                                              password_hash($_POST['password'], PASSWORD_DEFAULT),
-//                                                                              $_POST['password_hint'],
-//                                                                              $_SERVER['REMOTE_ADDR']);
 
         $is_human = $this->check_recaptcha();
 
@@ -424,8 +432,13 @@
         $this->add_body('  <div class="col-lg-12">');
 
         if($registration_success && $is_human) {
+          $email = $_POST['email'];
+          $full_name = $_POST['firstname'] . ' ' . $_POST['surname'];
+          $token = sha1($_POST['email']);
+          $this->send_email_verification_email($email, $full_name, $token);
+
           $this->add_body('##Account created!');
-          $this->add_body('We\'ve sent you and email to confirm your email address');
+          $this->add_body('We\'ve sent an email to ' . $_POST['email'] . ', just click on the link in the email to complete registration');
           $this->add_body('[Log in](/login.php)');
         } else {
           $this->add_body('##There was an error :(');
