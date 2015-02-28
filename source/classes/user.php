@@ -22,17 +22,18 @@
     /**
      *
      */
-    public function __construct();//$username, $email_address, $hashed_password, $firstname, $surname)
+    public function __construct()//$username, $email_address, $hashed_password, $firstname, $surname)
     {
       include(ROOT_DIRECTORY . "source/classes/database_controller.php");
       $this->set_database_controller(new database_controller());
 
-      if($this->is
-      $this->set_username($username);
-      $this->set_email_address($email_address);
-      $this->set_hashed_password($hashed_password);
-      $this->set_firstname($firstname);
-      $this->set_surname($surname);
+      if($this->is_logged_in()) {
+        $this->set_username($username);
+        $this->set_email_address($email_address);
+        $this->set_hashed_password($hashed_password);
+        $this->set_firstname($firstname);
+        $this->set_surname($surname);
+      }
     }
 
     /**
@@ -196,6 +197,10 @@
     private function set_surname($new_surname)
     {
       $this->surname = $new_surname;
+
+      if($this->is_logged_in()) {
+        $_SESSION['surname'] = $new_surname;
+      }
     }
 
     /**
@@ -209,12 +214,29 @@
     /**
      *
      */
-    public function register($args) //TODO
+    public function register($username, $email_address, $firstname, $surname, $password, $password_hint, $ip_address)
     {
-      $user_id = $this->get_database_controller()->create_user($args);
+      $user_id = $this->get_database_controller()->create_user($username, $email_address, $firstname, $surname, $password, $password_hint, $ip_address);
+
       $this->set_id($user_id);
 
-      return $success;
+      $success = $this->get_id() > 0;
+
+      return $success; //TODO Should this return success or the id?
+    }
+
+    /**
+     *
+     */
+    public function get_user_by_id($user_id)
+    {
+      $record = $this->get_database_controller()->get_user_by_id($user_id);
+
+//      $this->set_id($user_id);
+//
+//      $success = $this->get_id() > 0;
+
+      return $record;
     }
 
     /**

@@ -13,7 +13,7 @@
   class database_controller
   {
 
-    private $connection;
+    private $connection = null;
 
     /**
      *
@@ -44,15 +44,7 @@
      */
     private function connect_read()
     {
-      if($this->is_connected()){
-        $this->disconnect();
-      }
-
-      $this->set_connection(mysqli_connect(database_url, database_read_user, database_read_password, database_dbname));
-
-      if (mysqli_connect_errno()) {
-        die("Failed to connect to Database: " . mysqli_connect_error());
-      }
+      $this->connect_generic(database_url, database_dbname, database_read_user, database_read_password);
     }
 
     /**
@@ -60,14 +52,24 @@
      */
     private function connect_write()
     {
+      $this->connect_generic(database_url, database_dbname, database_write_user, database_write_password);
+    }
+
+    /**
+     *
+     */
+    private function connect_generic($url, $db, $user, $pass)
+    {
       if($this->is_connected()){
         $this->disconnect();
       }
 
-      $this->set_connection(mysqli_connect(database_url, database_write_user, database_write_password, database_dbname));
-
-      if (mysqli_connect_errno()) {
-        die("Failed to connect to Database: " . mysqli_connect_error());
+      try {
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+        $this->set_connection(new PDO("mysql:host=$url;dbname=$db", $user, $pass, $options));
+//        $this->get_connection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
       }
     }
 
@@ -93,36 +95,10 @@
     private function sanitise($data)
     {
       if($this->is_connected()) {
-        return $this->get_connection()->real_escape_string($data);
+        return $this->get_connection()->quote(trim($data));
       } else {
         return null;
       }
-    }
-
-    /**
-     * Execute an SQL statement
-     *
-     * @param $sql The SQL to be executed
-     *
-     * @return True if the SQL was successfully sent to the db, false if the conenction wasn't open, or any db error occurred
-     */
-    private function execute($sql, $permission)
-    {
-      if($permission == "write") {
-        $this->connect_write();
-      }
-
-      if($this->is_connected()){
-        $success = $this->get_connection()->query($sql) === TRUE;
-      } else {
-        $success = false;
-      }
-
-      if($permission == "write") {
-        $this->connect_read();
-      }
-
-      return $success;
     }
 
     /**
@@ -136,29 +112,65 @@
      * @param $password
      * @param $password_hint
      * @param $ip_address
+
+     * @return ID of record inserted
      */
     public function create_user($username,
-                                $email_address, $email_validate_token,
+                                $email_address,
                                 $firstname, $surname,
                                 $password, $password_hint,
                                 $ip_address)
     {
                   $username = $this->sanitise($username);
              $email_address = $this->sanitise($email_address);
-      $email_validate_token = $this->sanitise($email_validate_token);
+      $email_validate_token = $this->sanitise(sha1($email_address));
                  $firstname = $this->sanitise($firstname);
                    $surname = $this->sanitise($surname);
-                  $password = $this->sanitise($password);
+                  $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
              $password_hint = $this->sanitise($password_hint);
                 $ip_address = $this->sanitise($ip_address);
 
-      $sql = "CALL `CREATE_USER` ('$username', '$email_address', '$email_validate_token', '$firstname', '$surname', '$password', '$password_hint', '$ip_address');";
-      $success = $this->execute($sql, 'write');
+      $sql = "INSERT INTO `artatk_user` (
+        `username`, `email`, `email_validate_token`, `firstname`, `surname`, `hashed_password`, `password_hint`, `registered_datetime`, `registered_ip_address`
+      ) VALUES (
+        $username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, CURRENT_TIMESTAMP, $ip_address
+      )";
 
-      return $success;
+      $this->connect_write();
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $last_id = $this->get_connection()->lastInsertId();
+
+      $this->connect_read();
+
+      return $last_id;
     }
 
     /**
+     * Create a user account
+     *
+     * @param $user_id ID to fetch by
+
+     * @return Record associative array
+     */
+    public function get_user_by_id($user_id)
+    {
+      $user_id = $this->sanitise($user_id);
+
+      $sql = "SELECT * FROM `artatk_user` WHERE `user_id` = $user_id";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $record = $statement->fetch(); // Fetch single row
+
+      return $record;
+    }
+
+    /**
+     * //TODO
      * Delete user by user id
      *
      * @param $user_id ID of the user to delete
@@ -174,6 +186,7 @@
     }
 
     /**
+     * //TODO
      * Delete user by username
      *
      * @param $username Username of the user to delete
@@ -212,7 +225,7 @@
     private function disconnect()
     {
       if($this->is_connected()) {
-        $this->get_connection()->close();
+//        $this->get_connection()->close(); //mysqli
         $this->set_connection(null);
       }
     }

@@ -7,8 +7,8 @@
   {
 
     // Some funcationality controllers
-    private $asset_controller;
     private $user; // Person who is logged in
+    private $asset_controller;
     private $parsedown;
 
     // Strings of page content, append whatever you like in order to add it to the page
@@ -29,6 +29,9 @@
     {
       include(ROOT_DIRECTORY . "source/classes/user.php");
       $this->set_user(new user());
+
+      include(ROOT_DIRECTORY . "source/libraries/swift_mailer/swift_required.php");
+//      $this->set_emailer(new swift_mailer());
 
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
       $this->set_asset_controller(new html_asset_controller());
@@ -71,6 +74,22 @@
     {
       return $this->user = $new_user;
     }
+
+    /**
+     *
+     */
+//    public function get_emailer()
+//    {
+//      return $this->emailer;
+//    }
+//
+//    /**
+//     *
+//     */
+//    public function set_emailer($new_emailer)
+//    {
+//      return $this->emailer = $new_emailer;
+//    }
 
     /**
      *
@@ -293,6 +312,37 @@
       return '<meta charset="' . $this->get_charset() . '">';
     }
 
+    /**
+     * Send an email using SwiftMailer
+     */
+    protected function send_email($subject, $to_email, $to_name, $body)
+    {
+      // GMail credentials
+      $transporter = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
+        ->setUsername(gmail_username)
+        ->setPassword(gmail_password);
+
+      $mailer = Swift_Mailer::newInstance($transporter);
+
+      // Create the message
+      $message = Swift_Message::newInstance()
+
+        // Give the message a subject
+        ->setSubject($subject)
+
+        // Set the From address with an associative array
+        ->setFrom(array(gmail_username . "@gmail.com" => "ArtAtk"))
+
+        // Set the To addresses with an associative array
+        ->setTo($to_email)
+
+        // Give it a body
+        ->setBody("Hello, $to_name\n\n$body\n\nFrom ArtAtk")
+        ;
+      // Send
+      return $mailer->Send($message);
+    }
+
   }
 
   // The following subclasses are bascially just normal pages with some handy default content added
@@ -306,9 +356,9 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->get_user()->connect_read();
-//      $this->get_database_controller()->delete_user_by_id(2); //TODO test remove this later
-//      $this->get_database_controller()->delete_user_by_username('bowlesa'); //TODO test remove this later
+//      $this->get_user()->register('user', 'email', 'firstname', 'surname', 'password', 'password hint', $_SERVER['REMOTE_ADDR']); //Works
+//      $this->add_body(var_dump($this->get_user()->get_user_by_id('95'))); //Works
+//      $this->send_email("test subject", "adambowles1@gmail.com", "Adam Bowles", "test"); //Works
 
       // Demo content
       $this->add_body('<div class="starter-template">');
@@ -358,7 +408,7 @@
 
       if($this->validate_registration_form()) {
 
-        $registration_success = $this->get_user()->register();
+        $registration_success = $this->get_user()->register($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
 //        $registration_success = $this->get_database_controller()->create_user($_POST['username'],
 //                                                                              $_POST['email'],
 //                                                                              sha1($_POST['email']),
@@ -375,6 +425,7 @@
 
         if($registration_success && $is_human) {
           $this->add_body('##Account created!');
+          $this->add_body('We\'ve sent you and email to confirm your email address');
           $this->add_body('[Log in](/login.php)');
         } else {
           $this->add_body('##There was an error :(');
@@ -436,6 +487,9 @@
 
     }
 
+    /**
+     * Make sure the $_POST variable has all the necessary fields to register a user
+     */
     private function validate_registration_form()
     {
       $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint");

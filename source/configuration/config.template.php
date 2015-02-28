@@ -53,4 +53,7 @@
   define('recaptcha_site_key', '');
   define('recaptcha_secret', '');
 
+  define('gmail_username', '');
+  define('gmail_password', '');
+
 ?>
