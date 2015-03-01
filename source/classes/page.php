@@ -36,7 +36,7 @@
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
       $this->set_asset_controller(new html_asset_controller());
 
-      include(ROOT_DIRECTORY . "source/libraries/parsedown.php");
+      include(ROOT_DIRECTORY . "source/libraries/Parsedown.php");
       $this->set_parsedown(new Parsedown());
     }
 
