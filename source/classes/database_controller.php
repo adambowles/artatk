@@ -116,14 +116,14 @@
      * @return ID of record inserted
      */
     public function create_user($username,
-                                $email_address,
+                                $email_address, $email_validate_token,
                                 $firstname, $surname,
                                 $password, $password_hint,
                                 $ip_address)
     {
                   $username = $this->sanitise($username);
              $email_address = $this->sanitise($email_address);
-      $email_validate_token = $this->sanitise(sha1($email_address));
+      $email_validate_token = $this->sanitise($email_validate_token);
                  $firstname = $this->sanitise($firstname);
                    $surname = $this->sanitise($surname);
                   $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
@@ -160,6 +160,7 @@
       $token = $this->sanitise($token);
 
       $sql = "UPDATE `artatk_user` SET `email_validated`=1 WHERE `email_validate_token` = $token";
+//      echo $sql;
 
       $this->connect_write();
 
@@ -177,10 +178,8 @@
     }
 
     /**
-     * Create a user account
-     *
      * @param $user_id ID to fetch by
-
+     *
      * @return Record associative array
      */
     public function get_user_by_id($user_id)

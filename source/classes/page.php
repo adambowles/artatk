@@ -423,7 +423,20 @@
 
       if($this->validate_registration_form()) {
 
-        $registration_success = $this->get_user()->register($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $email_validate_token = sha1(trim($_POST['email']));
+        $firstname = trim($_POST['firstname']);
+        $surname = trim($_POST['surname']);
+        $password = trim($_POST['password']);
+        $password_hint = trim($_POST['password_hint']);
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+
+        $registration_success = $this->get_user()->register($username,
+                                                            $email, $email_validate_token,
+                                                            $firstname, $surname,
+                                                            $password, $password_hint,
+                                                            $ip_address);
 
         $is_human = $this->check_recaptcha();
 
@@ -431,13 +444,14 @@
         $this->add_body('  <div class="col-lg-12">');
 
         if($registration_success && $is_human) {
-          $email = $_POST['email'];
-          $full_name = $_POST['firstname'] . ' ' . $_POST['surname'];
-          $token = sha1($_POST['email']);
+          $email = $email;
+          $full_name = $firstname . ' ' . $surname;
+          $token = $email_validate_token;
+
           $this->send_email_verification_email($email, $full_name, $token);
 
           $this->add_body('##Account created!');
-          $this->add_body('We\'ve sent an email to ' . $_POST['email'] . ', just click on the link in the email to complete registration');
+          $this->add_body('We\'ve sent an email to ' . $email . ', just click on the link in the email to complete registration');
           $this->add_body('[Log in](/login.php)');
         } else {
           $this->add_body('##There was an error :(');

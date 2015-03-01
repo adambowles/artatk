@@ -214,9 +214,9 @@
     /**
      *
      */
-    public function register($username, $email_address, $firstname, $surname, $password, $password_hint, $ip_address)
+    public function register($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address)
     {
-      $user_id = $this->get_database_controller()->create_user($username, $email_address, $firstname, $surname, $password, $password_hint, $ip_address);
+      $user_id = $this->get_database_controller()->create_user($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address);
 
       $this->set_id($user_id);
 
