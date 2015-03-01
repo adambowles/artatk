@@ -36,6 +36,7 @@ $('#username, #email').on({
 // Control AJAX request to availability checker script
 function check_availability(field, as) {
   field = $(field);
+  add_loading(field);
   var value = field.val();
 
   $.ajax({
@@ -51,13 +52,13 @@ function check_availability(field, as) {
 
       if(data == 'available') {
         remove_error(field);
+        remove_loading(field);
       }
 
       if(data == 'unavailable') {
         add_error(field, 'Unfortunately, ' + value + ' is not available');
+        remove_loading(field);
       }
-
-      console.log(data);
 
     }
   });
@@ -175,6 +176,28 @@ function remove_error(field)
   }
 
   field.siblings('p').each(function(){
+    $(this).remove();
+  });
+}
+
+function add_loading(field)
+{
+  field = $(field); // Ensure it is a jQuery object
+
+  field.parent().addClass('has-feedback');
+
+  field.parent().append('<span class="glyphicon glyphicon-refresh form-control-feedback glyphicon-spin"></span>');
+}
+
+function remove_loading(field)
+{
+  field = $(field); // Ensure it is a jQuery object
+
+  if(field.parent().hasClass('has-feedback')) {
+    field.parent().removeClass('has-feedback');
+  }
+
+  field.siblings('span').each(function(){
     $(this).remove();
   });
 }
