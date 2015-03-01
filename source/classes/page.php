@@ -31,7 +31,6 @@
       $this->set_user(new user());
 
       include(ROOT_DIRECTORY . "source/libraries/swift_mailer/swift_required.php");
-//      $this->set_emailer(new swift_mailer());
 
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
       $this->set_asset_controller(new html_asset_controller());
