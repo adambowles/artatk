@@ -44,6 +44,8 @@ function check_availability(field, as) {
     data: {'value': value, 'as': as},
     success: function(data, status) {
 
+      data = data.trim();
+
       if(data == 'available') {
         console.log('available');
         remove_error(field);
