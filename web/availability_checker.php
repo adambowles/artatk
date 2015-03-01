@@ -13,7 +13,7 @@
     $as = $_POST['as'];
     $response = '';
   } else {
-    $response = 'Invalid arguments';
+    die('Invalid arguments');
   }
 
   include('../source/configuration/config.php');
