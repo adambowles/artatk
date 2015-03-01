@@ -398,7 +398,7 @@
       $this->add_body('image here');
       $this->add_body('</div>');
     }
-  }
+  } // Rating
 
   /**
    *
@@ -410,7 +410,7 @@
       parent::__construct();
 
     }
-  }
+  } // Recommendation
 
   /**
    *
@@ -573,7 +573,7 @@
       }
     }
 
-  }
+  } // Register
 
   /**
    *
@@ -584,28 +584,44 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      if($this->get_user()->is_logged_in()) {
 
-      $this->add_body('<form>
-                        <div class="form-group">
-                          <label for="username">Username</label>
-                          <input type="text" class="form-control" id="username" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-default">Log in</button>
-                      </form>');
+        $this->add_body('<div class="row text-center">');
+        $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('Need an account? [Register here](/register.php)');
+        $this->add_body('##You\'re already logged in!');
+        $this->add_body('##[Try voting on some art](/rate.php)');
 
-      $this->add_body(  '</div>');
-      $this->add_body('</div>');
+        $this->add_body(  '</div>');
+        $this->add_body('</div>');
+
+      } else {
+
+        $this->add_body('<div class="row text-center">');
+        $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+
+        $this->add_body('<form action="/login.php" method="POST" onsubmit="return validate_form(this)" id="login-form">
+                           <div class="form-group">
+                             <label for="username">Username</label>
+                             <input type="username" class="form-control" id="username" placeholder="Username" data-error="">
+                           </div>
+                           <div class="form-group">
+                             <label for="password">Password</label>
+                             <input type="password" class="form-control" id="password" placeholder="Password" data-error="">
+                           </div>
+                           <button type="submit" class="btn btn-default">Log in</button>
+                         </form>');
+
+        $this->add_body('Need an account? [Register here](/register.php)');
+
+        $this->add_body(  '</div>');
+        $this->add_body('</div>');
+
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/login/login.js'));
+      }
 
     }
-  }
+  } // Login
 
   /**
    *
@@ -625,7 +641,7 @@
 
         if($success) {
           $this->add_body('Thanks! We\'ve confirmed your email address');
-          $this->add_body('You can now [log in](/login.php) with the username and password you registered with');
+          $this->add_body('You can now [log in](/login.php) using the username and password you registered with');
         } else {
           $this->add_body('Oops! We don\'t know that email address :(');
           $this->add_body('Did you click the link in your registration email?');
@@ -643,10 +659,10 @@
       $this->add_body('</div>');
 
     }
-  }
+  } // Verify
 
   /**
-   * //TODO keep this one at the end of the script
+   * 404 not found page
    */
   class error_404_page extends page
   {
@@ -657,11 +673,10 @@
       $this->set_title('Page not found');
 
       $this->add_body('<div class="row text-center">');
-      // $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
       $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('<h2>Error 404: resource not found, sorry! :(</h2>');
-      $this->add_body('<h3><a href="/">Home page</a></h3>');
+      $this->add_body('##Error 404: resource not found, sorry! :(');
+      $this->add_body('[Home page](/)');
 
       $this->add_body(  '</div>');
       $this->add_body('</div>');
