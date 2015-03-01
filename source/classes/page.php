@@ -197,7 +197,7 @@
 
                               '<ul class="nav navbar-nav navbar-right">
                                 <li><a href="/login.php"><i class="fa fa-sign-in"></i> Log in</a></li>
-                                <li><a href="register.php"><i class="fa fa-user-plus"></i> Register</a></li>
+                                <li><a href="/register.php"><i class="fa fa-user-plus"></i> Register</a></li>
                               </ul>' .
 
 
