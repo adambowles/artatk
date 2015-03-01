@@ -44,6 +44,9 @@ function check_availability(field, as) {
     data: {'value': value, 'as': as},
     success: function(data, status) {
 
+      // Make sure the request returns only the string it should
+      data = data.replace('/r','');
+      data = data.replace('/n','');
       data = data.trim();
 
       if(data == 'available') {
