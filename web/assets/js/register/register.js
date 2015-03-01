@@ -44,13 +44,13 @@ function check_availability(field, as) {
     data: {'value': value, 'as': as},
     success: function(data, status) {
 
-      if(data == "available") {
-        console.log('a');
+      if(data == 'available') {
+        console.log('available');
         remove_error(field);
       }
 
-      if(data == "unavailable") {
-        console.log('u');
+      if(data == 'unavailable') {
+        console.log('unavailable');
         add_error(field, 'Unfortunately, ' + value + ' is not available :(');
       }
 
