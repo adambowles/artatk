@@ -229,21 +229,28 @@
     }
 
     /**
-     * Check whether a username is already already in the database
-     * NB THIS IS PSEUDOCODE
+     * Check whether a field is already taken in the database
+     * Used, for example, to check if a username has not already been taken
+     *  or whether someone has already signed up with a given email address
      *
-     * @param $username Username of the user to find
+     * @param $data data to check
+     * @param $as type to check
      *
-     * @return True if the username is taken false if it is not
+     * @return True if the data is available
      */
-    public function username_taken($username)
+    public function check_availability($data, $as)
     {
-      $username = $this->sanitise($username);
+      $data = $this->sanitise($data);
+      $as = trim($this->sanitise($as), "'");
 
-      $sql = "CALL `GET_USER_BY_USERNAME` ('$username');";
-      $records = $this->execute($sql, 'read');
+      $sql = "SELECT `user_id` FROM `artatk_user` WHERE `$as` = $data";
 
-      return $recods->count > 0;//TODO refactor the execute() to return read records
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $found = $statement->rowCount(); // Fetch single row
+
+      return $found < 1;
     }
 
     /**

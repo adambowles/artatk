@@ -70,7 +70,7 @@
     /**
      *
      */
-    private function get_database_controller()
+    public function get_database_controller()
     {
       return $this->database_controller;
     }

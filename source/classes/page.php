@@ -432,16 +432,23 @@
         $password_hint = trim($_POST['password_hint']);
         $ip_address = $_SERVER['REMOTE_ADDR'];
 
-        $registration_success = $this->get_user()->register($username,
-                                                            $email, $email_validate_token,
-                                                            $firstname, $surname,
-                                                            $password, $password_hint,
-                                                            $ip_address);
-
-        $is_human = $this->check_recaptcha();
+        $username_available = $this->get_user()->get_database_controller()->check_availability($username, 'username');
+        $email_available = $this->get_user()->get_database_controller()->check_availability($email, 'email');
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
+
+        if($username_available && $email_available) {
+          $registration_success = $this->get_user()->register($username,
+                                                              $email, $email_validate_token,
+                                                              $firstname, $surname,
+                                                              $password, $password_hint,
+                                                              $ip_address);
+        } else {
+          $registration_success = false;
+        }
+
+        $is_human = $this->check_recaptcha();
 
         if($registration_success && $is_human) {
           $email = $email;
@@ -455,6 +462,13 @@
           $this->add_body('[Log in](/login.php)');
         } else {
           $this->add_body('##There was an error :(');
+
+          if(!$username_available) {
+            $this->add_body('Username already in use');
+          }
+          if(!$email_available) {
+            $this->add_body('Email address already in use');
+          }
           $this->add_body('[Back to registration form](/register.php)');
         }
 
