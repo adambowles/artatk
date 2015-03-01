@@ -39,16 +39,18 @@ function check_availability(field, as) {
   var value = field.val();
 
   $.ajax({
-    url: 'availability_checker.php',
+    url: '/availability_checker.php',
     type: 'post',
     data: {'value': value, 'as': as},
     success: function(data, status) {
 
       if(data == "available") {
+        console.log('a');
         remove_error(field);
       }
 
       if(data == "unavailable") {
+        console.log('u');
         add_error(field, 'Unfortunately, ' + value + ' is not available :(');
       }
 
