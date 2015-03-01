@@ -69,14 +69,12 @@ function validate_form(form)
 
   // Check if any of the unique (user/email) fields are already taken in the DB
   var any_unavailable = $('.invalid_field').length > 0;
-  if(any_unavailable) {
-    return false;
-  }
 
   // Regardless of errors, check the user filled in the reCAPTCHA
+  var recaptcha_failed = false;
   if(grecaptcha.getResponse() == '') {
-    // ask the user to do reCPATCHA
-    return false;
+    //TODO ask the user to do reCPATCHA
+    recaptcha_failed = true;
   }
 
   var fail_count = 0;
@@ -106,7 +104,7 @@ function validate_form(form)
 
   });
 
-  return fail_count == 0; // return form valid if no fails occurred
+  return !((!fail_count == 0) || recaptcha_failed || any_unavailable); // return form valid if no fails occurred
 }
 
 function validate_input(field, as)
@@ -158,10 +156,11 @@ function add_error(field, data)
   field.parent().addClass('has-error');
   field.addClass('invalid_field');
 
-  if(field.attr('data-error') != '') {
-    field.parent().append('<p class="text-danger">' + data + '</p>');
-  } else {
+  var no_error_data = field.attr('data-error') == '' || field.attr('data-error') == undefined;
+  if(no_error_data) {
     field.parent().append('<p class="text-danger">' + 'Field cannot be empty' + '</p>');
+  } else {
+    field.parent().append('<p class="text-danger">' + data + '</p>');
   }
 }
 
