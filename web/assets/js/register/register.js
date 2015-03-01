@@ -50,6 +50,8 @@ function check_availability(field, as) {
         add_error(field, 'Unfortunately, ' + value + ' is not available :(');
       }
 
+      console.log(data);
+
     }
   });
 }
