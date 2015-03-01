@@ -50,13 +50,11 @@ function check_availability(field, as) {
       data = data.trim();
 
       if(data == 'available') {
-        console.log('available');
         remove_error(field);
       }
 
       if(data == 'unavailable') {
-        console.log('unavailable');
-        add_error(field, 'Unfortunately, ' + value + ' is not available :(');
+        add_error(field, 'Unfortunately, ' + value + ' is not available');
       }
 
       console.log(data);
