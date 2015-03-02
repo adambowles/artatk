@@ -608,7 +608,7 @@
         $this->add_body('<div class="row text-center">');
         $this->add_body(  '<div class="col-md-12">');
 
-        $this->add_body('You\'re already logged in!');
+        $this->add_body('You\'re logged in!');
         $this->add_body('[Try voting on some art](/rate.php)');
 
         $this->add_body(  '</div>');
