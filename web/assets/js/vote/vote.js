@@ -9,6 +9,10 @@ $('a.vote').find('i').on({
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
   },
+  click: function(){
+    var star = $(this).parent().attr('id').replace('star','');
+    highlight_stars(star);
+  },
   mouseleave: function(){
     unhighlight_stars();
   }
