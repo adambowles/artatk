@@ -9,9 +9,18 @@ $('a.vote').find('i').on({
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
   },
-  tap: function(){
+  click: function(e){
+    e.preventDefault();
+    var loc = insert_time($(this).parent());
+//    var location = $(this).parent().attr('href');
+//    alert(location);
+
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
+
+    setTimeout(function(){
+     window.location = loc;
+    },500);
   },
   mouseleave: function(){
     unhighlight_stars();
@@ -42,7 +51,7 @@ function unhighlight_stars()
   $('a.vote').find('i').removeClass('fa-star');
 }
 
-function insert_time(anchor, time)
+function insert_time(anchor)
 {
   anchor = $(anchor);
 
@@ -53,4 +62,5 @@ function insert_time(anchor, time)
   var new_href = anchor.attr('href') + '&delib_time=' + deliberation_time;
 
   anchor.attr('href', new_href);
+  return new_href;
 }

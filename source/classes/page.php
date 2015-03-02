@@ -415,34 +415,35 @@
           $vote = $_GET['vote'];
           $deliberation_time = $_GET['delib_time'];
   //        $this->get_user()->vote($image_id, $vote, $deliberation_time);
-          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
+//          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
 
   //      $number_previous_votes = $this->get_user()->get_number_of_votes();
   //      $next_image = $this->get_user()->get_next_image();
 
         $this->add_body('<div class="row text-center">
-        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
-        </div>
 
-        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <div class="btn-group" role="group" aria-label="...">
-            <p class="lead">Image 1/50</p>
-          </div>
-        </div>
+                           <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                             <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
+                           </div>
 
-        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <h2>
-            <a href="?image_id=1&vote=1" onclick="insert_time(this)" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=2" onclick="insert_time(this)" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=3" onclick="insert_time(this)" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=4" onclick="insert_time(this)" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=5" onclick="insert_time(this)" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
-          </h2>
-        </div>
+                           <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                             <div class="btn-group" role="group" aria-label="...">
+                               <p class="lead">Image 1/50</p>
+                             </div>
+                           </div>
 
-      </div>');
+                           <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                             <h2>
+                               <a href="?image_id=1&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
+                               <a href="?image_id=1&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
+                               <a href="?image_id=1&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
+                               <a href="?image_id=1&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
+                               <a href="?image_id=1&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
+                             </h2>
+                           </div>
+
+                         </div>');
         $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
       } else { // not logged in
 
@@ -460,11 +461,11 @@
 
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
           <h2>
-            <a href="?image_id=1&vote=1" onclick="insert_time(this)" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=2" onclick="insert_time(this)" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=3" onclick="insert_time(this)" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=4" onclick="insert_time(this)" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="?image_id=1&vote=5" onclick="insert_time(this)" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
           </h2>
         </div>
 
