@@ -378,8 +378,8 @@
       $this->add_body(    'Right column');
       $this->add_body(    'Right column');
       $this->add_body(    'Right column');
-      $this->add_body(  '</div>');
-      $this->add_body(  '<div class="col-md-8 col-xs-12">');
+//      $this->add_body(  '</div>');
+//      $this->add_body(  '<div class="col-md-8 col-xs-12">');
       $this->add_body(    'Left column');
       $this->add_body(    'Left column');
       $this->add_body(    'Left column');
@@ -415,7 +415,7 @@
 
         $this->add_body('<div class="row text-center">
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
+          <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
         </div>
 
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -442,7 +442,7 @@
         //TODO change the demo image to a local one
         $this->add_body('<div class="row text-center">
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
+          <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
         </div>
 
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -502,6 +502,13 @@
 
       $this->set_title('Get recommendation');
 
+      $this->add_body('<div class="row text-center">');
+
+      $this->add_body('This isn\'t quite ready yet');
+      $this->add_body('I\'ll send you an email when it\'s done');
+
+      $this->add_body('</div>');
+
     }
   } // Recommendation
 
@@ -552,11 +559,11 @@
 
           $this->send_email_verification_email($email, $full_name, $token);
 
-          $this->add_body('##Account created!');
+          $this->add_body('#Account created!');
           $this->add_body('We\'ve sent an email to ' . $email . ', just click on the link in the email to complete registration');
           $this->add_body('[Log in](/login.php)');
         } else {
-          $this->add_body('##There was an error :(');
+          $this->add_body('#There was an error :(');
 
           if(!$username_available) {
             $this->add_body('Username already in use');
@@ -819,7 +826,7 @@
       $this->add_body('<div class="row text-center">');
       $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('##Error 404: resource not found, sorry! :(');
+      $this->add_body('#Error 404: resource not found, sorry! :(');
       $this->add_body('[Home page](/)');
 
       $this->add_body(  '</div>');
