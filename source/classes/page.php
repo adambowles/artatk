@@ -27,11 +27,12 @@
      */
     public function __construct()
     {
+      session_start();
+
       include(ROOT_DIRECTORY . "source/classes/user.php");
       $this->set_user(new user());
 
       include(ROOT_DIRECTORY . "source/libraries/swift_mailer/swift_required.php");
-//      $this->set_emailer(new swift_mailer());
 
       include(ROOT_DIRECTORY . "source/classes/html_asset_controller.php");
       $this->set_asset_controller(new html_asset_controller());
@@ -132,7 +133,7 @@
              "<html>" .
              "<head>" .
                $this->get_charset_meta_tag() .
-               "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" .
+               "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">" .
                "<title>" .
                  WEBSITE_TITLE . $this->get_title() .
                "</title>" .
@@ -182,28 +183,27 @@
                               <ul class="nav navbar-nav">
                                 <li><a href="/rate.php"><i class="fa fa-star-half-o"></i> Rate</a></li>
                                 <li><a href="/recommendation.php"><i class="fa fa-photo"></i> Get your recommendation</a></li>
-                              </ul>' .
+                              </ul>';
 
-//                              "<ul class="nav navbar-nav navbar-right">
-//                                <li><p class="nav navbar-text">Logged in as </p></li>
-//                                <li class="dropdown">
-//                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adam Bowles <b class="caret"></b></a>
-//                                  <ul class="dropdown-menu" role="menu">
-//                                    <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
-//                                    <li class="divider"></li>
-//                                    <li><a href="#"><i class="fa fa-sign-out"></i> Log out</a></li>
-//                                  </ul>
-//                                </li>
-//                              </ul>"
+      if($this->get_user()->is_logged_in()) {
+        $navbar_string .= '<ul class="nav navbar-nav navbar-right">
+                             <li class="dropdown">
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adam Bowles <b class="caret"></b></a>
+                               <ul class="dropdown-menu" role="menu">
+                                 <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
+                                 <li class="divider"></li>
+                                 <li><a href="/logout.php"><i class="fa fa-sign-out"></i> Log out</a></li>
+                               </ul>
+                             </li>
+                           </ul>';
+      } else {
+        $navbar_string .= '<ul class="nav navbar-nav navbar-right">
+                             <li><a href="/login.php"><i class="fa fa-sign-in"></i> Log in</a></li>
+                             <li><a href="/register.php"><i class="fa fa-user-plus"></i> Register</a></li>
+                           </ul>';
+      }
 
-                              '<ul class="nav navbar-nav navbar-right">
-                                <li><a href="/login.php"><i class="fa fa-sign-in"></i> Log in</a></li>
-                                <li><a href="register.php"><i class="fa fa-user-plus"></i> Register</a></li>
-                              </ul>' .
-
-
-
-                            '</div><!--/.nav-collapse -->
+      $navbar_string .=    '</div><!--/.nav-collapse -->
                           </div>
                         </nav>';
       return $navbar_string;
@@ -393,13 +393,15 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $this->set_title('Rate');
+
       // Demo content
       $this->add_body('<div class="starter-template">');
       $this->add_body('##Rate');
       $this->add_body('image here');
       $this->add_body('</div>');
     }
-  }
+  } // Rating
 
   /**
    *
@@ -410,8 +412,10 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $this->set_title('Get recommendation');
+
     }
-  }
+  } // Recommendation
 
   /**
    *
@@ -422,26 +426,56 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $this->set_title('Register');
+
       if($this->validate_registration_form()) {
 
-        $registration_success = $this->get_user()->register($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['surname'], $_POST['password'], $_POST['password_hint'], $_SERVER['REMOTE_ADDR']);
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $email_validate_token = sha1(trim($_POST['email']));
+        $firstname = trim($_POST['firstname']);
+        $surname = trim($_POST['surname']);
+        $password = trim($_POST['password']);
+        $password_hint = trim($_POST['password_hint']);
+        $ip_address = $_SERVER['REMOTE_ADDR'];
 
-        $is_human = $this->check_recaptcha();
+        $username_available = $this->get_user()->get_database_controller()->check_availability($username, 'username');
+        $email_available = $this->get_user()->get_database_controller()->check_availability($email, 'email');
 
         $this->add_body('<div class="row text-center">');
         $this->add_body('  <div class="col-lg-12">');
 
+        if($username_available && $email_available) {
+          $registration_success = $this->get_user()->register($username,
+                                                              $email, $email_validate_token,
+                                                              $firstname, $surname,
+                                                              $password, $password_hint,
+                                                              $ip_address);
+        } else {
+          $registration_success = false;
+        }
+
+        $is_human = $this->check_recaptcha();
+
         if($registration_success && $is_human) {
-          $email = $_POST['email'];
-          $full_name = $_POST['firstname'] . ' ' . $_POST['surname'];
-          $token = sha1($_POST['email']);
+          $email = $email;
+          $full_name = $firstname . ' ' . $surname;
+          $token = $email_validate_token;
+
           $this->send_email_verification_email($email, $full_name, $token);
 
           $this->add_body('##Account created!');
-          $this->add_body('We\'ve sent an email to ' . $_POST['email'] . ', just click on the link in the email to complete registration');
+          $this->add_body('We\'ve sent an email to ' . $email . ', just click on the link in the email to complete registration');
           $this->add_body('[Log in](/login.php)');
         } else {
           $this->add_body('##There was an error :(');
+
+          if(!$username_available) {
+            $this->add_body('Username already in use');
+          }
+          if(!$email_available) {
+            $this->add_body('Email address already in use');
+          }
           $this->add_body('[Back to registration form](/register.php)');
         }
 
@@ -546,7 +580,7 @@
       }
     }
 
-  }
+  } // Register
 
   /**
    *
@@ -557,28 +591,91 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+      $this->set_title('Log in');
 
-      $this->add_body('<form>
-                        <div class="form-group">
-                          <label for="username">Username</label>
-                          <input type="text" class="form-control" id="username" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-default">Log in</button>
-                      </form>');
+      $attempting_login = $this->validate_login_form();
+      $success = false;
 
-      $this->add_body('Need an account? [Register here](/register.php)');
+      if($attempting_login) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $success = $this->get_user()->log_in($username, $password);
+        echo $success;
+      }
 
-      $this->add_body(  '</div>');
-      $this->add_body('</div>');
+      if($this->get_user()->is_logged_in()) {
+
+        $this->add_body('<div class="row text-center">');
+        $this->add_body(  '<div class="col-md-12">');
+
+        $this->add_body('You\'re logged in!');
+        $this->add_body('[Try voting on some art](/rate.php)');
+
+        $this->add_body(  '</div>');
+        $this->add_body('</div>');
+
+      } else {
+
+        $this->add_body('<div class="row text-center">');
+        $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+
+        if((!$success) && $attempting_login) {
+          $this->add_body('Incorrect username and/or password');
+        }
+
+        $this->add_body('<form action="/login.php" method="POST" onsubmit="return validate_form(this)" id="login-form">
+                           <div class="form-group">
+                             <label for="username">Username</label>
+                             <input type="username" class="form-control" id="username" name="username" placeholder="Username" data-error="">
+                           </div>
+                           <div class="form-group">
+                             <label for="password">Password</label>
+                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" data-error="">
+                           </div>
+                           <button type="submit" class="btn btn-default">Log in</button>
+                         </form>');
+
+        $this->add_body('Need an account? [Register here](/register.php)');
+
+        $this->add_body(  '</div>');
+        $this->add_body('</div>');
+
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/login/login.js'));
+      }
 
     }
-  }
+
+    private function validate_login_form() {
+      $required_keys = array("username", "password");
+      $something_missing = false;
+
+      foreach($required_keys as $key) {
+        if(!isset($_POST[$key])){
+          $something_missing = true;
+        }
+      }
+      return !$something_missing;
+    }
+
+  } // Login
+
+  /**
+   *
+   */
+  class logout_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+      $this->set_title('Logging out');
+
+      $this->get_user()->log_out();
+//      http_redirect('Location: /');
+      echo('<script>document.location = \'/\'</script>');
+    }
+
+  } // Logout
 
   /**
    *
@@ -589,6 +686,8 @@
       // Perform a superclass construction
       parent::__construct();
 
+      $this->set_title('Verify your email address');
+
 
       $this->add_body('<div class="row text-center">');
       $this->add_body(  '<div class="col-md-12">');
@@ -598,7 +697,7 @@
 
         if($success) {
           $this->add_body('Thanks! We\'ve confirmed your email address');
-          $this->add_body('You can now [log in](/login.php) with the username and password you registered with');
+          $this->add_body('You can now [log in](/login.php) using the username and password you registered with');
         } else {
           $this->add_body('Oops! We don\'t know that email address :(');
           $this->add_body('Did you click the link in your registration email?');
@@ -616,10 +715,10 @@
       $this->add_body('</div>');
 
     }
-  }
+  } // Verify
 
   /**
-   * //TODO keep this one at the end of the script
+   * 404 not found page
    */
   class error_404_page extends page
   {
@@ -630,11 +729,10 @@
       $this->set_title('Page not found');
 
       $this->add_body('<div class="row text-center">');
-      // $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
       $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('<h2>Error 404: resource not found, sorry! :(</h2>');
-      $this->add_body('<h3><a href="/">Home page</a></h3>');
+      $this->add_body('##Error 404: resource not found, sorry! :(');
+      $this->add_body('[Home page](/)');
 
       $this->add_body(  '</div>');
       $this->add_body('</div>');

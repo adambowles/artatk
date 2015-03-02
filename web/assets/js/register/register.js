@@ -1,12 +1,11 @@
+// Generic field triggers
 $('#registration-form :input').each(function() {
   $(this).on({
     blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
 
-      remove_error($(this));
-
-      var valid = validate_input($(this).val(), $(this).attr('type'));
+      var valid = validate_input($(this), $(this).attr('type'));
       if(!valid) {
-        add_error($(this));
+        add_error($(this), $(this).attr('data-error'));
       }
 
     },
@@ -23,8 +22,60 @@ $('#registration-form :input').each(function() {
   });
 });
 
+
+// Specific field triggers
+$('#username, #email').on({
+  blur: function(){
+    if($(this).val().length > 0) {
+      check_availability($(this), $(this).attr('type'));
+    }
+  }
+});
+
+
+// Control AJAX request to availability checker script
+function check_availability(field, as) {
+  field = $(field);
+  add_loading(field);
+  var value = field.val();
+
+  $.ajax({
+    url: '/availability_checker.php',
+    type: 'post',
+    data: {'value': value, 'as': as},
+    success: function(data, status) {
+
+      // Make sure the request returns only the string it should
+      data = data.replace('/r','');
+      data = data.replace('/n','');
+      data = data.trim();
+
+      if(data == 'available') {
+        remove_error(field);
+        remove_loading(field);
+      }
+
+      if(data == 'unavailable') {
+        add_error(field, 'Unfortunately, ' + value + ' is not available');
+        remove_loading(field);
+      }
+
+    }
+  });
+}
+
 function validate_form(form)
 {
+
+  // Check if any of the unique (user/email) fields are already taken in the DB
+  var any_unavailable = $('.invalid_field').length > 0;
+
+  // Regardless of errors, check the user filled in the reCAPTCHA
+  var recaptcha_failed = false;
+  if(grecaptcha.getResponse() == '') {
+    //TODO ask the user to do reCPATCHA
+    recaptcha_failed = true;
+  }
 
   var fail_count = 0;
 
@@ -44,26 +95,24 @@ function validate_form(form)
 
       remove_error($(this));
 
-      field_is_valid = validate_input(value, type);
+      field_is_valid = validate_input($(this), type);
       if(!field_is_valid) {
         fail_count++;
-        add_error($(this));
+        add_error($(this), $(this).attr('data-error'));
       }
     }
 
   });
 
-  // firstly, regardless of errors, check the user filled in the reCAPTCHA
-  if(grecaptcha.getResponse() == '') {
-    // ask the user to do reCPATCHA
-    return false;
-  }
-
-  return fail_count == 0; // return form valid if no fails occurred
+  return !((!fail_count == 0) || recaptcha_failed || any_unavailable); // return form valid if no fails occurred
 }
 
-function validate_input(value, as)
+function validate_input(field, as)
 {
+  field = $(field);
+
+  var value = field.val();
+
   // username
   if(as == 'username') {
     return value.length >= 6;
@@ -100,15 +149,18 @@ function validate_input(value, as)
   return "" + value.length > 0;
 }
 
-function add_error(field)
+function add_error(field, data)
 {
   field = $(field); // Ensure it is a jQuery object
 
   field.parent().addClass('has-error');
-  if(field.attr('data-error') != '') {
-    field.parent().append('<p class="text-danger">' + field.attr('data-error') + '</p>');
-  } else {
+  field.addClass('invalid_field');
+
+  var no_error_data = field.attr('data-error') == '' || field.attr('data-error') == undefined;
+  if(no_error_data) {
     field.parent().append('<p class="text-danger">' + 'Field cannot be empty' + '</p>');
+  } else {
+    field.parent().append('<p class="text-danger">' + data + '</p>');
   }
 }
 
@@ -116,11 +168,35 @@ function remove_error(field)
 {
   field = $(field); // Ensure it is a jQuery object
 
+  field.removeClass('invalid_field');
+
   if(field.parent().hasClass('has-error')) {
     field.parent().removeClass('has-error');
   }
 
   field.siblings('p').each(function(){
+    $(this).remove();
+  });
+}
+
+function add_loading(field)
+{
+  field = $(field); // Ensure it is a jQuery object
+
+  field.parent().addClass('has-feedback');
+
+  field.parent().append('<span class="glyphicon glyphicon-refresh form-control-feedback glyphicon-spin"></span>');
+}
+
+function remove_loading(field)
+{
+  field = $(field); // Ensure it is a jQuery object
+
+  if(field.parent().hasClass('has-feedback')) {
+    field.parent().removeClass('has-feedback');
+  }
+
+  field.siblings('span').each(function(){
     $(this).remove();
   });
 }

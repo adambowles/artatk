@@ -65,7 +65,7 @@
       }
 
       try {
-        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
         $this->set_connection(new PDO("mysql:host=$url;dbname=$db", $user, $pass, $options));
 //        $this->get_connection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch (PDOException $e) {
@@ -116,14 +116,14 @@
      * @return ID of record inserted
      */
     public function create_user($username,
-                                $email_address,
+                                $email_address, $email_validate_token,
                                 $firstname, $surname,
                                 $password, $password_hint,
                                 $ip_address)
     {
                   $username = $this->sanitise($username);
              $email_address = $this->sanitise($email_address);
-      $email_validate_token = $this->sanitise(sha1($email_address));
+      $email_validate_token = $this->sanitise($email_validate_token);
                  $firstname = $this->sanitise($firstname);
                    $surname = $this->sanitise($surname);
                   $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
@@ -160,6 +160,7 @@
       $token = $this->sanitise($token);
 
       $sql = "UPDATE `artatk_user` SET `email_validated`=1 WHERE `email_validate_token` = $token";
+//      echo $sql;
 
       $this->connect_write();
 
@@ -177,10 +178,8 @@
     }
 
     /**
-     * Create a user account
-     *
      * @param $user_id ID to fetch by
-
+     *
      * @return Record associative array
      */
     public function get_user_by_id($user_id)
@@ -230,21 +229,49 @@
     }
 
     /**
-     * Check whether a username is already already in the database
-     * NB THIS IS PSEUDOCODE
+     * Check whether a field is already taken in the database
+     * Used, for example, to check if a username has not already been taken
+     *  or whether someone has already signed up with a given email address
      *
-     * @param $username Username of the user to find
+     * @param $data data to check
+     * @param $as type to check
      *
-     * @return True if the username is taken false if it is not
+     * @return True if the data is available
      */
-    public function username_taken($username)
+    public function check_availability($data, $as)
+    {
+      $data = $this->sanitise($data);
+      $as = trim($this->sanitise($as), "'");
+
+      $sql = "SELECT `user_id` FROM `artatk_user` WHERE `$as` = $data";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $found = $statement->rowCount(); // Fetch single row
+
+      return $found < 1;
+    }
+
+    /**
+     * //TODO
+     */
+    public function log_in($username, $password)
     {
       $username = $this->sanitise($username);
 
-      $sql = "CALL `GET_USER_BY_USERNAME` ('$username');";
-      $records = $this->execute($sql, 'read');
+      $sql = "SELECT * FROM `artatk_user` WHERE `username` = $username";
 
-      return $recods->count > 0;//TODO refactor the execute() to return read records
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $row = $statement->fetch(); // Fetch single row
+
+      if(password_verify($password, $row['hashed_password'])) {
+        return $row;
+      } else {
+        return false;
+      }
     }
 
     /**
@@ -253,7 +280,6 @@
     private function disconnect()
     {
       if($this->is_connected()) {
-//        $this->get_connection()->close(); //mysqli
         $this->set_connection(null);
       }
     }
