@@ -13,11 +13,11 @@
     private $logged_in = false;
 
     // Data fields about the user
-    private $id = -1;
-    private $username = '';
-    private $email_address = '';
-    private $first_name = '';
-    private $surname = '';
+    private $id;
+    private $username;
+    private $email_address;
+    private $first_name;
+    private $surname;
     //TODO the rest of these
 
     /**
@@ -38,11 +38,13 @@
      */
     private function get_from_SESSION()
     {
-      if(isset($_SESSION['username']) &&
+      if(isset($_SESSION['id']) &&
+         isset($_SESSION['username']) &&
          isset($_SESSION['email']) &&
          isset($_SESSION['firstname']) &&
          isset($_SESSION['surname'])
         ) {
+        $this->set_id($_SESSION['id']);
         $this->set_username($_SESSION['username']);
         $this->set_email_address($_SESSION['email']);
         $this->set_firstname($_SESSION['firstname']);
@@ -83,16 +85,9 @@
     /**
      *
      */
-    private function get_id()
+    public function get_id()
     {
-//      echo('session: ' . $_SESSION['id'] . "variable: $this->id");
-//      if(isset($_SESSION['id'])) {
-//        return $_SESSION['id'];
-//      } else {
-//        return -1;
-//      }
       return $this->id;
-//      return $_SESSION['id'];
     }
 
     /**
@@ -257,10 +252,11 @@
       $result = $this->get_database_controller()->log_in($username, $password);
 
       if($result) {
+//        echo($result['user_id']);
+//        echo($this->get_id());
         $this->set_id($result['user_id']);
         $this->set_username($result['username']);
         $this->set_email_address($result['email']);
-//        $this->set_hashed_password($result['']);
         $this->set_firstname($result['firstname']);
         $this->set_surname($result['surname']);
 
@@ -293,8 +289,9 @@
      */
     public function vote($art, $vote, $deliberation_time)
     {
+//      echo $this->get_id();
       if($this->is_logged_in()) {
-        $this->get_database_controller->vote($this->get_id(), $art, $vote, $deliberation_time);
+        $this->get_database_controller()->vote($this->get_id(), $art, $vote, $deliberation_time);
       }
     }
 
