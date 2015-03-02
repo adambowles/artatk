@@ -400,50 +400,93 @@
 
       $this->set_title('Rate');
 
-      if($this->vote_cast()) {
-        $image_id = $_GET['image_id'];
-        $vote = $_GET['vote'];
-//        $this->get_user()->vote($image_id, $vote);
-        $this->add_body("You voted: $vote for image: $image_id");
+      if($this->get_user()->is_logged_in()) {
+
+        if($this->vote_cast()) {
+          $image_id = $_GET['image_id'];
+          $vote = $_GET['vote'];
+          $deliberation_time = $_GET['delib_time'];
+  //        $this->get_user()->vote($image_id, $vote, $deliberation_time);
+  //        $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
+        }
+
+  //      $number_previous_votes = $this->get_user()->get_number_of_votes();
+  //      $next_image = $this->get_user()->get_next_image();
+
+        $this->add_body('<div class="row text-center">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <p class="lead">Image 1/50</p>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <a href="?image_id=1&vote=1" onclick="insert_time(this)" title="1 star" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=2" onclick="insert_time(this)" title="2 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=3" onclick="insert_time(this)" title="3 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=4" onclick="insert_time(this)" title="4 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=5" onclick="insert_time(this)" title="5 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
+          </div>
+        </div>
+
+
+      </div>');
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
+      } else { // not logged in
+
+        //TODO change the demo image to a local one
+        $this->add_body('<div class="row text-center">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <p class="lead">Image 1/50</p>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <a href="/register.php" onclick="insert_time(this)" title="1 star" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="2 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="3 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="4 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="5 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
+          </div>
+        </div>
+
+
+      </div>');
       }
-
-//      $number_previous_votes = $this->get_user()->get_number_of_votes();
-
-      $this->add_body('<div class="row text-center">
-      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
-      </div>
-
-      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="btn-group" role="group" aria-label="...">
-          <p class="lead">Image 1/50</p>
-        </div>
-      </div>
-
-      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <div class="btn-group" role="group" aria-label="...">
-          <a href="?image_id=1&vote=1" title="1 star" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
-          <a href="?image_id=1&vote=2" title="2 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
-          <a href="?image_id=1&vote=3" title="3 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
-          <a href="?image_id=1&vote=4" title="4 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
-          <a href="?image_id=1&vote=5" title="5 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
-        </div>
-      </div>
-
-
-    </div>');
     }
 
     private function vote_cast()
     {
-      if(isset($_GET['image_id']) && isset($_GET['vote'])) {
-        if(is_numeric($_GET['vote'])) {
-          if($_GET['vote'] >= 1 && $_GET['vote'] <= 5) {
-            return true; //dat pyramid of doom
-          }
-        }
+      if(!isset($_GET['image_id'])) {
+        return false;
       }
-      return false;
+      if(!isset($_GET['vote'])) {
+        return false;
+      }
+      if(!isset($_GET['delib_time'])) {
+        return false;
+      }
+      if(!is_numeric($_GET['vote'])) {
+        return false;
+      }
+      if(!($_GET['vote'] >= 1 && $_GET['vote'] <= 5)) {
+        return false;
+      }
+      if(!is_numeric($_GET['delib_time'])) {
+        return false;
+      }
+      return true;
     }
 
   } // Rating
@@ -645,7 +688,7 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $success = $this->get_user()->log_in($username, $password);
-        echo $success;
+//        echo $success;
       }
 
       if($this->get_user()->is_logged_in()) {
