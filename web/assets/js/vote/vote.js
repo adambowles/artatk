@@ -9,7 +9,7 @@ $('a.vote').find('i').on({
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
   },
-  click: function(){
+  tap: function(){
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
   },
