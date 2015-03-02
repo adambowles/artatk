@@ -415,7 +415,7 @@
           $vote = $_GET['vote'];
           $deliberation_time = $_GET['delib_time'];
   //        $this->get_user()->vote($image_id, $vote, $deliberation_time);
-  //        $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
+          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
 
   //      $number_previous_votes = $this->get_user()->get_number_of_votes();
@@ -512,8 +512,8 @@
 
       $this->add_body('<div class="row text-center">');
 
-      $this->add_body('This isn\'t quite ready yet');
-      $this->add_body('I\'ll send you an email when it\'s done');
+      $this->add_body('<p class="lead">This isn\'t quite ready yet</p>');
+      $this->add_body('<p class="lead">I\'ll send you an email when it\'s done</p>');
 
       $this->add_body('</div>');
 
@@ -774,7 +774,7 @@
       $this->set_title('Logging out');
 
       $this->get_user()->log_out();
-//      http_redirect('Location: /');
+
       echo('<script>document.location = \'/\'</script>');
     }
 
