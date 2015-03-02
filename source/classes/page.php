@@ -703,7 +703,6 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $success = $this->get_user()->log_in($username, $password);
-//        echo $success;
       }
 
       if($this->get_user()->is_logged_in()) {
@@ -713,6 +712,8 @@
 
         $this->add_body('You\'re logged in!');
         $this->add_body('[Try voting on some art](/rate.php)');
+
+        $this->add_body('<script>document.location = \'/\'</script>');
 
         $this->add_body(  '</div>');
         $this->add_body('</div>');
@@ -775,7 +776,7 @@
 
       $this->get_user()->log_out();
 
-      echo('<script>document.location = \'/\'</script>');
+      $this->add_body('<script>document.location = \'/\'</script>');
     }
 
   } // Logout
