@@ -279,7 +279,6 @@
      */
     public function log_out()
     {
-//      if($this->is_logged_in()) {
         unset($_SESSION['id']);
         unset($_SESSION['username']);
         unset($_SESSION['email']);
@@ -287,7 +286,6 @@
         unset($_SESSION['surname']);
         session_destroy();
         $this->logged_in = false;
-//      }
     }
 
     /**
