@@ -178,7 +178,7 @@
     /**
      *
      */
-    private function get_fullname()
+    public function get_fullname()
     {
       return $this->get_firstname() . ' ' . $this->get_surname();
     }
