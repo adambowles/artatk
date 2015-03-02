@@ -230,7 +230,7 @@
     /**
      * Check whether a field is already taken in the database
      * Used, for example, to check if a username has not already been taken
-     *  or whether someone has already signed up with a given email address
+     *  or whether someone has already registered with a given email address
      *
      * @param $data data to check
      * @param $as type to check
@@ -240,7 +240,6 @@
     public function check_availability($data, $as)
     {
       $data = strtolower($this->sanitise($data));
-//      $data = $this->sanitise($data);
       $as = trim($this->sanitise($as), "'");
 
       $sql = "SELECT `user_id` FROM `artatk_user` WHERE lower(`$as`) = $data";
