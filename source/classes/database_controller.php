@@ -239,10 +239,11 @@
      */
     public function check_availability($data, $as)
     {
-      $data = $this->sanitise($data);
+      $data = strtolower($this->sanitise($data));
+//      $data = $this->sanitise($data);
       $as = trim($this->sanitise($as), "'");
 
-      $sql = "SELECT `user_id` FROM `artatk_user` WHERE `$as` = $data";
+      $sql = "SELECT `user_id` FROM `artatk_user` WHERE lower(`$as`) = $data";
 
       $statement = $this->get_connection()->prepare($sql);
       $statement->execute();
