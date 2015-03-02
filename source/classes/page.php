@@ -372,14 +372,19 @@
       // Perform a superclass construction
       parent::__construct();
 
-//      $this->get_user()->register('user', 'email', 'firstname', 'surname', 'password', 'password hint', $_SERVER['REMOTE_ADDR']); //Works
-//      $this->add_body(var_dump($this->get_user()->get_user_by_id('95'))); //Works
-//      $this->send_email("test subject", "adambowles1@gmail.com", "Adam Bowles", "test"); //Works
-
-      // Demo content
-      $this->add_body('<div class="starter-template">');
-      $this->add_body('##ArtAtk, art aesthetic analyser');
-      $this->add_body('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.');
+      $this->add_body('<div class="row">');
+      $this->add_body(  '<div class="col-md-4 col-xs-12 pull-right">');
+      $this->add_body(    'Right column');
+      $this->add_body(    'Right column');
+      $this->add_body(    'Right column');
+      $this->add_body(    'Right column');
+      $this->add_body(  '</div>');
+      $this->add_body(  '<div class="col-md-8 col-xs-12">');
+      $this->add_body(    'Left column');
+      $this->add_body(    'Left column');
+      $this->add_body(    'Left column');
+      $this->add_body(    'Left column');
+      $this->add_body(  '</div>');
       $this->add_body('</div>');
     }
   }
@@ -395,12 +400,52 @@
 
       $this->set_title('Rate');
 
-      // Demo content
-      $this->add_body('<div class="starter-template">');
-      $this->add_body('##Rate');
-      $this->add_body('image here');
-      $this->add_body('</div>');
+      if($this->vote_cast()) {
+        $image_id = $_GET['image_id'];
+        $vote = $_GET['vote'];
+//        $this->get_user()->vote($image_id, $vote);
+        $this->add_body("You voted: $vote for image: $image_id");
+      }
+
+//      $number_previous_votes = $this->get_user()->get_number_of_votes();
+
+      $this->add_body('<div class="row text-center">
+      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" height="500px" style="max-height:500px">
+      </div>
+
+      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="btn-group" role="group" aria-label="...">
+          <p class="lead">Image 1/50</p>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="btn-group" role="group" aria-label="...">
+          <a href="?image_id=1&vote=1" title="1 star" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+          <a href="?image_id=1&vote=2" title="2 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+          <a href="?image_id=1&vote=3" title="3 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+          <a href="?image_id=1&vote=4" title="4 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
+          <a href="?image_id=1&vote=5" title="5 stars" type="button" class="btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
+        </div>
+      </div>
+
+
+    </div>');
     }
+
+    private function vote_cast()
+    {
+      if(isset($_GET['image_id']) && isset($_GET['vote'])) {
+        if(is_numeric($_GET['vote'])) {
+          if($_GET['vote'] >= 1 && $_GET['vote'] <= 5) {
+            return true; //dat pyramid of doom
+          }
+        }
+      }
+      return false;
+    }
+
   } // Rating
 
   /**
