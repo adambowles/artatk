@@ -372,20 +372,23 @@
       // Perform a superclass construction
       parent::__construct();
 
-      $this->add_body('<div class="row">');
-      $this->add_body(  '<div class="col-md-4 col-xs-12 pull-right">');
-      $this->add_body(    'Right column');
-      $this->add_body(    'Right column');
-      $this->add_body(    'Right column');
-      $this->add_body(    'Right column');
-//      $this->add_body(  '</div>');
-//      $this->add_body(  '<div class="col-md-8 col-xs-12">');
-      $this->add_body(    'Left column');
-      $this->add_body(    'Left column');
-      $this->add_body(    'Left column');
-      $this->add_body(    'Left column');
-      $this->add_body(  '</div>');
-      $this->add_body('</div>');
+      $this->add_body('<div class="row well">
+                         <div class="col-xs-12 col-sm-6 col-md-8">
+                           <h1>ArtAtk!</h1>
+                           <p class="lead">ArtAtk (Art attack) is an artistic recommendation engine. It will learn your tatse in art aesthetic and deduce the type of art you like!</p>
+                           <p class="lead">Training takes as little as ten minutes, what are you waiting for?</p>
+                           <p><a class="btn btn-lg btn-primary" href="/rate.php" role="button">Get started <i class="fa fa-arrow-right"></i></a></p>
+                         </div>
+                         <div class="col-xs-12 col-sm-6 col-md-4">
+                           <img class="img-responsive img-thumbnail" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg">
+                         </div>
+                       </div>');
+      $this->add_body('<div class="row">
+                         <div class="col-xs-12">
+                           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut facilisis libero. Donec sit amet venenatis eros. Donec at nulla quis orci commodo convallis consequat et est. Cras convallis purus vitae arcu tincidunt suscipit. Etiam blandit fermentum dignissim. Quisque quis blandit tortor, pellentesque commodo ipsum. Fusce vel leo mi.</p>
+                           <p>Nulla id turpis sit amet enim commodo dapibus. Ut at nunc justo. Aenean dignissim turpis iaculis dolor dignissim, sit amet commodo felis gravida. Suspendisse quis lectus sed est fermentum vulputate et nec nunc. Praesent tempor, massa id rhoncus luctus, sapien odio faucibus felis, quis pulvinar odio urna ut augue. Nunc ut justo nec lacus efficitur vestibulum sit amet a mauris. Cras lacinia enim id diam ultricies elementum. Donec blandit pretium aliquet. Phasellus elementum sapien et eros dignissim, non hendrerit leo convallis. Sed nunc velit, interdum at elementum eu, posuere vel justo.</p>
+                         </div>
+                       </div>');
     }
   }
 
