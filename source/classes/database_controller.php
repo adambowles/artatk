@@ -160,7 +160,6 @@
       $token = $this->sanitise($token);
 
       $sql = "UPDATE `artatk_user` SET `email_validated`=1 WHERE `email_validate_token` = $token";
-//      echo $sql;
 
       $this->connect_write();
 
@@ -272,6 +271,26 @@
       } else {
         return false;
       }
+    }
+
+    /**
+     * //TODO
+     */
+    public function vote($user_id, $art_id, $vote, $deliberation_time)
+    {
+      $user_id = $this->sanitise($user_id);
+      $art_id = $this->sanitise($art_id);
+      $vote = $this->sanitise($vote);
+      $deliberation_time = $this->sanitise($deliberation_time);
+
+      $sql = "INSERT INTO `artatk_vote` (`user_id`, `art_id`, `vote`, `deliberation_time`) VALUES ($user_id, $art_id, $vote, $deliberation_time)";
+
+      $this->connect_write();
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $this->connect_read();
     }
 
     /**
