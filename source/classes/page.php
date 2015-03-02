@@ -372,15 +372,28 @@
       // Perform a superclass construction
       parent::__construct();
 
-//      $this->get_user()->register('user', 'email', 'firstname', 'surname', 'password', 'password hint', $_SERVER['REMOTE_ADDR']); //Works
-//      $this->add_body(var_dump($this->get_user()->get_user_by_id('95'))); //Works
-//      $this->send_email("test subject", "adambowles1@gmail.com", "Adam Bowles", "test"); //Works
+      if($this->get_user()->is_logged_in()) {
+        $follow = '/rate.php';
+      } else {
+        $follow = '/register.php';
+      }
 
-      // Demo content
-      $this->add_body('<div class="starter-template">');
-      $this->add_body('##ArtAtk, art aesthetic analyser');
-      $this->add_body('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet mollis ante. Duis sollicitudin turpis ut tellus mattis, elementum auctor urna consequat. Ut nibh magna, facilisis sit amet purus quis, dignissim commodo nisi. Nullam ac convallis est. Nam vel sem vel mauris imperdiet pulvinar. Proin nibh tortor, fringilla aliquam magna non, pellentesque finibus nulla. Quisque mi mauris, cursus sed faucibus et, varius at velit. Nullam a eros sed magna viverra interdum. In hac habitasse platea dictumst. In eleifend in tortor quis bibendum.');
-      $this->add_body('</div>');
+      $this->add_body('<div class="row well">
+                         <div class="col-xs-12 col-sm-6 col-md-8">
+                           <h1>ArtAtk!</h1>
+                           <p class="lead">ArtAtk (Art attack) is an artistic recommendation engine. It will learn your tatse in art aesthetic and deduce the type of art you like!</p>
+                           <p class="lead">Training takes as little as ten minutes, what are you waiting for?</p>
+                           <p><a class="btn btn-lg btn-info" href="' . $follow . '">Get started <i class="fa fa-arrow-right"></i></a></p>
+                         </div>
+                         <div class="col-xs-12 col-sm-6 col-md-4">
+                           <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg">
+                         </div>
+                       </div>');
+      $this->add_body('<div class="row">
+                         <div class="col-xs-12 text-center">');
+      $this->add_body('Nulla id turpis sit amet enim commodo dapibus. Ut at nunc justo. Aenean dignissim turpis iaculis dolor dignissim, sit amet commodo felis gravida. Suspendisse quis lectus sed est fermentum vulputate et nec nunc. Praesent tempor, massa id rhoncus luctus, sapien odio faucibus felis, quis pulvinar odio urna ut augue. Nunc ut justo nec lacus efficitur vestibulum sit amet a mauris. Cras lacinia enim id diam ultricies elementum. Donec blandit pretium aliquet. Phasellus elementum sapien et eros dignissim, non hendrerit leo convallis. Sed nunc velit, interdum at elementum eu, posuere vel justo.');
+      $this->add_body('  </div>
+                       </div>');
     }
   }
 
@@ -395,12 +408,95 @@
 
       $this->set_title('Rate');
 
-      // Demo content
-      $this->add_body('<div class="starter-template">');
-      $this->add_body('##Rate');
-      $this->add_body('image here');
-      $this->add_body('</div>');
+      if($this->get_user()->is_logged_in()) {
+
+        if($this->vote_cast()) {
+          $image_id = $_GET['image_id'];
+          $vote = $_GET['vote'];
+          $deliberation_time = $_GET['delib_time'];
+  //        $this->get_user()->vote($image_id, $vote, $deliberation_time);
+          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
+        }
+
+  //      $number_previous_votes = $this->get_user()->get_number_of_votes();
+  //      $next_image = $this->get_user()->get_next_image();
+
+        $this->add_body('<div class="row text-center">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <p class="lead">Image 1/50</p>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <a href="?image_id=1&vote=1" onclick="insert_time(this)" title="1 star" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=2" onclick="insert_time(this)" title="2 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=3" onclick="insert_time(this)" title="3 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=4" onclick="insert_time(this)" title="4 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
+            <a href="?image_id=1&vote=5" onclick="insert_time(this)" title="5 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
+          </div>
+        </div>
+
+
+      </div>');
+        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
+      } else { // not logged in
+
+        //TODO change the demo image to a local one
+        $this->add_body('<div class="row text-center">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <p class="lead">Image 1/50</p>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+          <div class="btn-group" role="group" aria-label="...">
+            <a href="/register.php" onclick="insert_time(this)" title="1 star" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="2 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="3 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="4 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></a>
+            <a href="/register.php" onclick="insert_time(this)" title="5 stars" type="button" class="vote btn btn-default"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a>
+          </div>
+        </div>
+
+
+      </div>');
+      }
     }
+
+    private function vote_cast()
+    {
+      if(!isset($_GET['image_id'])) {
+        return false;
+      }
+      if(!isset($_GET['vote'])) {
+        return false;
+      }
+      if(!isset($_GET['delib_time'])) {
+        return false;
+      }
+      if(!is_numeric($_GET['vote'])) {
+        return false;
+      }
+      if(!($_GET['vote'] >= 1 && $_GET['vote'] <= 5)) {
+        return false;
+      }
+      if(!is_numeric($_GET['delib_time'])) {
+        return false;
+      }
+      return true;
+    }
+
   } // Rating
 
   /**
@@ -413,6 +509,13 @@
       parent::__construct();
 
       $this->set_title('Get recommendation');
+
+      $this->add_body('<div class="row text-center">');
+
+      $this->add_body('<p class="lead">This isn\'t quite ready yet</p>');
+      $this->add_body('<p class="lead">I\'ll send you an email when it\'s done</p>');
+
+      $this->add_body('</div>');
 
     }
   } // Recommendation
@@ -464,11 +567,11 @@
 
           $this->send_email_verification_email($email, $full_name, $token);
 
-          $this->add_body('##Account created!');
+          $this->add_body('#Account created!');
           $this->add_body('We\'ve sent an email to ' . $email . ', just click on the link in the email to complete registration');
           $this->add_body('[Log in](/login.php)');
         } else {
-          $this->add_body('##There was an error :(');
+          $this->add_body('#There was an error :(');
 
           if(!$username_available) {
             $this->add_body('Username already in use');
@@ -600,7 +703,6 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $success = $this->get_user()->log_in($username, $password);
-        echo $success;
       }
 
       if($this->get_user()->is_logged_in()) {
@@ -610,6 +712,8 @@
 
         $this->add_body('You\'re logged in!');
         $this->add_body('[Try voting on some art](/rate.php)');
+
+        $this->add_body('<script>document.location = \'/\'</script>');
 
         $this->add_body(  '</div>');
         $this->add_body('</div>');
@@ -671,8 +775,8 @@
       $this->set_title('Logging out');
 
       $this->get_user()->log_out();
-//      http_redirect('Location: /');
-      echo('<script>document.location = \'/\'</script>');
+
+      $this->add_body('<script>document.location = \'/\'</script>');
     }
 
   } // Logout
@@ -731,7 +835,7 @@
       $this->add_body('<div class="row text-center">');
       $this->add_body(  '<div class="col-md-12">');
 
-      $this->add_body('##Error 404: resource not found, sorry! :(');
+      $this->add_body('#Error 404: resource not found, sorry! :(');
       $this->add_body('[Home page](/)');
 
       $this->add_body(  '</div>');
