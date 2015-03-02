@@ -291,10 +291,10 @@
     /**
      *
      */
-    public function vote($art, $vote)
+    public function vote($art, $vote, $deliberation_time)
     {
       if($this->is_logged_in()) {
-        $this->get_database_controller->vote($this->get_id(), $art, $vote);
+        $this->get_database_controller->vote($this->get_id(), $art, $vote, $deliberation_time);
       }
     }
 
