@@ -188,7 +188,7 @@
       if($this->get_user()->is_logged_in()) {
         $navbar_string .= '<ul class="nav navbar-nav navbar-right">
                              <li class="dropdown">
-                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adam Bowles <b class="caret"></b></a>
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $this->get_user()->get_fullname() . ' <b class="caret"></b></a>
                                <ul class="dropdown-menu" role="menu">
                                  <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
                                  <li class="divider"></li>

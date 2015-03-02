@@ -178,6 +178,14 @@
     /**
      *
      */
+    private function get_fullname()
+    {
+      return $this->get_firstname() . ' ' . $this->get_surname();
+    }
+
+    /**
+     *
+     */
     private function set_surname($new_surname)
     {
       $this->surname = $new_surname;
