@@ -10,11 +10,12 @@
     // Object to perform database interaction
     private $database_controller;
 
+    private $logged_in = false;
+
     // Data fields about the user
     private $id = -1;
     private $username = '';
     private $email_address = '';
-    private $hashed_password = '';
     private $first_name = '';
     private $surname = '';
     //TODO the rest of these
@@ -27,13 +28,9 @@
       include(ROOT_DIRECTORY . "source/classes/database_controller.php");
       $this->set_database_controller(new database_controller());
 
-      if($this->is_logged_in()) {
-        $this->set_username($username);
-        $this->set_email_address($email_address);
-        $this->set_hashed_password($hashed_password);
-        $this->set_firstname($firstname);
-        $this->set_surname($surname);
-      }
+      $this->get_from_SESSION();
+
+//      var_dump($_SESSION);
     }
 
     /**
@@ -43,16 +40,16 @@
     {
       if(isset($_SESSION['username']) &&
          isset($_SESSION['email']) &&
-         isset($_SESSION['hashed_password']) &&
          isset($_SESSION['firstname']) &&
          isset($_SESSION['surname'])
         ) {
         $this->set_username($_SESSION['username']);
         $this->set_email_address($_SESSION['email']);
-        $this->set_email_address($_SESSION['hashed_password']);
         $this->set_firstname($_SESSION['firstname']);
         $this->set_surname($_SESSION['surname']);
-      } // Else leave default username
+
+        $this->set_logged_in(true);
+      }
     }
 
     /**
@@ -60,9 +57,9 @@
      */
     private function write_to_SESSION()
     {
+      $_SESSION['id'] = $this->get_id();
       $_SESSION['username'] = $this->get_username();
       $_SESSION['email'] = $this->get_email_address();
-      $_SESSION['hashed_password'] = $this->get_hashed_password();
       $_SESSION['firstname'] = $this->get_firstname();
       $_SESSION['surname'] = $this->get_surname();
     }
@@ -88,7 +85,14 @@
      */
     private function get_id()
     {
+//      echo('session: ' . $_SESSION['id'] . "variable: $this->id");
+//      if(isset($_SESSION['id'])) {
+//        return $_SESSION['id'];
+//      } else {
+//        return -1;
+//      }
       return $this->id;
+//      return $_SESSION['id'];
     }
 
     /**
@@ -146,26 +150,6 @@
     /**
      *
      */
-    private function get_hashed_password()
-    {
-      return $this->hashed_password;
-    }
-
-    /**
-     *
-     */
-    private function set_hashed_password($new_hashed_password)
-    {
-      $this->hashed_password = $new_hashed_password;
-
-      if($this->is_logged_in()) {
-        $_SESSION['hashed_password'] = $new_hashed_password;
-      }
-    }
-
-    /**
-     *
-     */
     private function get_firstname()
     {
       return $this->firstname;
@@ -208,7 +192,15 @@
      */
     public function is_logged_in()
     {
-      return $this->get_id() > 0;
+      return $this->logged_in;
+    }
+
+    /**
+     *
+     */
+    public function set_logged_in($new_logged_in)
+    {
+      return $this->logged_in = $new_logged_in;
     }
 
     /**
@@ -252,16 +244,26 @@
     /**
      *
      */
-    public function log_in($username, $hashed_password) //TODO
+    public function log_in($username, $password) //TODO
     {
-      //pseudocode of this method:
-      // result = db_contoller->login(user, pass);
-      // if(result) {
-      //   write_to_SESSION(result['username'], etc)
-      //   return true;
-      // } else {
-      //   return false;
-      // }
+      $result = $this->get_database_controller()->log_in($username, $password);
+
+      if($result) {
+        $this->set_id($result['user_id']);
+        $this->set_username($result['username']);
+        $this->set_email_address($result['email']);
+//        $this->set_hashed_password($result['']);
+        $this->set_firstname($result['firstname']);
+        $this->set_surname($result['surname']);
+
+        $this->write_to_SESSION();
+
+        $this->set_logged_in(true);
+
+        return true;
+      } else {
+        return false;
+      }
     }
 
     /**
@@ -269,12 +271,15 @@
      */
     public function log_out()
     {
-      if($this->is_logged_in()) {
+//      if($this->is_logged_in()) {
+        unset($_SESSION['id']);
         unset($_SESSION['username']);
         unset($_SESSION['email']);
         unset($_SESSION['firstname']);
         unset($_SESSION['surname']);
-      }
+        session_destroy();
+        $this->logged_in = false;
+//      }
     }
 
     /**
@@ -300,7 +305,7 @@
         $str .= 'Surname: ' . $this->get_surname();
         return $str;
       } else {
-        return "User ID: -1";
+        return '';
       }
     }
 

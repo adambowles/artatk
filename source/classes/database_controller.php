@@ -65,7 +65,7 @@
       }
 
       try {
-        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+        $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
         $this->set_connection(new PDO("mysql:host=$url;dbname=$db", $user, $pass, $options));
 //        $this->get_connection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch (PDOException $e) {
@@ -254,12 +254,32 @@
     }
 
     /**
+     * //TODO
+     */
+    public function log_in($username, $password)
+    {
+      $username = $this->sanitise($username);
+
+      $sql = "SELECT * FROM `artatk_user` WHERE `username` = $username";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $row = $statement->fetch(); // Fetch single row
+
+      if(password_verify($password, $row['hashed_password'])) {
+        return $row;
+      } else {
+        return false;
+      }
+    }
+
+    /**
      * Close the connection and set it to null
      */
     private function disconnect()
     {
       if($this->is_connected()) {
-//        $this->get_connection()->close(); //mysqli
         $this->set_connection(null);
       }
     }
