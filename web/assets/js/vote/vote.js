@@ -12,8 +12,6 @@ $('a.vote').find('i').on({
   click: function(e){
     e.preventDefault();
     var loc = insert_time($(this).parent());
-//    var location = $(this).parent().attr('href');
-//    alert(location);
 
     var star = $(this).parent().attr('id').replace('star','');
     highlight_stars(star);
