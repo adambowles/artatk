@@ -434,13 +434,7 @@
                            </div>
 
                            <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <h2>
-                               <a href="?image_id=1&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
-                               <a href="?image_id=1&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
-                               <a href="?image_id=1&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
-                               <a href="?image_id=1&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
-                               <a href="?image_id=1&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
-                             </h2>
+                             <h2><a href="?image_id=1&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>
 
                          </div>');
@@ -460,13 +454,7 @@
         </div>
 
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-          <h2>
-            <a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a>
-            <a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a>
-          </h2>
+          <h2><a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
         </div>
 
       </div>');
