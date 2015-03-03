@@ -209,6 +209,15 @@
     /**
      *
      */
+    public function is_admin()
+    {
+      //TODO properly code admin status
+      return true;
+    }
+
+    /**
+     *
+     */
     public function register($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address)
     {
       $user_id = $this->get_database_controller()->create_user($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address);

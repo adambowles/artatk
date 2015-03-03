@@ -243,11 +243,15 @@
     }
 
     /**
-     *
+     * Use add_body(content) to put markdown content on page
      */
-    public function add_body($content)
+    public function add_body($content, $markdown = true)
     {
-      $this->body = $this->body . $this->get_parsedown()->text($content);
+      if($markdown) {
+        $this->body = $this->body . $this->get_parsedown()->text($content);
+      } else {
+        $this->body = $this->body . $content;
+      }
     }
 
     /**
@@ -809,6 +813,52 @@
   } // Verify
 
   /**
+   *
+   */
+  class gather_images_page extends page
+  {
+    public function __construct(){
+      // Perform a superclass construction
+      parent::__construct();
+
+      if($this->get_user()->is_logged_in() &&
+         $this->get_user()->is_admin()) {
+
+        $this->add_body('<div class="row">', false);
+
+        $this->add_body(  '<div class="col-md-3">', false);
+        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Van Gogh art</a>', false);
+        $this->add_body(  '</div>', false);
+
+        $this->add_body(  '<div class="col-md-3">', false);
+        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Gauguin art</a>', false);
+        $this->add_body(  '</div>', false);
+
+        $this->add_body(  '<div class="col-md-3">', false);
+        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Caravaggio art</a>', false);
+        $this->add_body(  '</div>', false);
+
+        $this->add_body(  '<div class="col-md-3">', false);
+        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Monet art</a>', false);
+        $this->add_body(  '</div>', false);
+        $this->add_body('</div>', false);
+
+        $this->add_body('<div class="row">', false);
+        $this->add_body(  '<div class="col-md-12">', false);
+
+        $this->add_body('<pre id="output"></pre>', false);
+
+        $this->add_body(  '</div>', false);
+        $this->add_body('</div>', false);
+
+      } else {
+        $this->add_body('Not admin page');
+      }
+
+    }
+  } // Gather images
+
+  /**
    * 404 not found page
    */
   class error_404_page extends page
@@ -819,14 +869,14 @@
 
       $this->set_title('Page not found');
 
-      $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-md-12">');
+      $this->add_body('<div class="row text-center">', false);
+      $this->add_body(  '<div class="col-md-12">', false);
 
       $this->add_body('#Error 404: resource not found, sorry! :(');
       $this->add_body('[Home page](/)');
 
-      $this->add_body(  '</div>');
-      $this->add_body('</div>');
+      $this->add_body(  '</div>', false);
+      $this->add_body('</div>', false);
 
       // Return proper error code
       http_response_code(404);
