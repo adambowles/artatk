@@ -827,19 +827,19 @@
         $this->add_body('<div class="row">', false);
 
         $this->add_body(  '<div class="col-md-3">', false);
-        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Van Gogh art</a>', false);
+        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12" title="http://www.vangoghgallery.com/catalog/Painting/">Download Van Gogh art</a>', false);
         $this->add_body(  '</div>', false);
 
         $this->add_body(  '<div class="col-md-3">', false);
-        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Gauguin art</a>', false);
+        $this->add_body(    '<a id="Gauguin" class="btn btn-info col-md-12" title="http://www.gauguingallery.com/gauguin_paintings_list.aspx">Download Gauguin art</a>', false);
         $this->add_body(  '</div>', false);
 
         $this->add_body(  '<div class="col-md-3">', false);
-        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Caravaggio art</a>', false);
+        $this->add_body(    '<a id="Caravaggio" class="btn btn-info col-md-12" title="http://www.caravaggiogallery.com/caravaggio-paintings-list.aspx">Download Caravaggio art</a>', false);
         $this->add_body(  '</div>', false);
 
         $this->add_body(  '<div class="col-md-3">', false);
-        $this->add_body(    '<a id="VanGogh" class="btn btn-info col-md-12">Download Monet art</a>', false);
+        $this->add_body(    '<a id="Monet" class="btn btn-info col-md-12" title="http://www.cmonetgallery.com/monet-paintings-list.aspx">Download Monet art</a>', false);
         $this->add_body(  '</div>', false);
         $this->add_body('</div>', false);
 
@@ -852,7 +852,8 @@
         $this->add_body('</div>', false);
 
       } else {
-        $this->add_body('Not admin page');
+        $this->add_body('Unauthorized access');
+        //TODO redirect to front page, maybe even 404 it
       }
 
     }
