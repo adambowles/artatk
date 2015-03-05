@@ -641,6 +641,10 @@
       foreach($required_keys as $key) {
         if(!isset($_POST[$key])){
           $something_missing = true;
+        } else {
+          if(strlen($_POST[$key]) < 1) {
+            $something_missing = true;
+          }
         }
       }
       return !$something_missing;
@@ -749,6 +753,10 @@
       foreach($required_keys as $key) {
         if(!isset($_POST[$key])){
           $something_missing = true;
+        } else {
+          if(strlen($_POST[$key]) < 1) {
+            $something_missing = true;
+          }
         }
       }
       return !$something_missing;
