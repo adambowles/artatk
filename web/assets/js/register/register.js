@@ -26,7 +26,7 @@ $('#registration-form :input').each(function() {
 // Specific field triggers
 $('#username, #email').on({
   blur: function(){
-    if($(this).val().length > 0) {
+    if(validate_input($(this), $(this).attr('type'))){
       check_availability($(this), $(this).attr('type'));
     }
   }
