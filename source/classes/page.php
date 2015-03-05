@@ -243,7 +243,8 @@
     }
 
     /**
-     * Use add_body(content) to put markdown content on page
+     * Use add_body(content[, true]) to put markdown content on page
+     * Use add_body(content, false) to put direct HTML content on page
      */
     public function add_body($content, $markdown = true)
     {
@@ -392,12 +393,12 @@
                          <div class="col-xs-12 col-sm-6 col-md-4">
                            <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg">
                          </div>
-                       </div>');
-      $this->add_body('<div class="row">
-                         <div class="col-xs-12 text-center">');
+                       </div>', false);
+      $this->add_body('<div class="row">', false);
+      $this->add_body('  <div class="col-xs-12 text-center">', false);
       $this->add_body('Nulla id turpis sit amet enim commodo dapibus. Ut at nunc justo. Aenean dignissim turpis iaculis dolor dignissim, sit amet commodo felis gravida. Suspendisse quis lectus sed est fermentum vulputate et nec nunc. Praesent tempor, massa id rhoncus luctus, sapien odio faucibus felis, quis pulvinar odio urna ut augue. Nunc ut justo nec lacus efficitur vestibulum sit amet a mauris. Cras lacinia enim id diam ultricies elementum. Donec blandit pretium aliquet. Phasellus elementum sapien et eros dignissim, non hendrerit leo convallis. Sed nunc velit, interdum at elementum eu, posuere vel justo.');
-      $this->add_body('  </div>
-                       </div>');
+      $this->add_body('  </div>', false);
+      $this->add_body('</div>', false);
     }
   }
 
@@ -441,7 +442,7 @@
                              <h2><a href="?image_id=1&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>
 
-                         </div>');
+                         </div>', false);
         $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
       } else { // not logged in
 
@@ -461,7 +462,7 @@
           <h2><a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
         </div>
 
-      </div>');
+      </div>', false);
       }
     }
 
@@ -501,12 +502,12 @@
 
       $this->set_title('Get recommendation');
 
-      $this->add_body('<div class="row text-center">');
+      $this->add_body('<div class="row text-center">', false);
 
       $this->add_body('<p class="lead">This isn\'t quite ready yet</p>');
       $this->add_body('<p class="lead">I\'ll send you an email when it\'s done</p>');
 
-      $this->add_body('</div>');
+      $this->add_body('</div>', false);
 
     }
   } // Recommendation
@@ -536,8 +537,8 @@
         $username_available = $this->get_user()->get_database_controller()->check_availability($username, 'username');
         $email_available = $this->get_user()->get_database_controller()->check_availability($email, 'email');
 
-        $this->add_body('<div class="row text-center">');
-        $this->add_body('  <div class="col-lg-12">');
+        $this->add_body('<div class="row text-center">', false);
+        $this->add_body('  <div class="col-lg-12">', false);
 
         if($username_available && $email_available) {
           $registration_success = $this->get_user()->register($username,
@@ -573,12 +574,12 @@
           $this->add_body('[Back to registration form](/register.php)');
         }
 
-        $this->add_body('  </div>');
-        $this->add_body('</div>');
+        $this->add_body('  </div>', false);
+        $this->add_body('</div>', false);
       } else {
 
-        $this->add_body('<div class="row text-center">');
-        $this->add_body('  <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+        $this->add_body('<div class="row text-center">', false);
+        $this->add_body('  <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">', false);
 
         $this->add_body('<form action="/register.php" method="POST" onsubmit="return validate_form(this)" id="registration-form">
                           <div class="form-group">
@@ -616,12 +617,12 @@
                           '</div>
 
                           <button type="submit" class="btn btn-default">Submit</button>
-                        </form>');
+                        </form>', false);
 
         $this->add_body('Already have an account? [Log in here](/login.php)');
 
-        $this->add_body("  </div>");
-        $this->add_body("</div>");
+        $this->add_body('  </div>', false);
+        $this->add_body('</div>', false);
 
         $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/register/register.js'));
       }
@@ -698,21 +699,21 @@
 
       if($this->get_user()->is_logged_in()) {
 
-        $this->add_body('<div class="row text-center">');
-        $this->add_body(  '<div class="col-md-12">');
+        $this->add_body('<div class="row text-center">', false);
+        $this->add_body(  '<div class="col-md-12">', false);
 
         $this->add_body('You\'re logged in!');
         $this->add_body('[Try voting on some art](/rate.php)');
 
-        $this->add_body('<script>document.location = \'/\'</script>');
+        $this->add_body('<script>document.location = \'/\'</script>', false);
 
-        $this->add_body(  '</div>');
-        $this->add_body('</div>');
+        $this->add_body(  '</div>', false);
+        $this->add_body('</div>', false);
 
       } else {
 
-        $this->add_body('<div class="row text-center">');
-        $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">');
+        $this->add_body('<div class="row text-center">', false);
+        $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">', false);
 
         if((!$success) && $attempting_login) {
           $this->add_body('Incorrect username and/or password');
@@ -728,12 +729,12 @@
                              <input type="password" class="form-control" id="password" name="password" placeholder="Password" data-error="">
                            </div>
                            <button type="submit" class="btn btn-default">Log in</button>
-                         </form>');
+                         </form>', false);
 
         $this->add_body('Need an account? [Register here](/register.php)');
 
-        $this->add_body(  '</div>');
-        $this->add_body('</div>');
+        $this->add_body(  '</div>', false);
+        $this->add_body('</div>', false);
 
         $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/login/login.js'));
       }
@@ -767,7 +768,7 @@
 
       $this->get_user()->log_out();
 
-      $this->add_body('<script>document.location = \'/\'</script>');
+      $this->add_body('<script>document.location = \'/\'</script>', false);
     }
 
   } // Logout
@@ -784,8 +785,8 @@
       $this->set_title('Verify your email address');
 
 
-      $this->add_body('<div class="row text-center">');
-      $this->add_body(  '<div class="col-md-12">');
+      $this->add_body('<div class="row text-center">', false);
+      $this->add_body(  '<div class="col-md-12">', false);
 
       if(isset($_GET['token'])) {
         $success = $this->get_user()->verify_email_address($_GET['token']);
@@ -806,8 +807,8 @@
 
       }
 
-      $this->add_body(  '</div>');
-      $this->add_body('</div>');
+      $this->add_body(  '</div>', false);
+      $this->add_body('</div>', false);
 
     }
   } // Verify
