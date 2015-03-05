@@ -443,8 +443,6 @@
                            </div>', false);
 
         $this->add_body('</div>', false);
-
-        $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
       } else { // not logged in
 
         //TODO change the demo image to a local one
@@ -465,6 +463,7 @@
 
         $this->add_body('</div>', false);
       }
+      $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
     }
 
     private function vote_cast()

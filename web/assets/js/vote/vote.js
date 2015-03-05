@@ -53,12 +53,18 @@ function insert_time(anchor)
 {
   anchor = $(anchor);
 
-  var start_time = anchor.attr('start_time');
-  var end_time = new Date().getTime();
-  var deliberation_time = end_time - start_time;
+  var old_href = anchor.attr('href');
+  if(!/.+\.php$/.test(old_href)) {
 
-  var new_href = anchor.attr('href') + '&delib_time=' + deliberation_time;
+    var start_time = anchor.attr('start_time');
+    var end_time = new Date().getTime();
+    var deliberation_time = end_time - start_time;
 
-  anchor.attr('href', new_href);
-  return new_href;
+    var new_href = anchor.attr('href') + '&delib_time=' + deliberation_time;
+
+    anchor.attr('href', new_href);
+    return new_href;
+  } else {
+    return old_href;
+  }
 }
