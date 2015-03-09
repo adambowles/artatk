@@ -309,7 +309,9 @@
      */
     public function get_next_image()
     {
-      return 'VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg';
+      $image = $this->get_database_controller()->get_random_image(); //Random proof of concept
+      return $image;
+//      return 'VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg';
     }
 
     /**

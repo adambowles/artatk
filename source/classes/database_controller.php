@@ -311,6 +311,23 @@
     }
 
     /**
+     * //TODO
+     *
+     * @return Associative array of record from database
+     */
+    public function get_random_image()
+    {
+      $sql = "SELECT * FROM `artatk_art` ORDER BY RAND() LIMIT 1;";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $record = $statement->fetch(); // Fetch single row
+
+      return $record;
+    }
+
+    /**
      * Close the connection and set it to null
      */
     private function disconnect()

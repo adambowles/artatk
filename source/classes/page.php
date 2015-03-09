@@ -425,11 +425,13 @@
 
         $number_previous_votes = $this->get_user()->get_number_of_votes();
         $next_image = $this->get_user()->get_next_image();
+        $image_path = $next_image['local_path'];
+        $image_id = $next_image['art_id'];
 
         $this->add_body('<div class="row text-center">', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <img class="img-responsive img-thumbnail" src="/assets/img/art/' . $next_image . '" height="500px" style="max-height:500px">
+                             <img class="img-responsive img-thumbnail" src="/assets/img/art/' . $image_path . '" height="500px" style="max-height:500px">
                            </div>', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -439,7 +441,7 @@
                            </div>', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <h2><a href="?image_id=1&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=1&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
+                             <h2><a href="?image_id=' . $image_id . '&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>', false);
 
         $this->add_body('</div>', false);
