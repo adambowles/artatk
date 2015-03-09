@@ -307,6 +307,24 @@
     /**
      *
      */
+    public function get_next_image()
+    {
+      return 'VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg';
+    }
+
+    /**
+     *
+     */
+    public function get_number_of_votes()
+    {
+      $count = $this->get_database_controller()->get_number_of_votes($this->get_id());
+
+      return $count;
+    }
+
+    /**
+     *
+     */
     public function __toString()
     {
       if($this->is_logged_in()) {

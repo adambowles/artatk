@@ -423,18 +423,18 @@
 //          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
 
-  //      $number_previous_votes = $this->get_user()->get_number_of_votes();
-  //      $next_image = $this->get_user()->get_next_image();
+        $number_previous_votes = $this->get_user()->get_number_of_votes();
+        $next_image = $this->get_user()->get_next_image();
 
         $this->add_body('<div class="row text-center">', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
+                             <img class="img-responsive img-thumbnail" src="/assets/img/art/' . $next_image . '" height="500px" style="max-height:500px">
                            </div>', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                              <div class="btn-group" role="group" aria-label="...">
-                               <p class="lead">Image 1/50</p>
+                               <p class="lead">Image ' . ($number_previous_votes+1) . '/50</p>
                              </div>
                            </div>', false);
 
@@ -445,10 +445,9 @@
         $this->add_body('</div>', false);
       } else { // not logged in
 
-        //TODO change the demo image to a local one
         $this->add_body('<div class="row text-center">', false);
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <img class="img-responsive img-thumbnail" src="http://i.imgur.com/681E4El.jpg" height="500px" style="max-height:500px">
+                             <img class="img-responsive img-thumbnail" src="/assets/img/art/VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg" height="500px" style="max-height:500px">
                            </div>', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
