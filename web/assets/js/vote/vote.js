@@ -1,7 +1,7 @@
 var start_time = new Date().getTime();
 
-$('a.vote').each(function(){
-  $(this).attr('start_time', start_time);
+$('input[name="delib_time"]').each(function(){
+  $(this).val(start_time);
 });
 
 $('a.vote').find('i').on({
@@ -11,13 +11,16 @@ $('a.vote').find('i').on({
   },
   click: function(e){
     e.preventDefault();
-    var loc = insert_time($(this).parent());
 
-    var star = $(this).parent().attr('id').replace('star','');
-    highlight_stars(star);
+    var star_number = $(this).parent().attr('id').replace('star','');
+    highlight_stars(star_number);
 
     setTimeout(function(){
-     window.location = loc;
+      var start_time = $('#delib_time' + star_number).val();
+      var end_time = new Date().getTime();
+      var deliberation_time = end_time - start_time;
+      $('#delib_time' + star_number).val(deliberation_time);
+      $('#vote' + star_number).submit();
     },1);
   },
   mouseleave: function(){
@@ -47,24 +50,4 @@ function unhighlight_stars()
 {
   $('a.vote').find('i').addClass('fa-star-o');
   $('a.vote').find('i').removeClass('fa-star');
-}
-
-function insert_time(anchor)
-{
-  anchor = $(anchor);
-
-  var old_href = anchor.attr('href');
-  if(!/.+\.php$/.test(old_href)) {
-
-    var start_time = anchor.attr('start_time');
-    var end_time = new Date().getTime();
-    var deliberation_time = end_time - start_time;
-
-    var new_href = anchor.attr('href') + '&delib_time=' + deliberation_time;
-
-    anchor.attr('href', new_href);
-    return new_href;
-  } else {
-    return old_href;
-  }
 }

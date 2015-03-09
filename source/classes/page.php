@@ -416,9 +416,9 @@
       if($this->get_user()->is_logged_in()) {
 
         if($this->vote_cast()) {
-          $image_id = $_GET['image_id'];
-          $vote = $_GET['vote'];
-          $deliberation_time = $_GET['delib_time'];
+          $image_id = $_POST['image_id'];
+          $vote = $_POST['vote'];
+          $deliberation_time = $_POST['delib_time'];
           $this->get_user()->vote($image_id, $vote, $deliberation_time);
 //          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
@@ -436,12 +436,46 @@
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                              <div class="btn-group" role="group" aria-label="...">
-                               <p class="lead">Image ' . ($number_previous_votes+1) . '/50</p>
+                               <p class="lead">Image ' . ($number_previous_votes + 1) . '/50</p>
                              </div>
                            </div>', false);
 
+        $this->add_body(  '<form action="rate.php" method="post" id="vote1">
+                             <input type="hidden" name="image_id" id="image_id1" value="' . $image_id . '">
+                             <input type="hidden" name="vote" id="vote1" value="1">
+                             <input type="hidden" name="delib_time" id="delib_time1" value="">
+                           </form>', false);
+
+        $this->add_body(  '<form action="rate.php" method="post" id="vote2">
+                             <input type="hidden" name="image_id" id="image_id2" value="' . $image_id . '">
+                             <input type="hidden" name="vote" id="vote2" value="2">
+                             <input type="hidden" name="delib_time" id="delib_time2" value="">
+                           </form>', false);
+
+        $this->add_body(  '<form action="rate.php" method="post" id="vote3">
+                             <input type="hidden" name="image_id" id="image_id3" value="' . $image_id . '">
+                             <input type="hidden" name="vote" id="vote3" value="3">
+                             <input type="hidden" name="delib_time" id="delib_time3" value="">
+                           </form>', false);
+
+        $this->add_body(  '<form action="rate.php" method="post" id="vote4">
+                             <input type="hidden" name="image_id" id="image_id4" value="' . $image_id . '">
+                             <input type="hidden" name="vote" id="vote4" value="4">
+                             <input type="hidden" name="delib_time" id="delib_time4" value="">
+                           </form>', false);
+
+        $this->add_body(  '<form action="rate.php" method="post" id="vote5">
+                             <input type="hidden" name="image_id" id="image_id5" value="' . $image_id . '">
+                             <input type="hidden" name="vote" id="vote5" value="5">
+                             <input type="hidden" name="delib_time" id="delib_time5" value="">
+                           </form>', false);
+
+//        $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+//                             <h2><a href="?image_id=' . $image_id . '&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
+//                           </div>', false);
+
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <h2><a href="?image_id=' . $image_id . '&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
+                             <h2><a href="#" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>', false);
 
         $this->add_body('</div>', false);
@@ -449,7 +483,7 @@
 
         $this->add_body('<div class="row text-center">', false);
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <img class="img-responsive img-thumbnail" src="/assets/img/art/VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg" height="500px" style="max-height:500px">
+                             <img class="img-responsive img-thumbnail" src="/assets/img/art/VincentvanGogh/508-Starry-Night.jpg" height="500px" style="max-height:500px">
                            </div>', false);
 
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -469,22 +503,22 @@
 
     private function vote_cast()
     {
-      if(!isset($_GET['image_id'])) {
+      if(!isset($_POST['image_id'])) {
         return false;
       }
-      if(!isset($_GET['vote'])) {
+      if(!isset($_POST['vote'])) {
         return false;
       }
-      if(!isset($_GET['delib_time'])) {
+      if(!isset($_POST['delib_time'])) {
         return false;
       }
-      if(!is_numeric($_GET['vote'])) {
+      if(!is_numeric($_POST['vote'])) {
         return false;
       }
-      if(!($_GET['vote'] >= 1 && $_GET['vote'] <= 5)) {
+      if(!($_POST['vote'] >= 1 && $_POST['vote'] <= 5)) {
         return false;
       }
-      if(!is_numeric($_GET['delib_time'])) {
+      if(!is_numeric($_POST['delib_time'])) {
         return false;
       }
       return true;

@@ -310,8 +310,8 @@
     public function get_next_image()
     {
       $image = $this->get_database_controller()->get_random_image(); //Random proof of concept
+      // % escape the text fields
       return $image;
-//      return 'VincentvanGogh/1-Agostina-Segatori-Sitting-in-the-Café-du-Tambourin.jpg';
     }
 
     /**
