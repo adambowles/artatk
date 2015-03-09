@@ -309,8 +309,11 @@
      */
     public function get_next_image()
     {
-      $image = $this->get_database_controller()->get_random_image(); //Random proof of concept
-      // % escape the text fields
+      $image = $this->get_database_controller()->get_next_image($this->get_id());
+      foreach ($image as $key => $value) {
+//        $image[$key] = urlencode($image[$key]);
+        $image[$key] = str_replace('%', '%25', $image[$key]);
+      }
       return $image;
     }
 

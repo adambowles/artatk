@@ -315,8 +315,16 @@
      *
      * @return Associative array of record from database
      */
-    public function get_random_image()
+    public function get_next_image($user_id)
     {
+      $user_id = $this->sanitise($user_id);
+
+      //TODO get an image that doesn't already have a vote
+//      SELECT *
+//      FROM `artatk_art` `a`
+//      LEFT JOIN `artatk_art` `b`
+//      ON `a`.`art_id` = `b`.`art_id`
+//      WHERE `b`.`art_id` IS NULL
       $sql = "SELECT * FROM `artatk_art` ORDER BY RAND() LIMIT 1;";
 
       $statement = $this->get_connection()->prepare($sql);
