@@ -18,7 +18,7 @@ $('a.vote').find('i').on({
 
     setTimeout(function(){
      window.location = loc;
-    },500);
+    },1);
   },
   mouseleave: function(){
     unhighlight_stars();
