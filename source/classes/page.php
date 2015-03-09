@@ -419,7 +419,7 @@
           $image_id = $_GET['image_id'];
           $vote = $_GET['vote'];
           $deliberation_time = $_GET['delib_time'];
-  //        $this->get_user()->vote($image_id, $vote, $deliberation_time);
+          $this->get_user()->vote($image_id, $vote, $deliberation_time);
 //          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
 
