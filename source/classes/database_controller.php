@@ -319,13 +319,13 @@
     {
       $user_id = $this->sanitise($user_id);
 
-      //TODO get an image that doesn't already have a vote
-//      SELECT *
-//      FROM `artatk_art` `a`
-//      LEFT JOIN `artatk_art` `b`
-//      ON `a`.`art_id` = `b`.`art_id`
-//      WHERE `b`.`art_id` IS NULL
-      $sql = "SELECT * FROM `artatk_art` ORDER BY RAND() LIMIT 1;";
+      // $sql = "SELECT * FROM `artatk_art` ORDER BY RAND() LIMIT 1;";
+      $sql = "SELECT `artatk_art`.`art_id`, `artatk_art`.`local_path`" .
+             "FROM `artatk_art`" .
+             "LEFT JOIN `artatk_vote` ON `artatk_art`.`art_id` = `artatk_vote`.`art_id`" .
+             "WHERE `artatk_vote`.`user_id` IS NULL OR `artatk_vote`.`user_id` <> $user_id" .
+             "ORDER BY RAND()" .
+             "LIMIT 1;";
 
       $statement = $this->get_connection()->prepare($sql);
       $statement->execute();
