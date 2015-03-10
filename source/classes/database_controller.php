@@ -152,7 +152,7 @@
      * Create a user account
      *
      * @param $token
-
+     *
      * @return ID of record inserted
      */
     public function verify_email_address($token)
