@@ -267,10 +267,28 @@
       $row = $statement->fetch(); // Fetch single row
 
       if(password_verify($password, $row['hashed_password'])) {
+  
+        update_last_login($row['user_id']);
+        
         return $row;
       } else {
         return false;
       }
+    }
+
+    /**
+     * //TODO
+     */
+    private function update_last_login($user_id)
+    {
+      $sql = "UPDATE `artatk_user` SET `last_login` = CURRENT_TIMESTAMP WHERE `artatk_user`.`user_id` = $user_id;";
+
+      $this->connect_write();
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $this->connect_read();
     }
 
     /**
