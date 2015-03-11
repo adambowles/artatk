@@ -13,24 +13,29 @@
     private $logged_in = false;
 
     // Data fields about the user
-    private $id;
-    private $username;
-    private $email_address;
-    private $first_name;
-    private $surname;
-    //TODO the rest of these
+    private $id; //integer
+    private $username; //string
+    private $email_address; //string
+    private $first_name; //string
+    private $surname; //string
+    private $password_hint; //string //TODO getter/setter
+    private $in_education; //boolean //TODO getter/setter
+    private $year_of_study; //integer //TODO getter/setter
+    private $degree_level; //string //TODO getter/setter
+    private $institution; //string //TODO getter/setter
+    private $field_of_study; //integer //TODO getter/setter
+    private $interested_in_art; //boolean //TODO getter/setter
+    private $art_appreciation_frequency; //integer //TODO getter/setter
 
     /**
      *
      */
-    public function __construct()//$username, $email_address, $hashed_password, $firstname, $surname)
+    public function __construct()
     {
       include(ROOT_DIRECTORY . "source/classes/database_controller.php");
       $this->set_database_controller(new database_controller());
 
       $this->get_from_SESSION();
-
-//      var_dump($_SESSION);
     }
 
     /**
@@ -103,6 +108,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['id'] = $new_id;
+        //TODO writeback the firstname to database
       }
     }
 
@@ -127,6 +133,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['username'] = $new_username;
+        //TODO writeback the firstname to database
       }
     }
 
@@ -151,6 +158,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['email'] = $new_email_address;
+        //TODO writeback the firstname to database
       }
     }
 
@@ -200,6 +208,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['surname'] = $new_surname;
+        //TODO writeback the firstname to database
       }
     }
 
