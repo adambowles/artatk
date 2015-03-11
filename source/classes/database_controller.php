@@ -6,7 +6,8 @@
    *
    * Start each method off by sanitising it's parameters. Help avoid SQL injections
    *
-   * Avoid using exposed SQL anywhere in this class. Write stored procedures instead.
+   * Only connect to the database write privilege user account when you /need/ to write data
+   *   A method that only reads data and does not use the write user cannot be SQL inject attacked to drop data
    *
    * @author Adam Bowles <bowlesa@aston.ac.uk>
    */
