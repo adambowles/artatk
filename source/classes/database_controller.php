@@ -7,7 +7,8 @@
    * Start each method off by sanitising it's parameters. Help avoid SQL injections
    *
    * Only connect to the database write privilege user account when you /need/ to write data
-   *   A method that only reads data and does not use the write user cannot be SQL inject attacked to drop data
+   * A method that only reads data and does not use the write user cannot be SQL inject attacked to drop data
+   * Be sure to switch back to the database read privilege user account once writing is done
    *
    * @author Adam Bowles <bowlesa@aston.ac.uk>
    */
