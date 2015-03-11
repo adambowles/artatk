@@ -87,7 +87,11 @@
      */
     public function get_id()
     {
-      return $this->id;
+      if($this->is_logged_in()) {
+        return $this->id;
+      } else {
+        return '';
+      }
     }
 
     /**
@@ -107,7 +111,11 @@
      */
     private function get_username()
     {
-      return $this->username;
+      if($this->is_logged_in()) {
+        return $this->username;
+      } else {
+        return '';
+      }
     }
 
     /**
@@ -127,7 +135,11 @@
      */
     private function get_email_address()
     {
-      return $this->email_address;
+      if($this->is_logged_in()) {
+        return $this->email_address;
+      } else {
+        return '';
+      }
     }
 
     /**
@@ -147,7 +159,11 @@
      */
     private function get_firstname()
     {
-      return $this->firstname;
+      if($this->is_logged_in()) {
+        return $this->firstname;
+      } else {
+        return '';
+      }
     }
 
     /**
@@ -159,6 +175,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['firstname'] = $new_firstname;
+        //TODO writeback the firstname to database
       }
     }
 
@@ -167,15 +184,11 @@
      */
     private function get_surname()
     {
-      return $this->surname;
-    }
-
-    /**
-     *
-     */
-    public function get_fullname()
-    {
-      return $this->get_firstname() . ' ' . $this->get_surname();
+      if($this->is_logged_in()) {
+        return $this->surname;
+      } else {
+        return '';
+      }
     }
 
     /**
@@ -187,6 +200,18 @@
 
       if($this->is_logged_in()) {
         $_SESSION['surname'] = $new_surname;
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_fullname()
+    {
+      if($this->is_logged_in()) {
+        return $this->get_firstname() . ' ' . $this->get_surname();
+      } else {
+        return '';
       }
     }
 
@@ -246,23 +271,17 @@
     {
       $record = $this->get_database_controller()->get_user_by_id($user_id);
 
-//      $this->set_id($user_id);
-//
-//      $success = $this->get_id() > 0;
-
       return $record;
     }
 
     /**
      *
      */
-    public function log_in($username, $password) //TODO
+    public function log_in($username, $password)
     {
       $result = $this->get_database_controller()->log_in($username, $password);
 
       if($result) {
-//        echo($result['user_id']);
-//        echo($this->get_id());
         $this->set_id($result['user_id']);
         $this->set_username($result['username']);
         $this->set_email_address($result['email']);
@@ -298,7 +317,6 @@
      */
     public function vote($art, $vote, $deliberation_time)
     {
-//      echo $this->get_id();
       if($this->is_logged_in()) {
         $this->get_database_controller()->vote($this->get_id(), $art, $vote, $deliberation_time);
       }
@@ -309,12 +327,14 @@
      */
     public function get_next_image()
     {
-      $image = $this->get_database_controller()->get_next_image($this->get_id());
-      foreach ($image as $key => $value) {
-//        $image[$key] = urlencode($image[$key]);
-        $image[$key] = str_replace('%', '%25', $image[$key]);
+      if($this->is_logged_in()) {
+        $image = $this->get_database_controller()->get_next_image($this->get_id());
+        foreach ($image as $key => $value) {
+  //        $image[$key] = urlencode($image[$key]);
+          $image[$key] = str_replace('%', '%25', $image[$key]);
+        }
+        return $image;
       }
-      return $image;
     }
 
     /**
