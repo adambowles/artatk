@@ -80,22 +80,6 @@
     /**
      *
      */
-//    public function get_emailer()
-//    {
-//      return $this->emailer;
-//    }
-//
-//    /**
-//     *
-//     */
-//    public function set_emailer($new_emailer)
-//    {
-//      return $this->emailer = $new_emailer;
-//    }
-
-    /**
-     *
-     */
     public function get_asset_controller()
     {
       return $this->asset_controller;
