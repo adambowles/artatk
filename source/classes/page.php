@@ -5,9 +5,10 @@
    */
   class page
   {
-
-    // Some funcationality controllers
+    
     private $user; // Person who is logged in
+
+    // Some functionality controllers
     private $asset_controller;
     private $parsedown;
 
