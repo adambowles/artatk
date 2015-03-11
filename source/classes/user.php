@@ -329,10 +329,11 @@
     {
       if($this->is_logged_in()) {
         $image = $this->get_database_controller()->get_next_image($this->get_id());
-        foreach ($image as $key => $value) {
-  //        $image[$key] = urlencode($image[$key]);
-          $image[$key] = str_replace('%', '%25', $image[$key]);
-        }
+        //TODO cleanse art filenames of accents, see trello
+  //       foreach ($image as $key => $value) {
+  // //        $image[$key] = urlencode($image[$key]);
+  //         $image[$key] = str_replace('%', '%25', $image[$key]);
+  //       }
         return $image;
       }
     }
