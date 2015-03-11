@@ -130,11 +130,22 @@
              $password_hint = $this->sanitise($password_hint);
                 $ip_address = $this->sanitise($ip_address);
 
+      //TODO don't insert registered datetime, trust the database trigger to do it
       $sql = "INSERT INTO `artatk_user` (
-        `username`, `email`, `email_validate_token`, `firstname`, `surname`, `hashed_password`, `password_hint`, `registered_datetime`, `registered_ip_address`
-      ) VALUES (
-        $username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, CURRENT_TIMESTAMP, $ip_address
-      )";
+                `username`,
+                `email`, `email_validate_token`,
+                `firstname`, `surname`,
+                `hashed_password`, `password_hint`,
+                `registered_datetime`,
+                `registered_ip_address`
+              ) VALUES (
+                $username,
+                $email_address, $email_validate_token,
+                $firstname, $surname,
+                $password, $password_hint,
+                CURRENT_TIMESTAMP,
+                $ip_address
+              )";
 
       $this->connect_write();
 
