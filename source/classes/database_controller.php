@@ -317,14 +317,14 @@
     public function get_number_of_votes($user_id)
     {
       $user_id = $this->sanitise($user_id);
-
-      $sql = "SELECT count(`user_id`) AS count FROM artatk_vote WHERE user_id = $user_id;";
-
+      
+      $sql = "SELECT count(`user_id`) AS count FROM `artatk_vote` WHERE `user_id` = $user_id;";
       $statement = $this->get_connection()->prepare($sql);
+      
       $statement->execute();
-
+      
       $count = $statement->fetch()['count']; // Fetch single row
-
+      
       return $count;
     }
 
