@@ -54,6 +54,7 @@
         $this->set_email_address($_SESSION['email']);
         $this->set_firstname($_SESSION['firstname']);
         $this->set_surname($_SESSION['surname']);
+        //TODO the rest
 
         $this->set_logged_in(true);
       }
@@ -69,6 +70,7 @@
       $_SESSION['email'] = $this->get_email_address();
       $_SESSION['firstname'] = $this->get_firstname();
       $_SESSION['surname'] = $this->get_surname();
+      //TODO the rest
     }
 
     /**
@@ -115,7 +117,7 @@
     /**
      *
      */
-    private function get_username()
+    public function get_username()
     {
       if($this->is_logged_in()) {
         return $this->username;
@@ -140,7 +142,7 @@
     /**
      *
      */
-    private function get_email_address()
+    public function get_email_address()
     {
       if($this->is_logged_in()) {
         return $this->email_address;
@@ -165,7 +167,7 @@
     /**
      *
      */
-    private function get_firstname()
+    public function get_firstname()
     {
       if($this->is_logged_in()) {
         return $this->firstname;
@@ -190,7 +192,7 @@
     /**
      *
      */
-    private function get_surname()
+    public function get_surname()
     {
       if($this->is_logged_in()) {
         return $this->surname;
@@ -241,12 +243,12 @@
     }
 
     /**
-     *
+     * //TODO this probably isn't really in the scope of this project
      */
     public function is_admin()
     {
-      //TODO properly code admin status
-      return true;
+      // $is_admin = $this->get_database_controller()->is_admin($this->get_id());
+      return $is_admin;
     }
 
     /**
@@ -296,6 +298,7 @@
         $this->set_email_address($result['email']);
         $this->set_firstname($result['firstname']);
         $this->set_surname($result['surname']);
+        //TODO the rest
 
         $this->write_to_SESSION();
 
@@ -317,6 +320,8 @@
         unset($_SESSION['email']);
         unset($_SESSION['firstname']);
         unset($_SESSION['surname']);
+        //TODO the rest
+        
         session_destroy();
         $this->logged_in = false;
     }
@@ -368,6 +373,8 @@
         $str .= 'Email Address: ' . $this->get_email() . ', ';
         $str .= 'First name: ' . $this->get_firstname() . ', ';
         $str .= 'Surname: ' . $this->get_surname();
+        //TODO the rest
+        
         return $str;
       } else {
         return '';
@@ -375,7 +382,7 @@
     }
 
     /**
-     * 'Delete the user (set their deleted flag to 1)
+     * Delete the user (set their deleted flag to 1)
      */
     public function delete()
     {
