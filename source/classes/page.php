@@ -604,7 +604,7 @@
         $this->add_body('<form action="/register.php" method="POST" onsubmit="return validate_form(this)" id="registration-form">
                           <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="username" class="form-control" id="username" name="username" placeholder="Username" required data-error="Username too short (minimum length 6 characters)">
+                            <input type="username" class="form-control" id="username" name="username" placeholder="Username" required data-error="Username too short (minimum length 6 characters)" autofocus>
                           </div>
 
                           <div class="form-group">
