@@ -1,6 +1,6 @@
 <?php
 
-  // Define the root director of the project.
+  // Define the root directory of the project.
   // Used to definitively point to project files
   // without necessarily knowing what the current working directory is
   $rd = getcwd() . "/";
