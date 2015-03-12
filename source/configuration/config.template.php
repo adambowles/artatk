@@ -41,7 +41,7 @@
 
 
   // Whether new user accounts need to verify their email address
-  define('emails_require_verification', false);
+  define('emails_require_verification', true);
 
 
   define('WEBSITE_TITLE', 'ArtAtk');
