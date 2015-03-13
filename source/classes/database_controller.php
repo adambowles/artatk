@@ -369,6 +369,23 @@
     }
 
     /**
+     * Gets the number of art items that are flagged as being in the training set
+     *
+     * @return Integer of training set size
+     */
+    public function get_training_set_size()
+    {
+      $sql = "SELECT count(*) as `count` FROM `artatk_art` WHERE `training_set` = 1;";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $size = $statement->fetch()['count']; // Fetch single row
+
+      return $size;
+    }
+
+    /**
      * Close the connection and set it to null
      */
     private function disconnect()
