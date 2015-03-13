@@ -114,24 +114,24 @@
      */
     private function construct_head()
     {
-      return "<!doctype html>" .
-             "<html>" .
-             "<head>" .
+      return '<!doctype html>' .
+             '<html>' .
+             '<head>' .
                $this->get_charset_meta_tag() .
-               "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">" .
-               "<title>" .
+               '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' .
+               '<title' .
                  WEBSITE_TITLE . $this->get_title() .
-               "</title>" .
+               '</title>' .
                $this->asset_controller->get_bootstrap_css() .
                $this->asset_controller->get_fontawesome_css() .
                $this->asset_controller->get_css() .
                $this->head .
-             "</head>" .
-             "<body>" .
-               "<header>" .
+             '</head>' .
+             '<body>' .
+               '<header>' .
                  $this->get_navbar() .
-               "</header>" .
-               "<div id=\"content\" class=\"container\">"
+               '</header>' .
+               '<div id="content" class="container">'
         ;
     }
 
@@ -140,10 +140,10 @@
      */
     public function get_title()
     {
-      if ($this->title != "") {
-        return " &middot " . $this->title;
+      if ($this->title != '') {
+        return ' &middot ' . $this->title;
       } else {
-        return "";
+        return '';
       }
     }
 
@@ -321,7 +321,7 @@
         ->setSubject($subject)
 
         // Set the From address with an associative array
-        ->setFrom(array(gmail_username . "@gmail.com" => "ArtAtk"))
+        ->setFrom(array(gmail_username . '@gmail.com' => 'ArtAtk'))
 
         // Set the To addresses with an associative array
         ->setTo($to_email)
@@ -425,6 +425,7 @@
                              </div>
                            </div>', false);
 
+        //TODO loop 1->5
         $this->add_body(  '<form action="rate.php" method="post" id="vote1">
                              <input type="hidden" name="image_id" id="image_id1" value="' . $image_id . '">
                              <input type="hidden" name="vote" id="vote1" value="1">
@@ -488,24 +489,38 @@
 
     private function vote_cast()
     {
+      // Try to find an error in the data and exit early
       if(!isset($_POST['image_id'])) {
+        // Image ID does not exist
         return false;
       }
+      if(!is_numeric($_POST['image_id'])) {
+        // Image ID is not numeric
+        return false;
+      }
+      
       if(!isset($_POST['vote'])) {
-        return false;
-      }
-      if(!isset($_POST['delib_time'])) {
+        // Vote value does not exist
         return false;
       }
       if(!is_numeric($_POST['vote'])) {
+        // Vote value is not numeric
         return false;
       }
       if(!($_POST['vote'] >= 1 && $_POST['vote'] <= 5)) {
+        // Vote value is not in valid range
+        return false;
+      }
+      
+      if(!isset($_POST['delib_time'])) {
+        // Deliberation time does not exist
         return false;
       }
       if(!is_numeric($_POST['delib_time'])) {
+        // Deliberation time is not numeric
         return false;
       }
+      // No errors found
       return true;
     }
 
@@ -719,6 +734,10 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $success = $this->get_user()->log_in($username, $password);
+        
+        if(!$success) {
+          $this->add_body('Incorrect username and/or password');
+        }
       }
 
       if($this->get_user()->is_logged_in()) {
@@ -729,7 +748,7 @@
         $this->add_body('You\'re logged in!');
         $this->add_body('[Try voting on some art](/rate.php)');
 
-        $this->add_body('<script>document.location = \'/\'</script>', false);
+        $this->add_body("<script>document.location = '/'</script>", false);
 
         $this->add_body(  '</div>', false);
         $this->add_body('</div>', false);
@@ -739,9 +758,9 @@
         $this->add_body('<div class="row text-center">', false);
         $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">', false);
 
-        if((!$success) && $attempting_login) {
-          $this->add_body('Incorrect username and/or password');
-        }
+        // if((!$success) && $attempting_login) {
+        //   $this->add_body('Incorrect username and/or password');
+        // }
 
         $this->add_body('<form action="/login.php" method="POST" onsubmit="return validate_form(this)" id="login-form">
                            <div class="form-group">
@@ -796,7 +815,7 @@
 
       $this->get_user()->log_out();
 
-      $this->add_body('<script>document.location = \'/\'</script>', false);
+      $this->add_body("<script>document.location = '/'</script>", false);
     }
 
   } // Logout
