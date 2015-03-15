@@ -5,7 +5,7 @@
    */
   class page
   {
-    
+
     private $user; // Person who is logged in
 
     // Some functionality controllers
@@ -498,7 +498,7 @@
         // Image ID is not numeric
         return false;
       }
-      
+
       if(!isset($_POST['vote'])) {
         // Vote value does not exist
         return false;
@@ -511,7 +511,7 @@
         // Vote value is not in valid range
         return false;
       }
-      
+
       if(!isset($_POST['delib_time'])) {
         // Deliberation time does not exist
         return false;
@@ -734,7 +734,7 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $success = $this->get_user()->log_in($username, $password);
-        
+
         if(!$success) {
           $this->add_body('Incorrect username and/or password');
         }

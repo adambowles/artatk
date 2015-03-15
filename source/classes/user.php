@@ -94,11 +94,7 @@
      */
     public function get_id()
     {
-      if($this->is_logged_in()) {
-        return $this->id;
-      } else {
-        return '';
-      }
+      return $this->id;
     }
 
     /**
@@ -110,7 +106,6 @@
 
       if($this->is_logged_in()) {
         $_SESSION['id'] = $new_id;
-        //TODO writeback the firstname to database
       }
     }
 
@@ -119,11 +114,7 @@
      */
     public function get_username()
     {
-      if($this->is_logged_in()) {
-        return $this->username;
-      } else {
-        return '';
-      }
+      return $this->username;
     }
 
     /**
@@ -135,7 +126,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['username'] = $new_username;
-        //TODO writeback the firstname to database
+        //TODO writeback the username to database
       }
     }
 
@@ -144,11 +135,7 @@
      */
     public function get_email_address()
     {
-      if($this->is_logged_in()) {
-        return $this->email_address;
-      } else {
-        return '';
-      }
+      return $this->email_address;
     }
 
     /**
@@ -160,7 +147,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['email'] = $new_email_address;
-        //TODO writeback the firstname to database
+        //TODO writeback the email address to database
       }
     }
 
@@ -169,11 +156,7 @@
      */
     public function get_firstname()
     {
-      if($this->is_logged_in()) {
-        return $this->firstname;
-      } else {
-        return '';
-      }
+      return $this->firstname;
     }
 
     /**
@@ -194,11 +177,7 @@
      */
     public function get_surname()
     {
-      if($this->is_logged_in()) {
-        return $this->surname;
-      } else {
-        return '';
-      }
+      return $this->surname;
     }
 
     /**
@@ -210,7 +189,7 @@
 
       if($this->is_logged_in()) {
         $_SESSION['surname'] = $new_surname;
-        //TODO writeback the firstname to database
+        //TODO writeback the surname to database
       }
     }
 
@@ -219,11 +198,7 @@
      */
     public function get_fullname()
     {
-      if($this->is_logged_in()) {
-        return $this->get_firstname() . ' ' . $this->get_surname();
-      } else {
-        return '';
-      }
+      return $this->get_firstname() . ' ' . $this->get_surname();
     }
 
     /**
@@ -321,7 +296,7 @@
         unset($_SESSION['firstname']);
         unset($_SESSION['surname']);
         //TODO the rest
-        
+
         session_destroy();
         $this->logged_in = false;
     }
@@ -374,7 +349,7 @@
         $str .= 'First name: ' . $this->get_firstname() . ', ';
         $str .= 'Surname: ' . $this->get_surname();
         //TODO the rest
-        
+
         return $str;
       } else {
         return '';
