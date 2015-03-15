@@ -340,6 +340,16 @@
     /**
      *
      */
+    public function get_training_set_size()
+    {
+      $size = $this->get_database_controller()->get_training_set_size();
+
+      return $size;
+    }
+
+    /**
+     *
+     */
     public function __toString()
     {
       if($this->is_logged_in()) {
