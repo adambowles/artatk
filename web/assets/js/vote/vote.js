@@ -21,7 +21,7 @@ $('a.vote').find('i').on({
       var deliberation_time = end_time - start_time;
       $('#delib_time' + star_number).val(deliberation_time);
       $('#vote' + star_number).submit();
-    },1);
+    }, 1); // 1ms delay
   },
   mouseleave: function(){
     unhighlight_stars();
