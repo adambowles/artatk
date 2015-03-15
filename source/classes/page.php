@@ -124,7 +124,7 @@
              '<head>' .
                $this->get_charset_meta_tag() .
                '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' .
-               '<title' .
+               '<title>' .
                  WEBSITE_TITLE . $this->get_title() .
                '</title>' .
                $this->asset_controller->get_bootstrap_css() .
@@ -733,7 +733,11 @@
         $success = $this->get_user()->log_in($username, $password);
 
         if(!$success) {
-          $this->add_body('Incorrect username and/or password');
+          $this->add_body('<div class="row text-center">', false);
+          $this->add_body(  '<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">', false);
+          $this->add_body(    'Incorrect username and/or password');
+          $this->add_body(  '</div>', false);
+          $this->add_body('</div>', false);
         }
       }
 
