@@ -28,6 +28,11 @@
      */
     public function __construct()
     {
+      // server should keep session data for AT LEAST 1 hour
+      ini_set('session.gc_maxlifetime', 3600);
+
+      // each client should remember their session id for EXACTLY 1 hour
+      session_set_cookie_params(3600);
       session_start();
 
       include(ROOT_DIRECTORY . "source/classes/user.php");
@@ -380,9 +385,9 @@
                          </div>
                        </div>', false);
       $this->add_body('<div class="row">', false);
-      $this->add_body('  <div class="col-xs-12 text-center">', false);
-      $this->add_body('Nulla id turpis sit amet enim commodo dapibus. Ut at nunc justo. Aenean dignissim turpis iaculis dolor dignissim, sit amet commodo felis gravida. Suspendisse quis lectus sed est fermentum vulputate et nec nunc. Praesent tempor, massa id rhoncus luctus, sapien odio faucibus felis, quis pulvinar odio urna ut augue. Nunc ut justo nec lacus efficitur vestibulum sit amet a mauris. Cras lacinia enim id diam ultricies elementum. Donec blandit pretium aliquet. Phasellus elementum sapien et eros dignissim, non hendrerit leo convallis. Sed nunc velit, interdum at elementum eu, posuere vel justo.');
-      $this->add_body('  </div>', false);
+//      $this->add_body('  <div class="col-xs-12 text-center">', false);
+//      $this->add_body('Nulla id turpis sit amet enim commodo dapibus. Ut at nunc justo. Aenean dignissim turpis iaculis dolor dignissim, sit amet commodo felis gravida. Suspendisse quis lectus sed est fermentum vulputate et nec nunc. Praesent tempor, massa id rhoncus luctus, sapien odio faucibus felis, quis pulvinar odio urna ut augue. Nunc ut justo nec lacus efficitur vestibulum sit amet a mauris. Cras lacinia enim id diam ultricies elementum. Donec blandit pretium aliquet. Phasellus elementum sapien et eros dignissim, non hendrerit leo convallis. Sed nunc velit, interdum at elementum eu, posuere vel justo.');
+//      $this->add_body('  </div>', false);
       $this->add_body('</div>', false);
     }
   }
@@ -401,71 +406,57 @@
       if($this->get_user()->is_logged_in()) {
 
         if($this->vote_cast()) {
+          // User POSTed data for a vote
           $image_id = $_POST['image_id'];
           $vote = $_POST['vote'];
           $deliberation_time = $_POST['delib_time'];
           $this->get_user()->vote($image_id, $vote, $deliberation_time);
-//          $this->add_body("You voted: $vote for image: $image_id and thought about it for $deliberation_time ms");
         }
 
         $number_previous_votes = $this->get_user()->get_number_of_votes();
+        $training_set_size = $this->get_user()->get_training_set_size();
         $next_image = $this->get_user()->get_next_image();
         $image_path = $next_image['local_path'];
         $image_id = $next_image['art_id'];
 
         $this->add_body('<div class="row text-center">', false);
 
-        $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <img class="img-responsive img-thumbnail" src="/assets/img/art/' . $image_path . '" height="500px" style="max-height:500px">
-                           </div>', false);
+        if($number_previous_votes < $training_set_size) {
+          // User has not yet voted on ALL items in the training set
 
-        $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <div class="btn-group" role="group" aria-label="...">
-                               <p class="lead">Image ' . ($number_previous_votes + 1) . '/50</p>
-                             </div>
-                           </div>', false);
+          $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                               <img class="img-responsive img-thumbnail" src="/assets/img/art/' . $image_path . '" height="500px" style="max-height:500px">
+                             </div>', false);
 
-        //TODO loop 1->5
-        $this->add_body(  '<form action="rate.php" method="post" id="vote1">
-                             <input type="hidden" name="image_id" id="image_id1" value="' . $image_id . '">
-                             <input type="hidden" name="vote" id="vote1" value="1">
-                             <input type="hidden" name="delib_time" id="delib_time1" value="">
-                           </form>', false);
+          $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                               <div class="btn-group" role="group" aria-label="...">
+                                 <p class="lead">Image ' . ($number_previous_votes + 1) . '/' . $training_set_size . '</p>
+                               </div>
+                             </div>', false);
 
-        $this->add_body(  '<form action="rate.php" method="post" id="vote2">
-                             <input type="hidden" name="image_id" id="image_id2" value="' . $image_id . '">
-                             <input type="hidden" name="vote" id="vote2" value="2">
-                             <input type="hidden" name="delib_time" id="delib_time2" value="">
-                           </form>', false);
+          // Set up five separate forms (which are activated by the stars) to POST vote data
+          // Keeps the URL clean, and harder to tamper with
+          for($i = 1; $i <= 5; $i++) {
+            $this->add_body(  '<form action="rate.php" method="post" id="vote' . $i . '">
+                                 <input type="hidden" name="image_id" id="image_id' . $i . '" value="' . $image_id . '">
+                                 <input type="hidden" name="vote" id="vote' . $i . '" value="' . $i . '">
+                                 <input type="hidden" name="delib_time" id="delib_time' . $i . '" value="">
+                               </form>', false);
+          }
 
-        $this->add_body(  '<form action="rate.php" method="post" id="vote3">
-                             <input type="hidden" name="image_id" id="image_id3" value="' . $image_id . '">
-                             <input type="hidden" name="vote" id="vote3" value="3">
-                             <input type="hidden" name="delib_time" id="delib_time3" value="">
-                           </form>', false);
+          $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                               <h2><a href="#" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
+                             </div>', false);
 
-        $this->add_body(  '<form action="rate.php" method="post" id="vote4">
-                             <input type="hidden" name="image_id" id="image_id4" value="' . $image_id . '">
-                             <input type="hidden" name="vote" id="vote4" value="4">
-                             <input type="hidden" name="delib_time" id="delib_time4" value="">
-                           </form>', false);
-
-        $this->add_body(  '<form action="rate.php" method="post" id="vote5">
-                             <input type="hidden" name="image_id" id="image_id5" value="' . $image_id . '">
-                             <input type="hidden" name="vote" id="vote5" value="5">
-                             <input type="hidden" name="delib_time" id="delib_time5" value="">
-                           </form>', false);
-
-//        $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-//                             <h2><a href="?image_id=' . $image_id . '&vote=1" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=2" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=3" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=4" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="?image_id=' . $image_id . '&vote=5" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
-//                           </div>', false);
-
-        $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                             <h2><a href="#" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="#" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
-                           </div>', false);
+        } else {
+           // User HAS voted on ALL items in the training set
+          $this->add_body('<p class="lead">You\'ve voted on all art pieces!</p>', false);
+          $this->add_body('<p class="lead">When your recommendation is ready, I\'ll send you an email</p>', false);
+        }
 
         $this->add_body('</div>', false);
-      } else { // not logged in
+      } else {
+        // User not logged in, show a dummy page with links to register
 
         $this->add_body('<div class="row text-center">', false);
         $this->add_body(  '<div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -482,8 +473,14 @@
                              <h2><a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>', false);
 
+        for($i = 1; $i <= 5; $i++) {
+          $this->add_body(  '<form action="register.php" method="post" id="vote' . $i . '">
+                             </form>', false);
+        }
+
         $this->add_body('</div>', false);
       }
+
       $this->add_extra_script($this->get_asset_controller()->get_specific_asset('js/vote/vote.js'));
     }
 
