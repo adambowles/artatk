@@ -18,14 +18,14 @@
     private $email_address; //string
     private $first_name; //string
     private $surname; //string
-    private $password_hint; //string //TODO getter/setter
-    private $in_education; //boolean //TODO getter/setter
-    private $year_of_study; //integer //TODO getter/setter
-    private $degree_level; //string //TODO getter/setter
-    private $institution; //string //TODO getter/setter
-    private $field_of_study; //integer //TODO getter/setter
-    private $interested_in_art; //boolean //TODO getter/setter
-    private $art_appreciation_frequency; //integer //TODO getter/setter
+    private $password_hint; //string
+    private $in_education; //boolean
+    private $year_of_study; //integer
+    private $degree_level; //string
+    private $institution; //string
+    private $field_of_study; //integer
+    private $interested_in_art; //boolean
+    private $art_appreciation_frequency; //integer
 
     /**
      *
@@ -47,16 +47,31 @@
          isset($_SESSION['username']) &&
          isset($_SESSION['email']) &&
          isset($_SESSION['firstname']) &&
-         isset($_SESSION['surname'])
+         isset($_SESSION['surname']) &&
+         isset($_SESSION['password_hint']) &&
+         isset($_SESSION['in_education']) &&
+         isset($_SESSION['year_of_study']) &&
+         isset($_SESSION['degree_level']) &&
+         isset($_SESSION['institution']) &&
+         isset($_SESSION['field_of_study']) &&
+         isset($_SESSION['interested_in_art']) &&
+         isset($_SESSION['art_appreciation_frequency'])
         ) {
+        $this->set_logged_in(true);
+
         $this->set_id($_SESSION['id']);
         $this->set_username($_SESSION['username']);
         $this->set_email_address($_SESSION['email']);
         $this->set_firstname($_SESSION['firstname']);
         $this->set_surname($_SESSION['surname']);
-        //TODO the rest
-
-        $this->set_logged_in(true);
+        $this->set_password_hint($_SESSION['password_hint']);
+        $this->set_in_education($_SESSION['in_education']);
+        $this->set_year_of_study($_SESSION['year_of_study']);
+        $this->set_degree_level($_SESSION['degree_level']);
+        $this->set_institution($_SESSION['institution']);
+        $this->set_field_of_study($_SESSION['field_of_study']);
+        $this->set_interested_in_art($_SESSION['interested_in_art']);
+        $this->set_art_appreciation_frequency($_SESSION['art_appreciation_frequency']);
       }
     }
 
@@ -70,7 +85,14 @@
       $_SESSION['email'] = $this->get_email_address();
       $_SESSION['firstname'] = $this->get_firstname();
       $_SESSION['surname'] = $this->get_surname();
-      //TODO the rest
+      $_SESSION['password_hint'] = $this->get_password_hint();
+      $_SESSION['in_education'] = $this->get_in_education();
+      $_SESSION['year_of_study'] = $this->get_year_of_study();
+      $_SESSION['degree_level'] = $this->get_degree_level();
+      $_SESSION['institution'] = $this->get_institution();
+      $_SESSION['field_of_study'] = $this->get_field_of_study();
+      $_SESSION['interested_in_art'] = $this->get_interested_in_art();
+      $_SESSION['art_appreciation_frequency'] = $this->get_art_appreciation_frequency();
     }
 
     /**
@@ -102,6 +124,7 @@
      */
     private function set_id($new_id)
     {
+      echo("Set id as: $new_id");
       $this->id = $new_id;
 
       if($this->is_logged_in()) {
@@ -122,6 +145,7 @@
      */
     private function set_username($new_username)
     {
+      echo("Set username as: $new_username");
       $this->username = $new_username;
 
       if($this->is_logged_in()) {
@@ -143,6 +167,7 @@
      */
     private function set_email_address($new_email_address)
     {
+      echo("Set email_address as: $new_email_address");
       $this->email_address = $new_email_address;
 
       if($this->is_logged_in()) {
@@ -164,6 +189,7 @@
      */
     private function set_firstname($new_firstname)
     {
+      echo("Set firstname as: $new_firstname");
       $this->firstname = $new_firstname;
 
       if($this->is_logged_in()) {
@@ -185,6 +211,7 @@
      */
     private function set_surname($new_surname)
     {
+      echo("Set surname as: $new_surname");
       $this->surname = $new_surname;
 
       if($this->is_logged_in()) {
@@ -199,6 +226,182 @@
     public function get_fullname()
     {
       return $this->get_firstname() . ' ' . $this->get_surname();
+    }
+
+    /**
+     *
+     */
+    public function get_password_hint()
+    {
+      return $this->password_hint;
+    }
+
+    /**
+     *
+     */
+    private function set_password_hint($new_password_hint)
+    {
+      echo("Set password_hint as: $new_password_hint");
+      $this->password_hint = $new_password_hint;
+
+      if($this->is_logged_in()) {
+        $_SESSION['password_hint'] = $new_password_hint;
+        //TODO writeback the password_hint to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_in_education()
+    {
+      return $this->in_education;
+    }
+
+    /**
+     *
+     */
+    private function set_in_education($new_in_education)
+    {
+      echo("Set in_education as: $new_in_education");
+      $this->in_education = $new_in_education;
+
+      if($this->is_logged_in()) {
+        $_SESSION['in_education'] = $new_in_education;
+        //TODO writeback the in_education to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_year_of_study()
+    {
+      return $this->year_of_study;
+    }
+
+    /**
+     *
+     */
+    private function set_year_of_study($new_year_of_study)
+    {
+      echo("Set year_of_study as: $new_year_of_study");
+      $this->year_of_study = $new_year_of_study;
+
+      if($this->is_logged_in()) {
+        $_SESSION['year_of_study'] = $new_year_of_study;
+        //TODO writeback the year_of_study to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_degree_level()
+    {
+      return $this->degree_level;
+    }
+
+    /**
+     *
+     */
+    private function set_degree_level($new_degree_level)
+    {
+      echo("Set degree_level as: $new_degree_level");
+      $this->degree_level = $new_degree_level;
+
+      if($this->is_logged_in()) {
+        $_SESSION['degree_level'] = $new_degree_level;
+        //TODO writeback the degree_level to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_institution()
+    {
+      return $this->institution;
+    }
+
+    /**
+     *
+     */
+    private function set_institution($new_institution)
+    {
+      echo("Set institution as: $new_institution");
+      $this->institution = $new_institution;
+
+      if($this->is_logged_in()) {
+        $_SESSION['institution'] = $new_institution;
+        //TODO writeback the institution to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_field_of_study()
+    {
+      return $this->field_of_study;
+    }
+
+    /**
+     *
+     */
+    private function set_field_of_study($new_field_of_study)
+    {
+      echo("Set field_of_study as: $new_field_of_study");
+      $this->field_of_study = $new_field_of_study;
+
+      if($this->is_logged_in()) {
+        $_SESSION['field_of_study'] = $new_field_of_study;
+        //TODO writeback the field_of_study to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_interested_in_art()
+    {
+      return $this->interested_in_art;
+    }
+
+    /**
+     *
+     */
+    private function set_interested_in_art($new_interested_in_art)
+    {
+      echo("Set interested_in_art as: $new_interested_in_art");
+      $this->interested_in_art = $new_interested_in_art;
+
+      if($this->is_logged_in()) {
+        $_SESSION['interested_in_art'] = $new_interested_in_art;
+        //TODO writeback the interested_in_art to database
+      }
+    }
+
+    /**
+     *
+     */
+    public function get_art_appreciation_frequency()
+    {
+      return $this->art_appreciation_frequency;
+    }
+
+    /**
+     *
+     */
+    private function set_art_appreciation_frequency($new_art_appreciation_frequency)
+    {
+      echo("Set art_appreciation_frequency as: $new_art_appreciation_frequency");
+      $this->art_appreciation_frequency = $new_art_appreciation_frequency;
+
+      if($this->is_logged_in()) {
+        $_SESSION['art_appreciation_frequency'] = $new_art_appreciation_frequency;
+        //TODO writeback the art_appreciation_frequency to database
+      }
     }
 
     /**
@@ -282,16 +485,24 @@
       $result = $this->get_database_controller()->log_in($username, $password);
 
       if($result) {
+        $this->set_logged_in(true);
+
         $this->set_id($result['user_id']);
         $this->set_username($result['username']);
         $this->set_email_address($result['email']);
         $this->set_firstname($result['firstname']);
         $this->set_surname($result['surname']);
-        //TODO the rest
+        $this->set_password_hint($result['password_hint']);
+        $this->set_in_education($result['in_education']);
+        $this->set_year_of_study($result['year_of_study']);
+        $this->set_degree_level($result['degree_level']);
+        $this->set_institution($result['institution']);
+        $this->set_field_of_study($result['field_of_study']);
+        $this->set_interested_in_art($result['interested_in_art']);
+        $this->set_art_appreciation_frequency($result['art_appreciation_frequency']);
 
-        $this->write_to_SESSION();
+//        $this->write_to_SESSION();
 
-        $this->set_logged_in(true);
 
         return true;
       } else {
@@ -304,15 +515,22 @@
      */
     public function log_out()
     {
-        unset($_SESSION['id']);
-        unset($_SESSION['username']);
-        unset($_SESSION['email']);
-        unset($_SESSION['firstname']);
-        unset($_SESSION['surname']);
-        //TODO the rest
+      unset($_SESSION['id']);
+      unset($_SESSION['username']);
+      unset($_SESSION['email']);
+      unset($_SESSION['firstname']);
+      unset($_SESSION['surname']);
+      unset($_SESSION['password_hint']);
+      unset($_SESSION['in_education']);
+      unset($_SESSION['year_of_study']);
+      unset($_SESSION['degree_level']);
+      unset($_SESSION['institution']);
+      unset($_SESSION['field_of_study']);
+      unset($_SESSION['interested_in_art']);
+      unset($_SESSION['art_appreciation_frequency']);
 
-        session_destroy();
-        $this->logged_in = false;
+      session_destroy();
+      $this->logged_in = false;
     }
 
     /**
@@ -352,7 +570,7 @@
     }
 
     /**
-     *
+     * Ideally this doesn't go in this class
      */
     public function get_training_set_size()
     {
@@ -369,10 +587,17 @@
       if($this->is_logged_in()) {
         $str  = 'User ID: ' . $this->get_id() . ', ';
         $str .= 'Username: ' . $this->get_username() . ', ';
-        $str .= 'Email Address: ' . $this->get_email() . ', ';
+        $str .= 'Email Address: ' . $this->get_email_address() . ', ';
         $str .= 'First name: ' . $this->get_firstname() . ', ';
-        $str .= 'Surname: ' . $this->get_surname();
-        //TODO the rest
+        $str .= 'Surname: ' . $this->get_surname() . ', ';
+        $str .= 'Password hint: ' . $this->get_password_hint() . ', ';
+        $str .= 'In education: ' . $this->get_in_education() . ', ';
+        $str .= 'Year of study: ' . $this->get_year_of_study() . ', ';
+        $str .= 'Degree level: ' . $this->get_degree_level() . ', ';
+        $str .= 'Institution: ' . $this->get_institution() . ', ';
+        $str .= 'Field of study: ' . $this->get_field_of_study() . ', ';
+        $str .= 'Interested in art: ' . $this->get_interested_in_art() . ', ';
+        $str .= 'Art appreciation frequency: ' . $this->get_art_appreciation_frequency();
 
         return $str;
       } else {
