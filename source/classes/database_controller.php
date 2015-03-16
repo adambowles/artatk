@@ -354,7 +354,7 @@
 
       $voted = $statement->fetch()['count']; // Fetch single row
 
-      return $voted;
+      return $voted == 1;
     }
 
     /**

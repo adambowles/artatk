@@ -538,7 +538,7 @@
     public function has_voted_on_image($art_id)
     {
       if($this->is_logged_in()) {
-        $this->get_database_controller()->has_voted_on_image($this->get_id(), $art_id);
+        return $this->get_database_controller()->has_voted_on_image($this->get_id(), $art_id);
       }
     }
 
