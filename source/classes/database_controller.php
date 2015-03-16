@@ -340,6 +340,24 @@
     }
 
     /**
+     * Returns whether a user has already voted on an image or not
+     */
+    public function has_voted_on_image($user_id, $art_id)
+    {
+      $user_id = $this->sanitise($user_id);
+      $art_id = $this->sanitise($art_id);
+
+      $sql = "SELECT count(`vote_id`) as count FROM `artatk_vote` WHERE `art_id` = $art_id and `user_id` = $user_id";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $voted = $statement->fetch()['count']; // Fetch single row
+
+      return $voted;
+    }
+
+    /**
      * //TODO
      */
     public function get_number_of_votes($user_id)

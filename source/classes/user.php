@@ -526,7 +526,19 @@
     public function vote($art, $vote, $deliberation_time)
     {
       if($this->is_logged_in()) {
-        $this->get_database_controller()->vote($this->get_id(), $art, $vote, $deliberation_time);
+        if(!$this->has_voted_on_image($art)){
+          $this->get_database_controller()->vote($this->get_id(), $art, $vote, $deliberation_time);
+        }
+      }
+    }
+
+    /**
+     *
+     */
+    public function has_voted_on_image($art_id)
+    {
+      if($this->is_logged_in()) {
+        $this->get_database_controller()->has_voted_on_image($this->get_id(), $art_id);
       }
     }
 
