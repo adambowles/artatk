@@ -124,7 +124,6 @@
      */
     private function set_id($new_id)
     {
-      echo("Set id as: $new_id");
       $this->id = $new_id;
 
       if($this->is_logged_in()) {
@@ -145,7 +144,6 @@
      */
     private function set_username($new_username)
     {
-      echo("Set username as: $new_username");
       $this->username = $new_username;
 
       if($this->is_logged_in()) {
@@ -167,7 +165,6 @@
      */
     private function set_email_address($new_email_address)
     {
-      echo("Set email_address as: $new_email_address");
       $this->email_address = $new_email_address;
 
       if($this->is_logged_in()) {
@@ -189,7 +186,6 @@
      */
     private function set_firstname($new_firstname)
     {
-      echo("Set firstname as: $new_firstname");
       $this->firstname = $new_firstname;
 
       if($this->is_logged_in()) {
@@ -211,7 +207,6 @@
      */
     private function set_surname($new_surname)
     {
-      echo("Set surname as: $new_surname");
       $this->surname = $new_surname;
 
       if($this->is_logged_in()) {
@@ -241,7 +236,6 @@
      */
     private function set_password_hint($new_password_hint)
     {
-      echo("Set password_hint as: $new_password_hint");
       $this->password_hint = $new_password_hint;
 
       if($this->is_logged_in()) {
@@ -263,7 +257,6 @@
      */
     private function set_in_education($new_in_education)
     {
-      echo("Set in_education as: $new_in_education");
       $this->in_education = $new_in_education;
 
       if($this->is_logged_in()) {
@@ -285,7 +278,6 @@
      */
     private function set_year_of_study($new_year_of_study)
     {
-      echo("Set year_of_study as: $new_year_of_study");
       $this->year_of_study = $new_year_of_study;
 
       if($this->is_logged_in()) {
@@ -307,7 +299,6 @@
      */
     private function set_degree_level($new_degree_level)
     {
-      echo("Set degree_level as: $new_degree_level");
       $this->degree_level = $new_degree_level;
 
       if($this->is_logged_in()) {
@@ -329,7 +320,6 @@
      */
     private function set_institution($new_institution)
     {
-      echo("Set institution as: $new_institution");
       $this->institution = $new_institution;
 
       if($this->is_logged_in()) {
@@ -351,7 +341,6 @@
      */
     private function set_field_of_study($new_field_of_study)
     {
-      echo("Set field_of_study as: $new_field_of_study");
       $this->field_of_study = $new_field_of_study;
 
       if($this->is_logged_in()) {
@@ -373,7 +362,6 @@
      */
     private function set_interested_in_art($new_interested_in_art)
     {
-      echo("Set interested_in_art as: $new_interested_in_art");
       $this->interested_in_art = $new_interested_in_art;
 
       if($this->is_logged_in()) {
@@ -395,7 +383,6 @@
      */
     private function set_art_appreciation_frequency($new_art_appreciation_frequency)
     {
-      echo("Set art_appreciation_frequency as: $new_art_appreciation_frequency");
       $this->art_appreciation_frequency = $new_art_appreciation_frequency;
 
       if($this->is_logged_in()) {
