@@ -473,6 +473,7 @@
                              <h2><a href="/register.php" title="1 star" id="star1" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="2 stars" id="star2" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="3 stars" id="star3" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="4 stars" id="star4" class="vote"><i class="fa fa-star-o"></i></a><a href="/register.php" title="5 stars" id="star5" class="vote"><i class="fa fa-star-o"></i></a></h2>
                            </div>', false);
 
+        // Dummy forms that all take the user to the register page, added for compatibility with the logged in version of this page
         for($i = 1; $i <= 5; $i++) {
           $this->add_body(  '<form action="register.php" method="post" id="vote' . $i . '">
                              </form>', false);
@@ -517,6 +518,7 @@
         // Deliberation time is not numeric
         return false;
       }
+
       // No errors found
       return true;
     }
