@@ -1,69 +1,4 @@
-// Generic field triggers
-$('#registration-form :input').each(function() {
-  $(this).on({
-    blur: function(){ // Add a blur (leave field) event handler to each field to trigger a validation
-
-      var valid = validate_input($(this), $(this).attr('type'));
-      if(!valid) {
-        add_error($(this), $(this).attr('data-error'));
-      }
-
-    },
-    keyup: function(){ // Add a keyup event handler to each field to clear its error state
-
-      remove_error($(this));
-
-    },
-    focus: function(){ // Add a focus event handler to each field to clear its error state
-
-      remove_error($(this));
-
-    }
-  });
-});
-
-
-// Specific field triggers
-$('#username, #email').on({
-  blur: function(){
-    if($(this).val().length > 0) {
-      check_availability($(this), $(this).attr('type'));
-    }
-  }
-});
-
-
-// Control AJAX request to availability checker script
-function check_availability(field, as) {
-  field = $(field);
-  add_loading(field);
-  var value = field.val();
-
-  $.ajax({
-    url: '/availability_checker.php',
-    type: 'post',
-    data: {'value': value, 'as': as},
-    success: function(data, status) {
-
-      // Make sure the request returns only the string it should
-      data = data.replace('/r','');
-      data = data.replace('/n','');
-      data = data.trim();
-
-      if(data == 'available') {
-        remove_error(field);
-        remove_loading(field);
-      }
-
-      if(data == 'unavailable') {
-        add_error(field, 'Unfortunately, ' + value + ' is not available');
-        remove_loading(field);
-      }
-
-    }
-  });
-}
-
+// Functions
 function validate_form(form)
 {
 
@@ -104,7 +39,10 @@ function validate_form(form)
 
   });
 
-  return !((!fail_count == 0) || recaptcha_failed || any_unavailable); // return form valid if no fails occurred
+  var recaptcha_succeeded = !recaptcha_failed;
+  var all_available = !any_unavailable;
+
+  return fail_count == 0 && recaptcha_succeeded && all_available; // return form valid if no fails occurred
 }
 
 function validate_input(field, as)
@@ -200,3 +138,74 @@ function remove_loading(field)
     $(this).remove();
   });
 }
+
+// Control AJAX request to availability checker script
+function check_availability(field, as) {
+  field = $(field);
+  add_loading(field);
+  var value = field.val();
+
+  $.ajax({
+    url: '/availability_checker.php',
+    type: 'post',
+    data: {'value': value, 'as': as},
+    success: function(data, status) {
+
+      // Make sure the request returns only the string it should
+      data = data.replace('/r','');
+      data = data.replace('/n','');
+      data = data.trim();
+
+      if(data == 'available') {
+        remove_error(field);
+        remove_loading(field);
+      }
+
+      if(data == 'unavailable') {
+        add_error(field, 'Unfortunately, ' + value + ' is not available');
+        remove_loading(field);
+      }
+
+    }
+  });
+}
+
+// Generic field triggers
+$('#registration-form :input').each(function () {
+  $(this).on({
+    blur: function () { // Add a blur (leave field) event handler to each field to trigger a validation
+
+      var valid = validate_input($(this), $(this).attr('type'));
+      if(!valid) {
+        add_error($(this), $(this).attr('data-error'));
+      }
+
+    },
+    keyup: function(){ // Add a keyup event handler to each field to clear its error state
+
+      remove_error($(this));
+
+    },
+    focus: function(){ // Add a focus event handler to each field to clear its error state
+
+      remove_error($(this));
+
+    }
+  });
+});
+
+
+// Specific field triggers
+$('#username, #email').on({
+  blur: function(){
+    if(validate_input($(this), $(this).attr('type'))){
+      check_availability($(this), $(this).attr('type'));
+    }
+  }
+});
+
+$('#in_education, #not_in_education').change(function(){
+  var at_uni = $('#in_education').prop('checked');
+  $('#year_of_study').prop('disabled', !at_uni);
+  $('#degree_level').prop('disabled', !at_uni);
+});

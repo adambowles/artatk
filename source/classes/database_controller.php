@@ -6,7 +6,9 @@
    *
    * Start each method off by sanitising it's parameters. Help avoid SQL injections
    *
-   * Avoid using exposed SQL anywhere in this class. Write stored procedures instead.
+   * Only connect to the database write privilege user account when you /need/ to write data
+   * A method that only reads data and does not use the write user cannot be SQL inject attacked to drop data
+   * Be sure to switch back to the database read privilege user account once writing is done
    *
    * @author Adam Bowles <bowlesa@aston.ac.uk>
    */
@@ -112,29 +114,55 @@
      * @param $password
      * @param $password_hint
      * @param $ip_address
-
+     *
      * @return ID of record inserted
      */
     public function create_user($username,
                                 $email_address, $email_validate_token,
                                 $firstname, $surname,
                                 $password, $password_hint,
-                                $ip_address)
+                                $ip_address,
+                                $in_education, $year_of_study, $degree_level,
+                                $institution, $field_of_study,
+                                $interested_in_art, $art_appreciation_frequency)
     {
-                  $username = $this->sanitise($username);
-             $email_address = $this->sanitise($email_address);
-      $email_validate_token = $this->sanitise($email_validate_token);
-                 $firstname = $this->sanitise($firstname);
-                   $surname = $this->sanitise($surname);
-                  $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
-             $password_hint = $this->sanitise($password_hint);
-                $ip_address = $this->sanitise($ip_address);
+                        $username = $this->sanitise($username);
+                   $email_address = $this->sanitise($email_address);
+            $email_validate_token = $this->sanitise($email_validate_token);
+                       $firstname = $this->sanitise($firstname);
+                         $surname = $this->sanitise($surname);
+                        $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
+                   $password_hint = $this->sanitise($password_hint);
+                      $ip_address = $this->sanitise($ip_address);
+                    $in_education = $this->sanitise($in_education);
+                   $year_of_study = $this->sanitise($year_of_study);
+                    $degree_level = $this->sanitise($degree_level);
+                     $institution = $this->sanitise($institution);
+                  $field_of_study = $this->sanitise($field_of_study);
+               $interested_in_art = $this->sanitise($interested_in_art);
+      $art_appreciation_frequency = $this->sanitise($art_appreciation_frequency);
 
+      //TODO don't insert registered datetime, trust the database trigger to do it
       $sql = "INSERT INTO `artatk_user` (
-        `username`, `email`, `email_validate_token`, `firstname`, `surname`, `hashed_password`, `password_hint`, `registered_datetime`, `registered_ip_address`
-      ) VALUES (
-        $username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, CURRENT_TIMESTAMP, $ip_address
-      )";
+                `username`,
+                `email`, `email_validate_token`,
+                `firstname`, `surname`,
+                `hashed_password`, `password_hint`,
+                `registered_ip_address`,
+                `in_education`, `year_of_study`, `degree_level`,
+                `institution`, `field_of_study`,
+                `interested_in_art`, `art_appreciation_frequency`
+              ) VALUES (
+                $username,
+                $email_address, $email_validate_token,
+                $firstname, $surname,
+                $password, $password_hint,
+                $ip_address,
+                $in_education, $year_of_study, $degree_level,
+                $institution, $field_of_study,
+                $interested_in_art, $art_appreciation_frequency
+              )";
+      echo $sql;
 
       $this->connect_write();
 
@@ -152,7 +180,7 @@
      * Create a user account
      *
      * @param $token
-
+     *
      * @return ID of record inserted
      */
     public function verify_email_address($token)
@@ -230,7 +258,7 @@
     /**
      * Check whether a field is already taken in the database
      * Used, for example, to check if a username has not already been taken
-     *  or whether someone has already signed up with a given email address
+     *  or whether someone has already registered with a given email address
      *
      * @param $data data to check
      * @param $as type to check
@@ -239,10 +267,10 @@
      */
     public function check_availability($data, $as)
     {
-      $data = $this->sanitise($data);
+      $data = strtolower($this->sanitise($data));
       $as = trim($this->sanitise($as), "'");
 
-      $sql = "SELECT `user_id` FROM `artatk_user` WHERE `$as` = $data";
+      $sql = "SELECT `user_id` FROM `artatk_user` WHERE lower(`$as`) = $data";
 
       $statement = $this->get_connection()->prepare($sql);
       $statement->execute();
@@ -267,10 +295,28 @@
       $row = $statement->fetch(); // Fetch single row
 
       if(password_verify($password, $row['hashed_password'])) {
+
+        $this->update_last_login($row['user_id']);
+
         return $row;
       } else {
         return false;
       }
+    }
+
+    /**
+     * //TODO
+     */
+    private function update_last_login($user_id)
+    {
+      $sql = "UPDATE `artatk_user` SET `last_login` = CURRENT_TIMESTAMP WHERE `artatk_user`.`user_id` = $user_id;";
+
+      $this->connect_write();
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $this->connect_read();
     }
 
     /**
@@ -291,6 +337,66 @@
       $statement->execute();
 
       $this->connect_read();
+    }
+
+    /**
+     * //TODO
+     */
+    public function get_number_of_votes($user_id)
+    {
+      $user_id = $this->sanitise($user_id);
+
+      $sql = "SELECT count(`user_id`) AS count FROM `artatk_vote` WHERE `user_id` = $user_id;";
+      $statement = $this->get_connection()->prepare($sql);
+
+      $statement->execute();
+
+      $count = $statement->fetch()['count']; // Fetch single row
+
+      return $count;
+    }
+
+    /**
+     * Gets a random art item from the training set that the specified user has not voted on
+     *
+     * @return Associative array of art id and the local path
+     */
+    public function get_next_image($user_id)
+    {
+      $user_id = $this->sanitise($user_id);
+
+      $sql = "SELECT `artatk_art`.`art_id` , `artatk_art`.`local_path`
+              FROM `artatk_art`
+              LEFT JOIN `artatk_vote` ON `artatk_art`.`art_id` = `artatk_vote`.`art_id`
+              WHERE ((`artatk_vote`.`user_id` IS NULL
+              OR `artatk_vote`.`user_id` <> $user_id)
+              AND `artatk_art`.`training_set` = 1)
+              ORDER BY RAND()
+              LIMIT 1;";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $record = $statement->fetch(); // Fetch single row
+
+      return $record;
+    }
+
+    /**
+     * Gets the number of art items that are flagged as being in the training set
+     *
+     * @return Integer of training set size
+     */
+    public function get_training_set_size()
+    {
+      $sql = "SELECT count(*) as `count` FROM `artatk_art` WHERE `training_set` = 1;";
+
+      $statement = $this->get_connection()->prepare($sql);
+      $statement->execute();
+
+      $size = $statement->fetch()['count']; // Fetch single row
+
+      return $size;
     }
 
     /**

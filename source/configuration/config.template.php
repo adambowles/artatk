@@ -1,6 +1,6 @@
 <?php
 
-  // Define the root director of the project.
+  // Define the root directory of the project.
   // Used to definitively point to project files
   // without necessarily knowing what the current working directory is
   $rd = getcwd() . "/";
@@ -41,7 +41,7 @@
 
 
   // Whether new user accounts need to verify their email address
-  define('emails_require_verification', false);
+  define('emails_require_verification', true);
 
 
   define('WEBSITE_TITLE', 'ArtAtk');
