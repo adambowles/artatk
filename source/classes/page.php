@@ -567,6 +567,7 @@
         $password = trim($_POST['password']);
         $password_hint = trim($_POST['password_hint']);
         $ip_address = $_SERVER['REMOTE_ADDR'];
+        //TODO the rest
 
         $username_available = $this->get_user()->get_database_controller()->check_availability($username, 'username');
         $email_available = $this->get_user()->get_database_controller()->check_availability($email, 'email');
@@ -646,7 +647,13 @@
                             <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required data-error="">
                           </div>
 
-                          <div id="recaptcha-parent" class="form-group">' .
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" id="in_education" name="in_education" required data-error=""> Are you in education?
+                            </label>
+                          </div>' .
+                          //TODO the rest
+                          '<div id="recaptcha-parent" class="form-group">' .
                             $this->get_asset_controller()->get_recaptcha_div() .
                           '</div>
 
@@ -668,7 +675,7 @@
      */
     private function validate_registration_form()
     {
-      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint");
+      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint"); //TODO the rest
       $something_missing = false;
 
       foreach($required_keys as $key) {
