@@ -229,9 +229,23 @@
     /**
      *
      */
-    public function register($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address)
+    public function register($username,
+                             $email_address, $email_validate_token,
+                             $firstname, $surname,
+                             $password, $password_hint,
+                             $ip_address,
+                             $in_education, $year_of_study, $degree_level,
+                             $institution, $field_of_study,
+                             $interested_in_art, $art_appreciation_frequency)
     {
-      $user_id = $this->get_database_controller()->create_user($username, $email_address, $email_validate_token, $firstname, $surname, $password, $password_hint, $ip_address);
+      $user_id = $this->get_database_controller()->create_user($username,
+                                                               $email_address, $email_validate_token,
+                                                               $firstname, $surname,
+                                                               $password, $password_hint,
+                                                               $ip_address,
+                                                               $in_education, $year_of_study, $degree_level,
+                                                               $institution, $field_of_study,
+                                                               $interested_in_art, $art_appreciation_frequency);
 
       $this->set_id($user_id);
 

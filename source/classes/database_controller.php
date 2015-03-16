@@ -114,23 +114,33 @@
      * @param $password
      * @param $password_hint
      * @param $ip_address
-
+     *
      * @return ID of record inserted
      */
     public function create_user($username,
                                 $email_address, $email_validate_token,
                                 $firstname, $surname,
                                 $password, $password_hint,
-                                $ip_address)
+                                $ip_address,
+                                $in_education, $year_of_study, $degree_level,
+                                $institution, $field_of_study,
+                                $interested_in_art, $art_appreciation_frequency)
     {
-                  $username = $this->sanitise($username);
-             $email_address = $this->sanitise($email_address);
-      $email_validate_token = $this->sanitise($email_validate_token);
-                 $firstname = $this->sanitise($firstname);
-                   $surname = $this->sanitise($surname);
-                  $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
-             $password_hint = $this->sanitise($password_hint);
-                $ip_address = $this->sanitise($ip_address);
+                        $username = $this->sanitise($username);
+                   $email_address = $this->sanitise($email_address);
+            $email_validate_token = $this->sanitise($email_validate_token);
+                       $firstname = $this->sanitise($firstname);
+                         $surname = $this->sanitise($surname);
+                        $password = $this->sanitise(password_hash($password, PASSWORD_DEFAULT));
+                   $password_hint = $this->sanitise($password_hint);
+                      $ip_address = $this->sanitise($ip_address);
+                    $in_education = $this->sanitise($in_education);
+                   $year_of_study = $this->sanitise($year_of_study);
+                    $degree_level = $this->sanitise($degree_level);
+                     $institution = $this->sanitise($institution);
+                  $field_of_study = $this->sanitise($field_of_study);
+               $interested_in_art = $this->sanitise($interested_in_art);
+      $art_appreciation_frequency = $this->sanitise($art_appreciation_frequency);
 
       //TODO don't insert registered datetime, trust the database trigger to do it
       $sql = "INSERT INTO `artatk_user` (
@@ -138,16 +148,21 @@
                 `email`, `email_validate_token`,
                 `firstname`, `surname`,
                 `hashed_password`, `password_hint`,
-                `registered_datetime`,
-                `registered_ip_address`
+                `registered_ip_address`,
+                `in_education`, `year_of_study`, `degree_level`,
+                `institution`, `field_of_study`,
+                `interested_in_art`, `art_appreciation_frequency`
               ) VALUES (
                 $username,
                 $email_address, $email_validate_token,
                 $firstname, $surname,
                 $password, $password_hint,
-                CURRENT_TIMESTAMP,
-                $ip_address
+                $ip_address,
+                $in_education, $year_of_study, $degree_level,
+                $institution, $field_of_study,
+                $interested_in_art, $art_appreciation_frequency
               )";
+      echo $sql;
 
       $this->connect_write();
 

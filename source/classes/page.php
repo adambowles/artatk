@@ -179,10 +179,10 @@
         $navbar_string .= '<ul class="nav navbar-nav navbar-right">
                              <li class="dropdown">
                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $this->get_user()->get_fullname() . ' <b class="caret"></b></a>
-                               <ul class="dropdown-menu" role="menu">
-                                 <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
-                                 <li class="divider"></li>
-                                 <li><a href="/logout.php"><i class="fa fa-sign-out"></i> Log out</a></li>
+                               <ul class="dropdown-menu" role="menu">'.
+//                                 <li><a href="#"><i class="fa fa-user"></i> Edit profile</a></li>
+//                                 <li class="divider"></li>
+                                 '<li><a href="/logout.php"><i class="fa fa-sign-out"></i> Log out</a></li>
                                </ul>
                              </li>
                            </ul>';
@@ -376,7 +376,7 @@
       $this->add_body('<div class="row well">
                          <div class="col-xs-12 col-sm-6 col-md-8">
                            <h1>ArtAtk!</h1>
-                           <p class="lead">ArtAtk (Art attack) is an artistic recommendation engine. It will learn your tatse in art aesthetic and deduce the type of art you like!</p>
+                           <p class="lead">ArtAtk (Art attack) is an artistic recommendation engine. It will learn your taste in art aesthetic and deduce the type of art you like!</p>
                            <p class="lead">Training takes as little as ten minutes, what are you waiting for?</p>
                            <p><a class="btn btn-lg btn-info" href="' . $follow . '">Get started <i class="fa fa-arrow-right"></i></a></p>
                          </div>
@@ -567,7 +567,28 @@
         $password = trim($_POST['password']);
         $password_hint = trim($_POST['password_hint']);
         $ip_address = $_SERVER['REMOTE_ADDR'];
-        //TODO the rest
+
+        if(isset($_POST['in_education'])) {
+          $in_education = true;
+          $year_of_study = trim($_POST['year_of_study']);
+          $degree_level = trim($_POST['degree_level']);
+        } else {
+          $in_education = false;
+          $year_of_study = '';
+          $degree_level = '';
+        }
+
+        $institution = trim($_POST['institution']);
+        $field_of_study = trim($_POST['field_of_study']);
+
+        if(isset($_POST['interested_in_art'])) {
+          $interested_in_art = true;
+        } else {
+          $interested_in_art = false;
+        }
+
+        $art_appreciation_frequency = trim($_POST['art_appreciation_frequency']);
+
 
         $username_available = $this->get_user()->get_database_controller()->check_availability($username, 'username');
         $email_available = $this->get_user()->get_database_controller()->check_availability($email, 'email');
@@ -580,7 +601,11 @@
                                                               $email, $email_validate_token,
                                                               $firstname, $surname,
                                                               $password, $password_hint,
-                                                              $ip_address);
+                                                              $ip_address,
+                                                              $in_education, $year_of_study, $degree_level,
+                                                              $institution, $field_of_study,
+                                                              $interested_in_art, $art_appreciation_frequency
+                                                             );
         } else {
           $registration_success = false;
         }
@@ -647,13 +672,63 @@
                             <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required data-error="">
                           </div>
 
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox" id="in_education" name="in_education" required data-error=""> Are you in education?
-                            </label>
-                          </div>' .
-                          //TODO the rest
-                          '<div id="recaptcha-parent" class="form-group">' .
+                          <div class="form-group">
+                            <label for="in_education">Are you at university?</label>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="in_education" id="in_education" checked>
+                                I am at university
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="in_education" id="not_in_education">
+                                I am <strong>not</strong> at university
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="year_of_study">If so, which year?</label>
+                            <input type="number" class="form-control" id="year_of_study" name="year_of_study" placeholder="Year">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="degree_level">Level of degree</label>
+                            <input type="text" class="form-control" id="degree_level" name="degree_level" placeholder="Undergrad, Bachelor\'s, Master\'s, PhD, etc.." required data-error="">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="institution">Name of University / employer</label>
+                            <input type="text" class="form-control" id="institution" name="institution" placeholder="Name of University / employer" required data-error="">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="field_of_study">Field of study / employ</label>
+                            <input type="text" class="form-control" id="field_of_study" name="field_of_study" placeholder="Field of study / employ" required data-error="">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="in_education">Do you have an active interest in art?</label>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="interested_in_art" id="interested_in_art" checked>
+                                I do have an active interest in art
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="interested_in_art" id="not_interested_in_art">
+                                I do <strong>not</strong> have an active interest in art
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="art_appreciation_frequency">How many times per year do you visit exhibits?<br>(This can be physically or online)</label>
+                            <input type="number" class="form-control" id="art_appreciation_frequency" name="art_appreciation_frequency" placeholder="Number of visits per year" value="0" required data-error="">
+                          </div>
+                          <div id="recaptcha-parent" class="form-group">' .
                             $this->get_asset_controller()->get_recaptcha_div() .
                           '</div>
 
@@ -675,7 +750,9 @@
      */
     private function validate_registration_form()
     {
-      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint"); //TODO the rest
+      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint");
+//      $required_keys = array("username", "email", "firstname", "surname", "password", "password_hint", "in_education", "year_of_study", "degree_level", "institution", "field_of_study", "interested_in_art", "art_appreciation_frequency"); //TODO the rest
+
       $something_missing = false;
 
       foreach($required_keys as $key) {
@@ -687,6 +764,7 @@
           }
         }
       }
+
       return !$something_missing;
     }
 
