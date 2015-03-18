@@ -207,5 +207,7 @@ $('#username, #email').on({
 $('#in_education, #not_in_education').change(function(){
   var at_uni = $('#in_education').prop('checked');
   $('#year_of_study').prop('disabled', !at_uni);
+  $('#year_of_study').attr('required', at_uni);
   $('#degree_level').prop('disabled', !at_uni);
+  $('#degree_level').attr('required', at_uni);
 });

@@ -142,7 +142,6 @@
                $interested_in_art = $this->sanitise($interested_in_art);
       $art_appreciation_frequency = $this->sanitise($art_appreciation_frequency);
 
-      //TODO don't insert registered datetime, trust the database trigger to do it
       $sql = "INSERT INTO `artatk_user` (
                 `username`,
                 `email`, `email_validate_token`,
@@ -162,7 +161,6 @@
                 $institution, $field_of_study,
                 $interested_in_art, $art_appreciation_frequency
               )";
-      echo $sql;
 
       $this->connect_write();
 
