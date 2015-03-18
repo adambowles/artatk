@@ -386,7 +386,7 @@
                        </div>', false);
       $this->add_body('<div class="row">', false);
       $this->add_body('  <div class="col-xs-12 text-center">', false);
-      $this->add_body('This is a dissertation project by Adam Bowles of Aston Univeristy, Birmingham.');
+      $this->add_body('This is a dissertation project by Adam Bowles, a final year Computer Science student at Aston Univeristy, Birmingham.');
       $this->add_body('The project is currently in data collection phase, and I plan to have analyses complete by mid-late April, 2015');
       $this->add_body('All data collected is treated in strictest confidence and is encrypted where appropriate. Data will only be used for the purposes of this project');
       $this->add_body('  </div>', false);
