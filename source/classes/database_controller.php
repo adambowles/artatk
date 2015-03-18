@@ -381,13 +381,25 @@
     {
       $user_id = $this->sanitise($user_id);
 
-      $sql = "SELECT `artatk_art`.`art_id` , `artatk_art`.`local_path`
+//      $sql = "SELECT `artatk_art`.`art_id` , `artatk_art`.`local_path`
+//              FROM `artatk_art`
+//              LEFT JOIN `artatk_vote` ON `artatk_art`.`art_id` = `artatk_vote`.`art_id`
+//              WHERE ((`artatk_vote`.`user_id` IS NULL
+//              OR `artatk_vote`.`user_id` <> $user_id)
+//              AND `artatk_art`.`training_set` = 1)
+//              ORDER BY RAND()
+//              LIMIT 1;";
+      $sql = "SELECT `art_id`, `local_path`
               FROM `artatk_art`
-              LEFT JOIN `artatk_vote` ON `artatk_art`.`art_id` = `artatk_vote`.`art_id`
-              WHERE ((`artatk_vote`.`user_id` IS NULL
-              OR `artatk_vote`.`user_id` <> $user_id)
-              AND `artatk_art`.`training_set` = 1)
-              ORDER BY RAND()
+              WHERE `artatk_art`.`training_set` = 1
+              and `artatk_art`.`art_id` NOT IN
+              (
+                SELECT `art_id`
+                FROM `artatk_vote`
+                WHERE `artatk_vote`.`user_id` = $user_id
+              )
+
+              ORDER BY RAND($user_id)
               LIMIT 1;";
 
       $statement = $this->get_connection()->prepare($sql);
