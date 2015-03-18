@@ -595,7 +595,7 @@
     }
 
     /**
-     * Ideally this doesn't go in this class
+     * Ideally this doesn't go in this class, but there isn't a place for general database queries
      */
     public function get_training_set_size()
     {
@@ -610,19 +610,19 @@
     public function __toString()
     {
       if($this->is_logged_in()) {
-        $str  = 'User ID: ' . $this->get_id() . ', ';
-        $str .= 'Username: ' . $this->get_username() . ', ';
-        $str .= 'Email Address: ' . $this->get_email_address() . ', ';
-        $str .= 'First name: ' . $this->get_firstname() . ', ';
-        $str .= 'Surname: ' . $this->get_surname() . ', ';
-        $str .= 'Password hint: ' . $this->get_password_hint() . ', ';
-        $str .= 'In education: ' . $this->get_in_education() . ', ';
-        $str .= 'Year of study: ' . $this->get_year_of_study() . ', ';
-        $str .= 'Degree level: ' . $this->get_degree_level() . ', ';
-        $str .= 'Institution: ' . $this->get_institution() . ', ';
-        $str .= 'Field of study: ' . $this->get_field_of_study() . ', ';
-        $str .= 'Interested in art: ' . $this->get_interested_in_art() . ', ';
-        $str .= 'Art appreciation frequency: ' . $this->get_art_appreciation_frequency();
+        $str  = 'User ID: ' . $this->get_id() . ', ' .
+                'Username: ' . $this->get_username() . ', ' .
+                'Email Address: ' . $this->get_email_address() . ', ' .
+                'First name: ' . $this->get_firstname() . ', ' .
+                'Surname: ' . $this->get_surname() . ', ' .
+                'Password hint: ' . $this->get_password_hint() . ', ' .
+                'In education: ' . $this->get_in_education() . ', ' .
+                'Year of study: ' . $this->get_year_of_study() . ', ' .
+                'Degree level: ' . $this->get_degree_level() . ', ' .
+                'Institution: ' . $this->get_institution() . ', ' .
+                'Field of study: ' . $this->get_field_of_study() . ', ' .
+                'Interested in art: ' . $this->get_interested_in_art() . ', ' .
+                'Art appreciation frequency: ' . $this->get_art_appreciation_frequency();
 
         return $str;
       } else {
