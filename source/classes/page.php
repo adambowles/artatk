@@ -676,14 +676,8 @@
                             <label for="in_education">Are you at university?</label>
                             <div class="radio">
                               <label>
-                                <input type="radio" name="in_education" id="in_education" checked>
+                                <input type="checkbox" name="in_education" id="in_education" checked>
                                 I am at university
-                              </label>
-                            </div>
-                            <div class="radio">
-                              <label>
-                                <input type="radio" name="in_education" id="not_in_education">
-                                I am <strong>not</strong> at university
                               </label>
                             </div>
                           </div>
@@ -712,20 +706,14 @@
                             <label for="in_education">Do you have an active interest in art?</label>
                             <div class="radio">
                               <label>
-                                <input type="radio" name="interested_in_art" id="interested_in_art" checked>
-                                I do have an active interest in art
-                              </label>
-                            </div>
-                            <div class="radio">
-                              <label>
-                                <input type="radio" name="interested_in_art" id="not_interested_in_art">
-                                I do <strong>not</strong> have an active interest in art
+                                <input type="checkbox" name="interested_in_art" id="interested_in_art" checked>
+                                I have an active interest in art
                               </label>
                             </div>
                           </div>
 
                           <div class="form-group">
-                            <label for="art_appreciation_frequency">How many times per year do you visit exhibits?<br>(This can be physically or online)</label>
+                            <label for="art_appreciation_frequency">How many times in the last year did you visit art exhibitions?<br>(This can be physically or online)</label>
                             <input type="number" class="form-control" id="art_appreciation_frequency" name="art_appreciation_frequency" placeholder="Number of visits per year" value="0" required data-error="">
                           </div>
                           <div id="recaptcha-parent" class="form-group">' .
